@@ -1185,7 +1185,7 @@ const DeveloperDashboard = () => {
         </div>
 
         <div className="flex-1 flex flex-col" style={{ display: activeSection === 'biomass_estimation' ? undefined : 'none' }}>
-          <BiomassEstimationPage />
+          <BiomassEstimationPage savedProjects={savedProjects} onProjectSelect={handleProjectSelect} geojsonData={geojsonData} />
         </div>
 
         <div className="flex-1 flex flex-col" style={{ display: activeSection === 'reports_dashboard' ? undefined : 'none' }}>
