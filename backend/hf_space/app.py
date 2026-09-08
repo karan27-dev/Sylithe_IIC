@@ -33,6 +33,16 @@ DTYPE = torch.float16 if DEVICE == "cuda" else torch.float32
 # Height below which a pixel is not treated as canopy, metres.
 MIN_TREE_HEIGHT_M = 2.0
 
+# From the published config: the head predicts height in metres up to this cap.
+MAX_DEPTH_M = 96.0
+
+# The processor sets do_resize=false and only pads to a multiple of 16, keeping
+# aspect ratio. The image therefore reaches the ViT at its own pixel size —
+# which is why the caller's ground-sample-distance choice is the real control
+# over what the model sees, and why a large mosaic must be capped here or it
+# will exhaust VRAM. ~4 megapixels is comfortable on a T4.
+MAX_PIXELS = 4_000_000
+
 _token = os.environ.get("HF_TOKEN")
 processor = CHMv2ImageProcessorFast.from_pretrained(MODEL_ID, token=_token)
 model = CHMv2ForDepthEstimation.from_pretrained(MODEL_ID, token=_token).to(DEVICE, DTYPE).eval()
@@ -53,10 +63,20 @@ def _colourise(height, vmax):
 def predict(image_b64: str, target_gsd_cm: float):
     img = Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
 
+    # Guard VRAM. Downscaling here changes the effective ground sample distance,
+    # so the factor is reported back rather than silently applied.
+    downscale = 1.0
+    if img.width * img.height > MAX_PIXELS:
+        downscale = (MAX_PIXELS / (img.width * img.height)) ** 0.5
+        img = img.resize((max(64, int(img.width * downscale)),
+                          max(64, int(img.height * downscale))), Image.LANCZOS)
+        target_gsd_cm = float(target_gsd_cm) / downscale
+
     inputs = processor(images=img, return_tensors="pt").to(DEVICE, DTYPE)
     outputs = model(**inputs)
     post = processor.post_process_depth_estimation(outputs, target_sizes=[(img.height, img.width)])
     height = post[0]["predicted_depth"].float().cpu().numpy()
+    height = np.clip(height, 0.0, MAX_DEPTH_M)
 
     canopy = height >= MIN_TREE_HEIGHT_M
     canopy_px = int(canopy.sum())
@@ -71,7 +91,9 @@ def predict(image_b64: str, target_gsd_cm: float):
         "canopy_pixels": canopy_px,
         "total_pixels": total_px,
         "canopy_area_m2": round(canopy_px * px_area_m2, 1),
-        "target_gsd_cm": float(target_gsd_cm),
+        "target_gsd_cm": round(float(target_gsd_cm), 2),
+        "effective_downscale": round(downscale, 4),
+        "input_px": [img.width, img.height],
     }
 
     buf = io.BytesIO()
