@@ -31,6 +31,7 @@ import { UploadCloud } from 'lucide-react';
 import { TbMap2, TbSatellite } from 'react-icons/tb';
 import { HiChevronRight, HiOutlineInformationCircle } from 'react-icons/hi';
 import { GeeAnalyticsPanel, GeeLandCoverPanel } from '../../components/chm/GeeAnalytics';
+import { userKey } from '../../lib/userStorage';
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 const VERIFICATION_STEPS = [
@@ -1514,6 +1515,7 @@ function ActivitySection({ activity, loading }) {
 function AddProjectSection({ token, onSuccess }) {
   const [step, setStep] = useState(1);
   const [submitting, setSubmit] = useState(false);
+  const [submitErr, setSubmitErr] = useState('');
   const [geojson, setGeojson] = useState(null);
   const [georaster, setGeoraster] = useState(null);
   const [fileErr, setFileErr] = useState('');
@@ -1594,9 +1596,23 @@ function AddProjectSection({ token, onSuccess }) {
       estimated_carbon: estCarbon,
       geojson,
     };
-    const res = await api.createProject(token, payload);
-    setSubmit(false);
-    if (res.status === 'success') onSuccess();
+    // Surface failures. Previously any rejection here escaped unhandled, so a
+    // failed save left the spinner stuck and the user believing the project had
+    // been registered when nothing had been written.
+    try {
+      const res = await api.createProject(token, payload);
+      if (res?.status === 'success') {
+        setSubmitErr('');
+        onSuccess();
+      } else {
+        setSubmitErr(res?.message || 'Could not register the project. Please try again.');
+      }
+    } catch (err) {
+      console.error('[createProject] failed:', err);
+      setSubmitErr('Could not reach the server. Check your connection and try again.');
+    } finally {
+      setSubmit(false);
+    }
   };
 
   return (
@@ -1868,6 +1884,9 @@ function AddProjectSection({ token, onSuccess }) {
 
             <div className="flex items-center justify-between">
               <Button variant="ghost" onClick={() => setStep(1)} className="text-gray-500 font-bold">Back to Details</Button>
+              {submitErr && (
+                <p role="alert" className="mr-auto text-[12px] font-semibold text-red-600">{submitErr}</p>
+              )}
               <Button onClick={handleSubmit} disabled={submitting} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">
                 {submitting ? 'Registering...' : 'Register Project'}
               </Button>
@@ -1986,7 +2005,7 @@ export default function ProjectDevHub() {
     // backend (possibly cold-starting) responds. Fresh data overwrites this below.
     let hadCache = false;
     try {
-      const cached = localStorage.getItem('syl_dev_projects_cache');
+      const cached = localStorage.getItem(userKey('syl_dev_projects_cache'));
       if (cached) {
         const { projects: cp, stats: cs } = JSON.parse(cached);
         if (cp?.length) { setProjects(cp); setStats(cs || null); hadCache = true; }
@@ -2001,7 +2020,7 @@ export default function ProjectDevHub() {
       setProjects(projects);
       setStats(pRes.stats || null);
       try {
-        localStorage.setItem('syl_dev_projects_cache', JSON.stringify({ projects, stats: pRes.stats }));
+        localStorage.setItem(userKey('syl_dev_projects_cache'), JSON.stringify({ projects, stats: pRes.stats }));
       } catch { /* quota — non-critical */ }
     } catch (err) {
       console.error('Failed to load projects', err);

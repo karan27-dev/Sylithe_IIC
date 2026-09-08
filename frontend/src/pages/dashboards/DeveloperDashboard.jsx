@@ -36,6 +36,7 @@ import { Separator } from '../../components/ui/separator';
 import { Badge } from '../../components/ui/badge';
 import { Textarea } from '../../components/ui/textarea';
 import { CircleCheck, ExternalLink, UploadCloud, CheckCircle2, FileText, Trash2, MapPin, Hash, FileCode2, Menu } from "lucide-react";
+import { userKey } from '../../lib/userStorage';
 
 /* ─── DESIGN TOKENS ─── */
 const s = { bg: '#F0EEE6', bgDark: '#08292F', accent: '#16a34a', text: '#191919', muted: '#64748B', border: '#E2E8F0' };
@@ -228,7 +229,7 @@ const DeveloperDashboard = () => {
   // Hydrate from cache first so the project selector never disappears on a
   // slow/cold backend; refresh from the API in the background.
   const [savedProjects, setSavedProjects] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('syl_dev_saved_projects') || '[]'); }
+    try { return JSON.parse(localStorage.getItem(userKey('syl_dev_saved_projects')) || '[]'); }
     catch { return []; }
   });
 
@@ -239,7 +240,7 @@ const DeveloperDashboard = () => {
       .then(data => {
         if (data.status === 'success' && Array.isArray(data.projects)) {
           setSavedProjects(data.projects);
-          try { localStorage.setItem('syl_dev_saved_projects', JSON.stringify(data.projects)); } catch { /* quota */ }
+          try { localStorage.setItem(userKey('syl_dev_saved_projects'), JSON.stringify(data.projects)); } catch { /* quota */ }
         }
       })
       .catch(console.error);

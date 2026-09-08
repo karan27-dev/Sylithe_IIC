@@ -13,6 +13,7 @@ import {
 } from 'react-icons/hi';
 import treeLogo from '../../assets/treee13.png';
 import { TooltipV2 } from '../ui/tooltip-v2';
+import { clearUserCaches } from '../../lib/userStorage';
 
 /* ─── Sub-item (plain text, Carbon Direct style) ─────── */
 const SubItem = ({ label, active, onClick, locked, hideBadge }) => (
@@ -111,6 +112,9 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
   const location = useLocation();
 
   const handleLogout = () => {
+    // Drop cached dashboard data before the identity, so the next person to
+    // sign in on this browser never sees the previous user's projects.
+    clearUserCaches();
     localStorage.removeItem('sylithe_token');
     localStorage.removeItem('sylithe_user');
     sessionStorage.removeItem('syl_usage');
