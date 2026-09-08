@@ -111,7 +111,24 @@ def predict(image_b64: str, target_gsd_cm: float):
     inputs = processor(images=img, return_tensors="pt").to(device, dtype)
     outputs = net(**inputs)
     post = processor.post_process_depth_estimation(outputs, target_sizes=[(img.height, img.width)])
-    height = post[0]["predicted_depth"].float().cpu().numpy()
+    raw = post[0]["predicted_depth"].float().cpu().numpy()
+
+    # The model card documents the call but never states the output units, and
+    # observed ranges did not look like metres, so the untouched distribution is
+    # reported alongside the derived statistics. Interpretation is decided from
+    # this rather than assumed.
+    finite = raw[np.isfinite(raw)]
+    raw_stats = {
+        "min": round(float(finite.min()), 4) if finite.size else None,
+        "max": round(float(finite.max()), 4) if finite.size else None,
+        "mean": round(float(finite.mean()), 4) if finite.size else None,
+        "p50": round(float(np.percentile(finite, 50)), 4) if finite.size else None,
+        "p99": round(float(np.percentile(finite, 99)), 4) if finite.size else None,
+        "nan_pixels": int((~np.isfinite(raw)).sum()),
+        "shape": list(raw.shape),
+    }
+
+    height = raw
     # The model can emit NaN on degenerate input (a flat, textureless scene).
     # Left alone these serialise as JSON null and reach the UI as a blank
     # figure, so they are folded to zero before any statistic is taken.
@@ -138,6 +155,7 @@ def predict(image_b64: str, target_gsd_cm: float):
 
     buf = io.BytesIO()
     _colourise(height, max(float(height.max()), 1.0)).save(buf, format="PNG")
+    stats["raw_output"] = raw_stats
     return {"stats": stats, "height_map_png": base64.b64encode(buf.getvalue()).decode()}
 
 
