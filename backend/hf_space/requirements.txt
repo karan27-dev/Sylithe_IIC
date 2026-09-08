@@ -1,6 +1,8 @@
---extra-index-url https://download.pytorch.org/whl/cu121
-torch
+# torch is preinstalled in the Spaces image and matched to the hardware, so it
+# is deliberately not pinned here — installing our own would fight that.
+# torchvision is NOT preinstalled and the CHMv2 image processor requires it.
+torchvision
 transformers>=4.57
-gradio>=4.44
+gradio
 pillow
 numpy

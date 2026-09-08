@@ -4,7 +4,6 @@ emoji: 🌳
 colorFrom: green
 colorTo: gray
 sdk: gradio
-sdk_version: 4.44.0
 app_file: app.py
 pinned: false
 ---
@@ -20,7 +19,9 @@ ViT-L/16 satellite backbone — behind a JSON endpoint the Sylithe backend calls
    The weights are gated; without this `from_pretrained` returns 401.
 2. **Set the `HF_TOKEN` secret** on this Space, using a token from the account
    that accepted the licence (Settings → Variables and secrets).
-3. **Use GPU hardware.** ViT-L on CPU is impractically slow.
+3. **Hardware.** CPU basic is workable when callers resample to a small
+   ground sample distance (a few hundred pixels a side). Upgrade to a GPU
+   only if inference is too slow.
 
 ## Confirmed from the published config
 

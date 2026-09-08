@@ -24,7 +24,14 @@ import gradio as gr
 import numpy as np
 import torch
 from PIL import Image
-from transformers import CHMv2ForDepthEstimation, CHMv2ImageProcessorFast
+from transformers import CHMv2ForDepthEstimation
+
+# transformers 5 dropped the `Fast` suffix on image processors; 4.x only has
+# the suffixed name. Import whichever this environment provides.
+try:
+    from transformers import CHMv2ImageProcessor as _ImageProcessor
+except ImportError:                                    # transformers 4.x
+    from transformers import CHMv2ImageProcessorFast as _ImageProcessor
 
 MODEL_ID = "facebook/dinov3-vitl16-chmv2-dpt-head"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -44,7 +51,7 @@ MAX_DEPTH_M = 96.0
 MAX_PIXELS = 4_000_000
 
 _token = os.environ.get("HF_TOKEN")
-processor = CHMv2ImageProcessorFast.from_pretrained(MODEL_ID, token=_token)
+processor = _ImageProcessor.from_pretrained(MODEL_ID, token=_token)
 model = CHMv2ForDepthEstimation.from_pretrained(MODEL_ID, token=_token).to(DEVICE, DTYPE).eval()
 
 
