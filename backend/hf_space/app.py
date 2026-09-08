@@ -90,7 +90,11 @@ def _colourise(height, vmax):
 def predict(image_b64: str, target_gsd_cm: float):
     # Resolved per call: under ZeroGPU the accelerator only exists here.
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    dtype = torch.float16 if device == "cuda" else torch.float32
+    # float32 throughout. In float16 the DPT decoder saturated: every canopy
+    # pixel came back at the 96 m cap and the maximum was NaN, which is a
+    # dynamic-range problem in the fusion stack rather than a real prediction.
+    # The model is ~1.2 GB, so fp32 costs memory that is available anyway.
+    dtype = torch.float32
     net = model.to(device, dtype)
 
     img = Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
