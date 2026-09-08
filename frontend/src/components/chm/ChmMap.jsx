@@ -80,7 +80,7 @@ const LiveLocation = () => {
   return position ? (
     <>
       <Marker position={position} />
-      <Circle center={position} radius={50} pathOptions={{ color: "#D97757", fillColor: "#D97757", fillOpacity: 0.12 }} />
+      <Circle center={position} radius={50} pathOptions={{ color: "blue", fillOpacity: 0.1 }} />
     </>
   ) : null;
 };
@@ -91,8 +91,8 @@ const LiveLocation = () => {
    denied and later granted).
 
    Rendered as a plain overlay OUTSIDE MapContainer, not as a Leaflet
-   control: the draw toolbar already owns "topright" and was stacking on
-   top of this button, swallowing the clicks. It receives the Leaflet map
+   control: the draw toolbar already owns "topright" and stacked on top
+   of this button, swallowing the clicks. It receives the Leaflet map
    instance via prop instead of useMap(). Sits on the left, below the
    default zoom control. */
 const LocateButton = ({ map }) => {
@@ -135,11 +135,11 @@ const LocateButton = ({ map }) => {
         title={denied
           ? 'Location unavailable — allow location access for this site in your browser'
           : 'Go to my live location'}
-        className={`flex h-11 w-11 items-center justify-center rounded-lg border shadow-md transition-colors duration-200
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D97757] focus-visible:ring-offset-2
+        className={`flex h-11 w-11 items-center justify-center rounded-lg border shadow-md transition-all
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#08292F] focus-visible:ring-offset-2
           ${denied
-            ? 'cursor-not-allowed border-red-300 bg-red-50 text-red-600'
-            : 'cursor-pointer border-[#E3DFD3] bg-[#F0EEE6] text-[#B3542F] hover:bg-[#F5E6DF] disabled:cursor-wait disabled:opacity-60'}`}
+            ? 'cursor-not-allowed border-red-200 bg-red-50 text-red-500'
+            : 'cursor-pointer border-gray-100 bg-[#F1F1F1] text-gray-600 hover:bg-gray-50 hover:text-black disabled:cursor-wait disabled:opacity-60'}`}
       >
         {state === 'locating'
           ? <Loader2 size={19} className="animate-spin" aria-hidden="true" />
@@ -349,7 +349,7 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
   return (
     <div className="absolute inset-0 z-10">
       <div className="absolute top-4 right-14 z-[1000]">
-        <label className="flex items-center gap-2 bg-[#F0EEE6] px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 border border-gray-100 transition-all group">
+        <label className="flex items-center gap-2 bg-[#F1F1F1] px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 border border-gray-100 transition-all group">
           <FileUp size={16} className="text-gray-500 group-hover:text-black" />
           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700">Import AOI</span>
           <input type="file" accept=".geojson,.json,.kml,.zip,.shp,.dbf,.prj" className="hidden" multiple onChange={handleImport} />
@@ -358,7 +358,7 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
 
       <LocateButton map={mapInstance} />
 
-      <MapContainer ref={setMapInstance} center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#1F1E1D]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
+      <MapContainer ref={setMapInstance} center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#0d0f0d]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
         <MapResizeHandler currentPolygon={currentPolygon} />
         <TileLayer 
           url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}" 
@@ -404,7 +404,7 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
             }}
           >
             <Popup className="font-sans text-[13px]" closeButton={false}>
-              <div className="text-center font-bold text-[#1F1E1D]">
+              <div className="text-center font-bold text-[#0d0f0d]">
                 Tree #{tree.id} = {tree.height}m
               </div>
             </Popup>

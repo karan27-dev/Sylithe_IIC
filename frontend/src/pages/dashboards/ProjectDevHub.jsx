@@ -118,7 +118,7 @@ function KpiCard({ label, value, sub, icon: Icon, accent }) {
         <Icon size={18} className="text-white" />
       </div>
       <div>
-        <p className="text-[26px] font-bold text-[#191919] leading-none tracking-tight">{value ?? '—'}</p>
+        <p className="text-[26px] font-bold text-[#08292F] leading-none tracking-tight">{value ?? '—'}</p>
         <p className="text-[12px] font-semibold text-gray-500 mt-1">{label}</p>
         {sub && <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>}
       </div>
@@ -146,7 +146,7 @@ function EmptyState({ icon: Icon, title, sub, action, onAction }) {
       </div>
       {action && (
         <button onClick={onAction}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#B3542F] hover:bg-[#9A4626] text-white font-bold rounded-full text-[13px] transition-colors">
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#08292F] hover:bg-[#062125] text-white font-bold rounded-full text-[13px] transition-colors">
           <Plus size={14} /> {action}
         </button>
       )}
@@ -232,20 +232,20 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
     <div className="space-y-4 md:space-y-7">
       <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <a href="/dashboard/developer?section=tree_inventory" className="text-gray-500 hover:text-[#191919] font-bold mb-4 flex items-center gap-2 text-sm transition-colors">
+          <a href="/dashboard/developer?section=tree_inventory" className="text-gray-500 hover:text-[#08292F] font-bold mb-4 flex items-center gap-2 text-sm transition-colors">
             <ArrowLeft size={16} /> Back to Plot Inventory
           </a>
           <p className="text-[11px] font-black uppercase tracking-[0.22em] text-gray-400">Project Hub</p>
-          <h2 className="mt-1 text-[26px] md:text-[30px] font-black text-[#191919] tracking-tight">Portfolio Overview</h2>
+          <h2 className="mt-1 text-[26px] md:text-[30px] font-black text-[#08292F] tracking-tight">Portfolio Overview</h2>
           <p className="text-[13px] text-gray-500 mt-1">A command view of land area, carbon estimates, verification progress, and recent movement.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button onClick={() => onNav('my-projects')}
-            className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-4 py-2.5 text-[12px] font-black text-[#191919] shadow-sm hover:border-gray-300 hover:bg-gray-50 transition-colors">
+            className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-4 py-2.5 text-[12px] font-black text-[#0F172A] shadow-sm hover:border-gray-300 hover:bg-gray-50 transition-colors">
             <FolderOpen size={14} /> View Projects
           </button>
           <button onClick={() => onNav('add-project')}
-            className="inline-flex items-center gap-2 rounded-md bg-[#B3542F] px-4 py-2.5 text-[12px] font-black text-white shadow-sm hover:bg-[#9A4626] transition-colors">
+            className="inline-flex items-center gap-2 rounded-md bg-[#08292F] px-4 py-2.5 text-[12px] font-black text-white shadow-sm hover:bg-[#062125] transition-colors">
             <Plus size={14} /> Add Project
           </button>
         </div>
@@ -268,7 +268,7 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
                   <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.18em] text-gray-400 truncate">{m.label}</p>
                 </div>
                 <div className="mt-3 flex items-baseline gap-1.5">
-                  <span className="text-[28px] md:text-[38px] font-black leading-none tracking-tight text-[#191919]">{m.value}</span>
+                  <span className="text-[28px] md:text-[38px] font-black leading-none tracking-tight text-[#0F172A]">{m.value}</span>
                   {m.unit && <span className="text-[15px] md:text-[18px] font-black text-gray-400">{m.unit}</span>}
                 </div>
                 <div className="mt-4 border-t border-dashed border-gray-200 pt-3">
@@ -288,7 +288,7 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
           ].map(([label, value]) => (
             <div key={label}>
               <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.14em] text-gray-400">{label}</p>
-              <p className="mt-1 text-[12px] md:text-[14px] font-black text-[#191919]">{value}</p>
+              <p className="mt-1 text-[12px] md:text-[14px] font-black text-[#0F172A]">{value}</p>
             </div>
           ))}
         </div>
@@ -298,11 +298,11 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
         <section className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
           <div className="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="text-[15px] font-black text-[#191919]">Recent Projects</h3>
+              <h3 className="text-[15px] font-black text-[#0F172A]">Recent Projects</h3>
               <p className="mt-0.5 text-[12px] text-gray-400">Latest registered project records and verification state</p>
             </div>
             {projects.length > 5 && (
-              <button onClick={() => onNav('my-projects')} className="text-left text-[12px] font-black text-[#191919] hover:underline">
+              <button onClick={() => onNav('my-projects')} className="text-left text-[12px] font-black text-[#08292F] hover:underline">
                 View all {projects.length}
               </button>
             )}
@@ -328,17 +328,17 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
                   {latestProjects.map((p) => (
                     <tr key={p._id} className="hover:bg-[#FAFBFC]">
                       <td className="px-5 py-4">
-                        <p className="max-w-[280px] truncate text-[13px] font-black text-[#191919]">{p.name}</p>
+                        <p className="max-w-[280px] truncate text-[13px] font-black text-[#0F172A]">{p.name}</p>
                         <p className="mt-1 text-[12px] font-medium text-gray-400">{p.state || p.country || 'Location TBD'}</p>
                       </td>
-                      <td className="px-5 py-4 text-[13px] font-black text-[#191919]">{p.type || 'Not Set'}</td>
-                      <td className="px-5 py-4 text-[13px] font-black text-[#191919]">{fmt(p.area_ha)} ha</td>
-                      <td className="px-5 py-4 text-[13px] font-black text-[#191919]">{fmt(p.estimated_carbon)} t</td>
+                      <td className="px-5 py-4 text-[13px] font-black text-[#0F172A]">{p.type || 'Not Set'}</td>
+                      <td className="px-5 py-4 text-[13px] font-black text-[#0F172A]">{fmt(p.area_ha)} ha</td>
+                      <td className="px-5 py-4 text-[13px] font-black text-[#0F172A]">{fmt(p.estimated_carbon)} t</td>
                       <td className="px-5 py-4"><StatusBadge status={p.status} /></td>
                       <td className="px-5 py-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button onClick={() => onViewProject(p)}
-                            className="inline-flex items-center gap-1.5 rounded-md bg-gray-50 px-3 py-2 text-[12px] font-black text-gray-600 hover:bg-[#EAF4F0] hover:text-[#191919] transition-colors">
+                            className="inline-flex items-center gap-1.5 rounded-md bg-gray-50 px-3 py-2 text-[12px] font-black text-gray-600 hover:bg-[#EAF4F0] hover:text-[#08292F] transition-colors">
                             <Eye size={13} /> Open
                           </button>
                           <button onClick={() => onEditProject(p)}
@@ -357,7 +357,7 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
 
         <aside className="rounded-lg border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-gray-100 px-5 py-4">
-            <h3 className="text-[15px] font-black text-[#191919]">Recent Activity</h3>
+            <h3 className="text-[15px] font-black text-[#0F172A]">Recent Activity</h3>
             <p className="mt-0.5 text-[12px] text-gray-400">Operational updates across the hub</p>
           </div>
           <div className="divide-y divide-gray-100">
@@ -366,10 +366,10 @@ function OverviewSection({ projects, stats, activity, onNav, onViewProject, onEd
             ) : activity.slice(0, 10).map((a, i) => (
               <div key={a._id || i} className="flex items-start gap-3 px-5 py-4">
                 <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF4F0]">
-                  <Activity size={13} className="text-[#191919]" />
+                  <Activity size={13} className="text-[#08292F]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[12px] font-black text-[#191919]">{a.action}</p>
+                  <p className="truncate text-[12px] font-black text-[#0F172A]">{a.action}</p>
                   <p className="mt-1 truncate text-[12px] font-medium text-gray-400">{a.project_name}</p>
                 </div>
                 <p className="shrink-0 text-[10px] font-bold text-gray-300">{timeAgo(a.timestamp)}</p>
@@ -390,14 +390,14 @@ function ProjectCard({ project: p, onView }) {
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h4 className="text-[14px] font-black text-[#191919] truncate">{p.name}</h4>
+          <h4 className="text-[14px] font-black text-[#0F172A] truncate">{p.name}</h4>
           <p className="text-[12px] text-gray-400 mt-0.5">{p.type} · {p.country}</p>
         </div>
         <StatusBadge status={p.status} />
       </div>
       <div className="flex items-center gap-4 mb-3 text-[12px] text-gray-500">
-        <span><span className="font-bold text-[#191919]">{fmt(p.area_ha)}</span> ha</span>
-        <span><span className="font-bold text-[#191919]">{fmt(p.estimated_carbon)}</span> tCO₂e</span>
+        <span><span className="font-bold text-[#0F172A]">{fmt(p.area_ha)}</span> ha</span>
+        <span><span className="font-bold text-[#0F172A]">{fmt(p.estimated_carbon)}</span> tCO₂e</span>
         <span className="px-2 py-0.5 bg-gray-100 rounded-full text-[11px] font-bold">{p.crediting_standard}</span>
       </div>
       <div className="mb-3">
@@ -475,7 +475,7 @@ function EditProjectModal({ project, token, onClose, onSaved }) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
           <div>
-            <h2 className="text-[17px] font-black text-[#191919]">Edit Project</h2>
+            <h2 className="text-[17px] font-black text-[#0F172A]">Edit Project</h2>
             <p className="text-[12px] text-gray-400 mt-0.5">{project.name}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl text-gray-400 hover:text-gray-600 transition-colors">
@@ -586,7 +586,7 @@ function EditProjectModal({ project, token, onClose, onSaved }) {
             Cancel
           </button>
           <button onClick={handleSave} disabled={saving}
-            className="px-6 py-2 rounded-full bg-[#B3542F] hover:bg-[#9A4626] text-white text-[13px] font-bold transition-colors disabled:opacity-60 flex items-center gap-2">
+            className="px-6 py-2 rounded-full bg-[#08292F] hover:bg-[#062125] text-white text-[13px] font-bold transition-colors disabled:opacity-60 flex items-center gap-2">
             {saving ? <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" /> Saving…</> : 'Save Changes'}
           </button>
         </div>
@@ -615,11 +615,11 @@ function MyProjectsSection({ projects, onView, onAdd, onDelete, onEdit, loading 
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[22px] font-bold text-[#191919] tracking-tight">My Projects</h2>
+          <h2 className="text-[22px] font-bold text-[#08292F] tracking-tight">My Projects</h2>
           <p className="text-[13px] text-gray-400">{projects.length} projects registered</p>
         </div>
         <button onClick={onAdd}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#B3542F] hover:bg-[#9A4626] text-white font-bold rounded-full text-[13px] transition-colors">
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#08292F] hover:bg-[#062125] text-white font-bold rounded-full text-[13px] transition-colors">
           <Plus size={14} /> Add New Project
         </button>
       </div>
@@ -635,7 +635,7 @@ function MyProjectsSection({ projects, onView, onAdd, onDelete, onEdit, loading 
         <div className="flex gap-1.5 flex-wrap">
           {statuses.map(s => (
             <button key={s} onClick={() => setFilter(s)}
-              className={`px-3.5 py-1.5 rounded-full text-[11px] font-bold transition-colors capitalize ${filter === s ? 'bg-[#B3542F] text-white' : 'bg-white border border-gray-200 text-gray-500 hover:border-gray-300'}`}>
+              className={`px-3.5 py-1.5 rounded-full text-[11px] font-bold transition-colors capitalize ${filter === s ? 'bg-[#08292F] text-white' : 'bg-white border border-gray-200 text-gray-500 hover:border-gray-300'}`}>
               {s === 'all' ? 'All' : STATUS_CFG[s]?.label || s}
             </button>
           ))}
@@ -662,7 +662,7 @@ function MyProjectsSection({ projects, onView, onAdd, onDelete, onEdit, loading 
                   <tr key={p._id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-5 py-4">
                       <div>
-                        <p className="text-[13px] font-bold text-[#191919]">{p.name}</p>
+                        <p className="text-[13px] font-bold text-[#0F172A]">{p.name}</p>
                         <p className="text-[11px] text-gray-400">{p.type}</p>
                       </div>
                     </td>
@@ -670,8 +670,8 @@ function MyProjectsSection({ projects, onView, onAdd, onDelete, onEdit, loading 
                     <td className="px-5 py-4">
                       <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-lg text-[11px] font-bold">{p.crediting_standard || '—'}</span>
                     </td>
-                    <td className="px-5 py-4 text-[13px] font-semibold text-[#191919]">{fmt(p.area_ha)} ha</td>
-                    <td className="px-5 py-4 text-[13px] font-semibold text-[#191919]">{fmt(p.estimated_carbon)} t</td>
+                    <td className="px-5 py-4 text-[13px] font-semibold text-[#0F172A]">{fmt(p.area_ha)} ha</td>
+                    <td className="px-5 py-4 text-[13px] font-semibold text-[#0F172A]">{fmt(p.estimated_carbon)} t</td>
                     <td className="px-5 py-4"><StatusBadge status={p.status} /></td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
@@ -725,7 +725,7 @@ function ProjectDetailSection({ project: p, token, onBack, onRefresh, isPro, onU
         </button>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <h2 className="text-[20px] font-black text-[#191919] leading-tight break-words">{p.name}</h2>
+            <h2 className="text-[20px] font-black text-[#0F172A] leading-tight break-words">{p.name}</h2>
             <p className="text-[12px] text-gray-400 mt-0.5">{p.type} · {p.country}</p>
           </div>
           <StatusBadge status={p.status} />
@@ -736,7 +736,7 @@ function ProjectDetailSection({ project: p, token, onBack, onRefresh, isPro, onU
       <div className="flex items-center gap-4 border-b border-gray-200 overflow-x-auto scrollbar-hide">
         {tabs.map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className={`pb-3 text-[13px] font-bold capitalize transition-colors relative shrink-0 ${tab === t ? 'text-[#191919]' : 'text-gray-400 hover:text-gray-600'}`}>
+            className={`pb-3 text-[13px] font-bold capitalize transition-colors relative shrink-0 ${tab === t ? 'text-[#0F172A]' : 'text-gray-400 hover:text-gray-600'}`}>
             {t === 'overview' ? 'Overview' : t === 'verification' ? 'Verification' : t === 'reports' ? 'Reports' : 'Documents'}
             {tab === t && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#16a34a] rounded-t-full" />}
           </button>
@@ -782,7 +782,7 @@ function ProjectOverviewTab({ project: p }) {
       {/* ── Project Information Card ── */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-          <h2 className="text-[16px] font-bold text-[#191919]">Project Information</h2>
+          <h2 className="text-[16px] font-bold text-[#0F172A]">Project Information</h2>
           <StatusBadge status={p.status} />
         </div>
 
@@ -791,11 +791,11 @@ function ProjectOverviewTab({ project: p }) {
           {/* Total Area */}
           <div className="p-5 flex flex-col gap-1">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Area</span>
-            <div className="text-[26px] font-bold text-[#191919] leading-none mt-1">
+            <div className="text-[26px] font-bold text-[#0F172A] leading-none mt-1">
               {fmt(displayArea)} <span className="text-[16px] text-gray-400 font-semibold">ha</span>
             </div>
             <div className="mt-3 pt-3 border-t border-dotted border-gray-200">
-              <span className="text-[11px] font-bold text-[#191919]">Verified Boundary</span>
+              <span className="text-[11px] font-bold text-[#08292F]">Verified Boundary</span>
               <p className="text-[11px] text-gray-400 mt-0.5">{p.country ? `${p.country}${p.state ? `, ${p.state}` : ''}` : 'Location TBD'}</p>
             </div>
           </div>
@@ -804,13 +804,13 @@ function ProjectOverviewTab({ project: p }) {
           <div className="p-5 flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#ec4899] shrink-0" />
-              <span className="text-[10px] font-bold text-[#191919] uppercase tracking-widest">Est. Carbon</span>
+              <span className="text-[10px] font-bold text-[#0F172A] uppercase tracking-widest">Est. Carbon</span>
             </div>
-            <div className="text-[26px] font-bold text-[#191919] leading-none mt-1">
+            <div className="text-[26px] font-bold text-[#0F172A] leading-none mt-1">
               {fmt(displayCarbon)} <span className="text-[16px] text-gray-400 font-semibold">t</span>
             </div>
             <div className="mt-3 pt-3 border-t border-dotted border-gray-200">
-              <span className="text-[11px] font-bold text-[#191919]">▲ +4.5 tCO₂e / ha</span>
+              <span className="text-[11px] font-bold text-[#08292F]">▲ +4.5 tCO₂e / ha</span>
               <p className="text-[11px] text-gray-400 mt-0.5">Estimated average yield</p>
             </div>
           </div>
@@ -819,11 +819,11 @@ function ProjectOverviewTab({ project: p }) {
           <div className="p-5 flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#eab308] shrink-0" />
-              <span className="text-[10px] font-bold text-[#191919] uppercase tracking-widest">Standard</span>
+              <span className="text-[10px] font-bold text-[#0F172A] uppercase tracking-widest">Standard</span>
             </div>
-            <div className="text-[22px] font-bold text-[#191919] leading-tight mt-1">{p.crediting_standard || 'Not Set'}</div>
+            <div className="text-[22px] font-bold text-[#0F172A] leading-tight mt-1">{p.crediting_standard || 'Not Set'}</div>
             <div className="mt-3 pt-3 border-t border-dotted border-gray-200">
-              <span className="text-[11px] font-bold text-[#191919]">CCP Eligible</span>
+              <span className="text-[11px] font-bold text-[#08292F]">CCP Eligible</span>
               <p className="text-[11px] text-gray-400 mt-0.5">Under Review</p>
             </div>
           </div>
@@ -832,11 +832,11 @@ function ProjectOverviewTab({ project: p }) {
           <div className="p-5 flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#0ea5e9] shrink-0" />
-              <span className="text-[10px] font-bold text-[#191919] uppercase tracking-widest">Project Type</span>
+              <span className="text-[10px] font-bold text-[#0F172A] uppercase tracking-widest">Project Type</span>
             </div>
-            <div className="text-[22px] font-bold text-[#191919] leading-tight mt-1">{p.type || 'Not Set'}</div>
+            <div className="text-[22px] font-bold text-[#0F172A] leading-tight mt-1">{p.type || 'Not Set'}</div>
             <div className="mt-3 pt-3 border-t border-dotted border-gray-200">
-              <span className="text-[11px] font-bold text-[#191919]">{p.methodology || 'Methodology TBD'}</span>
+              <span className="text-[11px] font-bold text-[#08292F]">{p.methodology || 'Methodology TBD'}</span>
               <p className="text-[11px] text-gray-400 mt-0.5">Methodology</p>
             </div>
           </div>
@@ -846,7 +846,7 @@ function ProjectOverviewTab({ project: p }) {
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Crediting Period</span>
             {p.start_date || p.end_date ? (
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-[20px] font-bold text-[#191919] leading-none">
+                <span className="text-[20px] font-bold text-[#0F172A] leading-none">
                   {p.start_date ? new Date(p.start_date).getFullYear() : '?'}
                 </span>
                 <span className="text-[13px] text-gray-400 font-semibold">
@@ -857,7 +857,7 @@ function ProjectOverviewTab({ project: p }) {
               <div className="text-[14px] font-semibold text-gray-400 mt-1 italic">Not configured</div>
             )}
             <div className="mt-3 pt-3 border-t border-dotted border-gray-200">
-              <span className="text-[11px] font-bold text-[#191919]">Land Tenure</span>
+              <span className="text-[11px] font-bold text-[#08292F]">Land Tenure</span>
               <p className="text-[11px] text-gray-400 mt-0.5">{p.land_tenure || 'Not specified'}</p>
             </div>
           </div>
@@ -873,7 +873,7 @@ function ProjectOverviewTab({ project: p }) {
           ].map(({ label, value }) => (
             <div key={label} className="px-5 py-3">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</p>
-              <p className="text-[12px] font-semibold text-[#191919] mt-0.5">{value}</p>
+              <p className="text-[12px] font-semibold text-[#0F172A] mt-0.5">{value}</p>
             </div>
           ))}
         </div>
@@ -882,7 +882,7 @@ function ProjectOverviewTab({ project: p }) {
       {/* Description */}
       {p.description && (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#191919]">Project Description</h3></div>
+          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#0F172A]">Project Description</h3></div>
           <div className="px-6 py-4"><p className="text-[13px] text-gray-600 leading-relaxed">{p.description}</p></div>
         </div>
       )}
@@ -900,10 +900,10 @@ function ProjectOverviewTab({ project: p }) {
           {geeTileLayer.url && <TileLayer url={geeTileLayer.url} attribution="GEE" zIndex={10} />}
 
           <div className="absolute top-4 right-4 z-[1000] bg-white/90 backdrop-blur-md p-1 rounded-xl shadow-lg border border-gray-100 flex items-center">
-            <button onClick={() => setMapStyle('street')} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'street' ? 'bg-[#B3542F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}>
+            <button onClick={() => setMapStyle('street')} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'street' ? 'bg-[#08292F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}>
               <TbMap2 size={16} /> Street
             </button>
-            <button onClick={() => setMapStyle('satellite')} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'satellite' ? 'bg-[#B3542F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}>
+            <button onClick={() => setMapStyle('satellite')} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'satellite' ? 'bg-[#08292F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}>
               <TbSatellite size={16} /> Satellite
             </button>
           </div>
@@ -914,15 +914,15 @@ function ProjectOverviewTab({ project: p }) {
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden pb-6">
         <div className="px-4 py-4 border-b border-gray-200 bg-gray-50 mb-6">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[14px] font-bold text-[#191919]">Satellite Analytics (GEE)</h3>
-            <span className="text-[11px] font-bold text-[#191919] bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">FY {selectedFY}</span>
+            <h3 className="text-[14px] font-bold text-[#0F172A]">Satellite Analytics (GEE)</h3>
+            <span className="text-[11px] font-bold text-[#08292F] bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">FY {selectedFY}</span>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {geojsonData?.type === 'FeatureCollection' && geojsonData.features.length > 1 && (
               <select
                 value={activeAoiIndex}
                 onChange={(e) => { setActiveAoiIndex(e.target.value === 'all' ? 'all' : parseInt(e.target.value)); setHasRunAnalytics(false); }}
-                className="flex-1 min-w-0 border border-gray-300 rounded-[4px] px-2 py-1.5 text-[13px] font-bold text-[#191919] bg-white cursor-pointer hover:bg-gray-50 outline-none focus:border-[#16a34a] shadow-sm uppercase tracking-wider"
+                className="flex-1 min-w-0 border border-gray-300 rounded-[4px] px-2 py-1.5 text-[13px] font-bold text-[#0F172A] bg-white cursor-pointer hover:bg-gray-50 outline-none focus:border-[#16a34a] shadow-sm uppercase tracking-wider"
               >
                 <option value="all">ALL AOIS ({geojsonData.features.length})</option>
                 {geojsonData.features.map((f, i) => (
@@ -930,7 +930,7 @@ function ProjectOverviewTab({ project: p }) {
                 ))}
               </select>
             )}
-            <button onClick={() => setHasRunAnalytics(true)} className="shrink-0 px-4 py-1.5 bg-[#B3542F] text-white font-bold rounded-lg shadow-sm text-[12px] uppercase tracking-wider hover:bg-[#9A4626] transition-colors whitespace-nowrap">
+            <button onClick={() => setHasRunAnalytics(true)} className="shrink-0 px-4 py-1.5 bg-[#08292F] text-white font-bold rounded-lg shadow-sm text-[12px] uppercase tracking-wider hover:bg-[#062125] transition-colors whitespace-nowrap">
               Run Analytics
             </button>
           </div>
@@ -948,7 +948,7 @@ function ProjectOverviewTab({ project: p }) {
 
       {/* ── Land Cover Classification ── */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#191919]">Land Cover Classification</h3></div>
+        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#0F172A]">Land Cover Classification</h3></div>
         <div className="p-6">
           {hasRunAnalytics ? (
             <GeeLandCoverPanel selectedFY={selectedFY} projectGeojson={displayedGeojson} onMapReady={handleGeeMapReady} />
@@ -990,7 +990,7 @@ function VerificationTab({ project: p, onMarkStep, saving, isPro, onUpgrade }) {
       {/* Progress bar */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-[14px] font-black text-[#191919]">Verification Progress</p>
+          <p className="text-[14px] font-black text-[#0F172A]">Verification Progress</p>
           <span className="text-[13px] font-bold text-emerald-600">{done}/{VERIFICATION_STEPS.length} complete</span>
         </div>
         <div className="w-full bg-gray-100 rounded-full h-2 mb-6">
@@ -1027,7 +1027,7 @@ function VerificationTab({ project: p, onMarkStep, saving, isPro, onUpgrade }) {
                     disabled={saving}
                     className={`w-full py-1.5 rounded-full text-[11px] font-bold transition-colors ${isDone
                       ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
-                      : 'bg-[#B3542F] text-white hover:bg-[#9A4626]'}`}>
+                      : 'bg-[#08292F] text-white hover:bg-[#062125]'}`}>
                     {isDone ? 'Mark Incomplete' : 'Mark Complete'}
                   </button>
                 )}
@@ -1059,7 +1059,7 @@ function ReportsTab({ project: p }) {
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-4">
-        <h3 className="text-[16px] font-black text-[#191919]">MRV Report — FY {fy}</h3>
+        <h3 className="text-[16px] font-black text-[#0F172A]">MRV Report — FY {fy}</h3>
         <select value={fy} onChange={e => setFy(e.target.value)}
           className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold outline-none">
           {['2026', '2025', '2024'].map(y => <option key={y}>{y}</option>)}
@@ -1069,7 +1069,7 @@ function ReportsTab({ project: p }) {
       <div className="flex items-center gap-6 border-b border-gray-200">
         {tabs.map(t => (
           <button key={t} onClick={() => setActiveTab(t)}
-            className={`pb-3 text-[13px] font-bold transition-colors relative ${activeTab === t ? 'text-[#191919]' : 'text-gray-400'}`}>
+            className={`pb-3 text-[13px] font-bold transition-colors relative ${activeTab === t ? 'text-[#0F172A]' : 'text-gray-400'}`}>
             {t}
             {activeTab === t && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#16a34a] rounded-t-full" />}
           </button>
@@ -1084,7 +1084,7 @@ function ReportsTab({ project: p }) {
             { label: 'Net Credits', value: `${fmt(p.estimated_carbon * 0.80)} tCO₂e` },
           ].map(({ label, value }) => (
             <div key={label} className="text-center">
-              <p className="text-[20px] font-black text-[#191919]">{value}</p>
+              <p className="text-[20px] font-black text-[#0F172A]">{value}</p>
               <p className="text-[11px] text-gray-400 mt-1">{label}</p>
             </div>
           ))}
@@ -1145,7 +1145,7 @@ function DocumentsTab({ project: p, token, onRefresh }) {
             {DOC_TYPES.map(t => <option key={t}>{t}</option>)}
           </select>
           <button onClick={() => fileRef.current?.click()} disabled={uploading}
-            className="px-5 py-2 bg-[#B3542F] text-white rounded-full text-[12px] font-bold hover:bg-[#9A4626] transition-colors disabled:opacity-50">
+            className="px-5 py-2 bg-[#08292F] text-white rounded-full text-[12px] font-bold hover:bg-[#062125] transition-colors disabled:opacity-50">
             {uploading ? 'Uploading…' : 'Choose File'}
           </button>
           <input ref={fileRef} type="file" className="hidden" onChange={handleFile} />
@@ -1169,7 +1169,7 @@ function DocumentsTab({ project: p, token, onRefresh }) {
             <tbody className="divide-y divide-gray-50">
               {docs.map(d => (
                 <tr key={d.doc_id} className="hover:bg-gray-50/50">
-                  <td className="px-5 py-4 text-[13px] font-semibold text-[#191919]">{d.name}</td>
+                  <td className="px-5 py-4 text-[13px] font-semibold text-[#0F172A]">{d.name}</td>
                   <td className="px-5 py-4"><span className="px-2 py-1 bg-gray-100 rounded-lg text-[11px] font-bold text-gray-600">{d.file_type}</span></td>
                   <td className="px-5 py-4 text-[12px] text-gray-400">{d.size_kb ? `${d.size_kb} KB` : '—'}</td>
                   <td className="px-5 py-4 text-[12px] text-gray-400">{fmtD(d.uploaded_at)}</td>
@@ -1198,7 +1198,7 @@ function VerificationPipelineSection({ projects, onViewProject, loading, isPro, 
     <div className="space-y-5">
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-[22px] font-bold text-[#191919] tracking-tight">Verification Pipeline</h2>
+          <h2 className="text-[22px] font-bold text-[#08292F] tracking-tight">Verification Pipeline</h2>
           <p className="text-[13px] text-gray-400">{allDone} of {projects.length} projects fully verified</p>
         </div>
         {!isPro && (
@@ -1235,7 +1235,7 @@ function VerificationPipelineSection({ projects, onViewProject, loading, isPro, 
                   <tr key={p._id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-5 py-4">
                       <button onClick={() => onViewProject(p)} className="text-left">
-                        <p className="text-[13px] font-bold text-[#191919] hover:text-emerald-700 transition-colors">{p.name}</p>
+                        <p className="text-[13px] font-bold text-[#0F172A] hover:text-emerald-700 transition-colors">{p.name}</p>
                         <p className="text-[11px] text-gray-400">{p.type}</p>
                       </button>
                     </td>
@@ -1301,7 +1301,7 @@ function CarbonCreditsSection({ projects, loading }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-[22px] font-bold text-[#191919] tracking-tight">Carbon Credits</h2>
+        <h2 className="text-[22px] font-bold text-[#08292F] tracking-tight">Carbon Credits</h2>
         <p className="text-[13px] text-gray-400">Portfolio credit status across all projects</p>
       </div>
 
@@ -1321,7 +1321,7 @@ function CarbonCreditsSection({ projects, loading }) {
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-          <p className="text-[14px] font-black text-[#191919] mb-4">Credits by Project</p>
+          <p className="text-[14px] font-black text-[#0F172A] mb-4">Credits by Project</p>
           {barData.length === 0 ? <p className="text-center text-gray-400 text-[13px]">No data</p> : (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={barData}>
@@ -1337,7 +1337,7 @@ function CarbonCreditsSection({ projects, loading }) {
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-          <p className="text-[14px] font-black text-[#191919] mb-4">Projected Issuances</p>
+          <p className="text-[14px] font-black text-[#0F172A] mb-4">Projected Issuances</p>
           <ResponsiveContainer width="100%" height={220}>
             <AreaChart data={projData}>
               <defs>
@@ -1368,7 +1368,7 @@ function CarbonCreditsSection({ projects, loading }) {
           <tbody className="divide-y divide-gray-50">
             {projects.map(p => (
               <tr key={p._id} className="hover:bg-gray-50/50">
-                <td className="px-5 py-4 text-[13px] font-bold text-[#191919]">{p.name}</td>
+                <td className="px-5 py-4 text-[13px] font-bold text-[#0F172A]">{p.name}</td>
                 <td className="px-5 py-4"><span className="px-2 py-1 bg-gray-100 rounded-lg text-[11px] font-bold">{p.crediting_standard || '—'}</span></td>
                 <td className="px-5 py-4 text-[13px] font-semibold text-emerald-600">{fmt(p.carbon_credits?.issued)} tCO₂e</td>
                 <td className="px-5 py-4 text-[13px] font-semibold text-blue-600">{fmt(p.carbon_credits?.pending)} tCO₂e</td>
@@ -1402,13 +1402,13 @@ function AnalyticsSection({ projects, loading }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-[22px] font-bold text-[#191919] tracking-tight">Portfolio Analytics</h2>
+        <h2 className="text-[22px] font-bold text-[#08292F] tracking-tight">Portfolio Analytics</h2>
         <p className="text-[13px] text-gray-400">Performance and composition insights</p>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-          <p className="text-[14px] font-black text-[#191919] mb-1">Carbon Efficiency</p>
+          <p className="text-[14px] font-black text-[#0F172A] mb-1">Carbon Efficiency</p>
           <p className="text-[11px] text-gray-400 mb-4">tCO₂e per hectare by project</p>
           {effData.length === 0 ? <p className="text-center text-gray-400 text-[13px]">No data</p> : (
             <ResponsiveContainer width="100%" height={220}>
@@ -1423,7 +1423,7 @@ function AnalyticsSection({ projects, loading }) {
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-          <p className="text-[14px] font-black text-[#191919] mb-1">Project Type Mix</p>
+          <p className="text-[14px] font-black text-[#0F172A] mb-1">Project Type Mix</p>
           <p className="text-[11px] text-gray-400 mb-4">Distribution by project type</p>
           {typeData.length === 0 ? <p className="text-center text-gray-400 text-[13px]">No data</p> : (
             <ResponsiveContainer width="100%" height={220}>
@@ -1441,7 +1441,7 @@ function AnalyticsSection({ projects, loading }) {
 
       {/* Stats table */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-        <p className="text-[14px] font-black text-[#191919] mb-4">Project Performance Summary</p>
+        <p className="text-[14px] font-black text-[#0F172A] mb-4">Project Performance Summary</p>
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-gray-100">
@@ -1453,7 +1453,7 @@ function AnalyticsSection({ projects, loading }) {
           <tbody className="divide-y divide-gray-50">
             {projects.map(p => (
               <tr key={p._id}>
-                <td className="py-3 pr-6 text-[13px] font-bold text-[#191919]">{p.name}</td>
+                <td className="py-3 pr-6 text-[13px] font-bold text-[#0F172A]">{p.name}</td>
                 <td className="py-3 pr-6 text-[12px] text-gray-500">{p.type || '—'}</td>
                 <td className="py-3 pr-6 text-[13px] font-semibold">{fmt(p.area_ha)}</td>
                 <td className="py-3 pr-6 text-[13px] font-semibold text-emerald-600">{fmt(p.estimated_carbon)} t</td>
@@ -1484,7 +1484,7 @@ function ActivitySection({ activity, loading }) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-[22px] font-bold text-[#191919] tracking-tight">Activity Feed</h2>
+        <h2 className="text-[22px] font-bold text-[#08292F] tracking-tight">Activity Feed</h2>
         <p className="text-[13px] text-gray-400">All actions across your projects</p>
       </div>
       {activity.length === 0 ? (
@@ -1497,7 +1497,7 @@ function ActivitySection({ activity, loading }) {
                 {actionIcon(a.action)}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-semibold text-[#191919]">{a.action}</p>
+                <p className="text-[13px] font-semibold text-[#0F172A]">{a.action}</p>
                 <p className="text-[11px] text-gray-400 mt-0.5">{a.project_name}</p>
               </div>
               <p className="text-[11px] text-gray-300 shrink-0">{fmtD(a.timestamp)}</p>
@@ -1620,7 +1620,7 @@ function AddProjectSection({ token, onSuccess }) {
       <AnimatePresence mode="wait">
         {step === 1 && (
           <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h3 className="text-xl font-semibold text-[#191919]">Project Details</h3>
+            <h3 className="text-xl font-semibold text-[#0F172A]">Project Details</h3>
             <p className="text-muted-foreground text-sm mb-6">Provide comprehensive project information.</p>
 
             <div className="w-full space-y-6">
@@ -1798,7 +1798,7 @@ function AddProjectSection({ token, onSuccess }) {
               </div>
 
               <div className="pt-6 flex items-center justify-end gap-4">
-                <Button onClick={() => setStep(2)} disabled={!isStep1Valid} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">Next Step <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
+                <Button onClick={() => setStep(2)} disabled={!isStep1Valid} className="px-8 shadow-lg bg-[#08292F] hover:bg-[#062125] text-white rounded-xl font-bold">Next Step <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
               </div>
             </div>
           </motion.div>
@@ -1806,7 +1806,7 @@ function AddProjectSection({ token, onSuccess }) {
 
         {step === 2 && (
           <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h3 className="text-xl font-semibold text-[#191919]">Project Boundary (AOI)</h3>
+            <h3 className="text-xl font-semibold text-[#0F172A]">Project Boundary (AOI)</h3>
             <p className="text-muted-foreground text-sm mb-6">Upload your project area of interest.</p>
 
             <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
@@ -1815,7 +1815,7 @@ function AddProjectSection({ token, onSuccess }) {
                   <UploadCloud className="w-6 h-6 text-gray-500" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-[15px] font-semibold text-[#191919] leading-tight">Upload boundary file</h4>
+                  <h4 className="text-[15px] font-semibold text-[#0F172A] leading-tight">Upload boundary file</h4>
                   <p className="text-[13px] text-gray-400 mt-0.5">Select and upload the spatial file for your project area</p>
                 </div>
               </div>
@@ -1834,9 +1834,9 @@ function AddProjectSection({ token, onSuccess }) {
                   <input type="file" multiple accept=".kml,.geojson,.json,.tiff,.tif,.zip,.shp,.shx,.dbf,.prj" onChange={handleFile} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
                   <div className="flex flex-col items-center justify-center py-10 px-6 text-center">
                     <div className={`w-14 h-14 flex items-center justify-center rounded-full mb-4 transition-all ${isParsing ? 'bg-gray-100' : justUploaded && (geojson || georaster) ? 'bg-gray-100' : 'bg-gray-100'}`}>
-                      {isParsing ? <div className="w-6 h-6 border-[3px] border-gray-400 border-t-[#08292F] rounded-full animate-spin" /> : justUploaded && (geojson || georaster) && !fileErr ? <CheckCircle2 className="w-7 h-7 text-[#191919]" /> : <UploadCloud className="w-7 h-7 text-gray-400" />}
+                      {isParsing ? <div className="w-6 h-6 border-[3px] border-gray-400 border-t-[#08292F] rounded-full animate-spin" /> : justUploaded && (geojson || georaster) && !fileErr ? <CheckCircle2 className="w-7 h-7 text-[#08292F]" /> : <UploadCloud className="w-7 h-7 text-gray-400" />}
                     </div>
-                    <p className="text-[14px] font-semibold text-[#191919] mb-1">
+                    <p className="text-[14px] font-semibold text-[#0F172A] mb-1">
                       {isParsing ? 'Analyzing file…' : justUploaded && (geojson || georaster) && !fileErr ? 'Boundary processed successfully' : 'Click to select or drag files here'}
                     </p>
                     <p className="text-[13px] text-gray-500">Maximum file size: 50MB</p>
@@ -1851,7 +1851,7 @@ function AddProjectSection({ token, onSuccess }) {
                 return (
                   <div className="border-t border-gray-200 bg-gray-50">
                     {/* Project summary strip */}
-                    <div className="px-4 py-3 bg-[#B3542F] grid grid-cols-3 divide-x divide-white/10">
+                    <div className="px-4 py-3 bg-[#08292F] grid grid-cols-3 divide-x divide-white/10">
                       <div className="px-4 flex flex-col gap-0.5">
                         <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Project</span>
                         <span className="text-[13px] font-bold text-white truncate">{form.name || '—'}</span>
@@ -1887,7 +1887,7 @@ function AddProjectSection({ token, onSuccess }) {
               {submitErr && (
                 <p role="alert" className="mr-auto text-[12px] font-semibold text-red-600">{submitErr}</p>
               )}
-              <Button onClick={handleSubmit} disabled={submitting} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">
+              <Button onClick={handleSubmit} disabled={submitting} className="px-8 shadow-lg bg-[#08292F] hover:bg-[#062125] text-white rounded-xl font-bold">
                 {submitting ? 'Registering...' : 'Register Project'}
               </Button>
             </div>
@@ -1928,7 +1928,7 @@ function HubSidebar({ active, onNav, user, onLogout, isOpen, setIsOpen }) {
         <div className="h-[64px] flex items-center gap-3 px-5 shrink-0">
           <img src={treeLogo} alt="Sylithe" className="w-8 h-8 object-contain" />
           <div>
-            <p className="text-[17px] font-bold text-[#191919] leading-none tracking-tight">Sylithe</p>
+            <p className="text-[17px] font-bold text-[#08292F] leading-none tracking-tight">Sylithe</p>
             <p className="text-[10px] text-[#0fa958] font-semibold tracking-wider">Project Hub</p>
           </div>
         </div>
@@ -1944,7 +1944,7 @@ function HubSidebar({ active, onNav, user, onLogout, isOpen, setIsOpen }) {
               {NAV_ITEMS.filter(n => n.group === g.key).map(({ key, label, icon: Icon }) => (
                 <button key={key} onClick={() => onNav(key)}
                   className={`w-full flex items-center gap-2.5 px-4 py-[9px] rounded-md text-[14px] transition-all duration-100 text-left ${active === key
-                    ? 'bg-[#E8F5E9] text-[#191919] font-semibold'
+                    ? 'bg-[#E8F5E9] text-[#0F172A] font-semibold'
                     : key === 'add-project'
                       ? 'text-[#0fa958] hover:bg-gray-50 font-semibold'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
@@ -1962,11 +1962,11 @@ function HubSidebar({ active, onNav, user, onLogout, isOpen, setIsOpen }) {
 
         <div className="border-t border-gray-200 px-3 py-3 space-y-1 shrink-0">
           <div className="flex items-center gap-2.5 px-4 py-2 mb-1">
-            <div className="w-8 h-8 rounded-full bg-[#B3542F] flex items-center justify-center text-white text-[11px] font-black shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#08292F] flex items-center justify-center text-white text-[11px] font-black shrink-0">
               {(user?.fullName || user?.email || '?').slice(0, 2).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold text-[#191919] truncate">{user?.fullName || 'Developer'}</p>
+              <p className="text-[12px] font-semibold text-[#0F172A] truncate">{user?.fullName || 'Developer'}</p>
               <p className="text-[10px] text-gray-400 truncate">{user?.email}</p>
             </div>
           </div>
@@ -2105,7 +2105,7 @@ export default function ProjectDevHub() {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#F0EEE6]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#F1F1F1]">
       <UpgradeModal open={showUpgrade} onClose={() => setShowUpgrade(false)} />
       {editingProject && (
         <EditProjectModal
@@ -2122,7 +2122,7 @@ export default function ProjectDevHub() {
         <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 shrink-0">
           <div className="flex items-center gap-2">
             <img src={treeLogo} alt="Sylithe" className="w-7 h-7 object-contain" />
-            <span className="font-bold text-[#191919] tracking-tight">Sylithe</span>
+            <span className="font-bold text-[#08292F] tracking-tight">Sylithe</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
             <Menu size={20} />

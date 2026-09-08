@@ -14,7 +14,7 @@ function Stat({ icon: Icon, label, value, sub, source, year, color = '#16a34a', 
         <Icon size={14} style={{ color }} />
         <span className={`text-[10px] font-bold uppercase tracking-wider ${highlight ? 'text-gray-300' : 'text-gray-500'}`}>{label}</span>
       </div>
-      <p className={`text-[19px] font-black leading-none ${highlight ? 'text-[#a4fca1]' : 'text-[#191919]'}`}>{value}</p>
+      <p className={`text-[19px] font-black leading-none ${highlight ? 'text-[#a4fca1]' : 'text-[#0F172A]'}`}>{value}</p>
       {sub && <p className={`text-[10.5px] mt-1.5 leading-snug ${highlight ? 'text-gray-400' : 'text-gray-500'}`}>{sub}</p>}
       {(source || year) && (
         <div className={`mt-auto pt-2 border-t ${highlight ? 'border-white/10' : 'border-gray-100'}`}>
@@ -48,8 +48,8 @@ const INELIGIBLE = [
   { key: 'snow', label: 'Snow & Ice', color: '#B39FE1' },
 ];
 
-const tip = { borderRadius: 6, border: '1px solid #E3DFD3', fontSize: 12, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' };
-const ax = { tick: { fill: '#6C6B68', fontSize: 11 }, axisLine: { stroke: '#E3DFD3' }, tickLine: false };
+const tip = { borderRadius: 6, border: '1px solid #e5e7eb', fontSize: 12, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' };
+const ax = { tick: { fill: '#6b7280', fontSize: 11 }, axisLine: { stroke: '#e5e7eb' }, tickLine: false };
 
 // Sylvera-style rating colours by grade
 const gradeColor = (g) => {
@@ -62,7 +62,7 @@ const gradeColor = (g) => {
 const POINT = {
   strength: { dot: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', tx: '#166534' },
   risk: { dot: '#dc2626', bg: '#fef2f2', border: '#fecaca', tx: '#991b1b' },
-  neutral: { dot: '#64748b', bg: '#f8fafc', border: '#e2e8f0', tx: '#191919' },
+  neutral: { dot: '#64748b', bg: '#f8fafc', border: '#e2e8f0', tx: '#1f2937' },
 };
 
 function Card({ icon: Icon, title, subtitle, right, color, footer, children }) {
@@ -71,7 +71,7 @@ function Card({ icon: Icon, title, subtitle, right, color, footer, children }) {
       <div className="flex items-start gap-2 p-4 pb-3 border-b border-gray-100">
         {Icon && <Icon size={17} style={{ color }} className="mt-0.5 shrink-0" />}
         <div className="flex-1 min-w-0">
-          <h3 className="text-[15px] font-bold tracking-tight text-[#191919] leading-tight">{title}</h3>
+          <h3 className="text-[15px] font-bold tracking-tight text-[#1f2937] leading-tight">{title}</h3>
           {subtitle && <p className="text-[11.5px] text-gray-500 mt-0.5">{subtitle}</p>}
         </div>
         {right}
@@ -86,10 +86,10 @@ function StackChart({ data, classes, unit = 'ha' }) {
   return (
     <ResponsiveContainer>
       <BarChart data={data} margin={{ top: 4, right: 6, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F0EEE6" />
+        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#eef2f6" />
         <XAxis dataKey="year" {...ax} />
         <YAxis {...ax} />
-        <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v, n) => [`${v} ${unit}`, n]} />
+        <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v, n) => [`${v} ${unit}`, n]} />
         {classes.map((c) => <Bar key={c.key} dataKey={c.key} name={c.label} stackId="s" fill={c.color} />)}
       </BarChart>
     </ResponsiveContainer>
@@ -133,7 +133,7 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
       <div className="flex-1 flex flex-col items-center justify-center gap-3 py-24 px-8 text-center">
         <p className="text-red-300 text-[13px] font-semibold">Couldn’t load land history</p>
         <p className="text-gray-400 text-[11px]">{error}</p>
-        {onRetry && <button onClick={onRetry} className="mt-2 px-4 py-2 bg-[#a4fca1] text-[#1F1E1D] rounded-full text-[12px] font-bold uppercase tracking-wide">Try again</button>}
+        {onRetry && <button onClick={onRetry} className="mt-2 px-4 py-2 bg-[#a4fca1] text-[#0d0f0d] rounded-full text-[12px] font-bold uppercase tracking-wide">Try again</button>}
       </div>
     );
   }
@@ -207,7 +207,7 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
             {aiPoints.map((p, i) => (
               <li key={i} className="flex gap-2.5">
                 <span className="shrink-0 w-5 h-5 rounded-full bg-[#0fa958]/10 text-[#0fa958] text-[10px] font-black flex items-center justify-center mt-0.5">{i + 1}</span>
-                <span className="text-[12px] text-[#191919] leading-relaxed">{typeof p === 'string' ? p : p.text}</span>
+                <span className="text-[12px] text-[#1f2937] leading-relaxed">{typeof p === 'string' ? p : p.text}</span>
               </li>
             ))}
           </ul>
@@ -270,18 +270,18 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
       {/* Year-range selector for land-change comparison */}
       {lcAll.length > 0 && (
         <div className="flex items-center gap-3 flex-wrap bg-white border border-gray-200 rounded-none px-4 py-3">
-          <span className="text-[12px] font-bold text-[#191919]">Compare land change:</span>
+          <span className="text-[12px] font-bold text-[#1f2937]">Compare land change:</span>
           <label className="flex items-center gap-1.5 text-[12px] text-gray-600">
             From
             <select value={startYear} onChange={(e) => setStartYear(Number(e.target.value))}
-              className="bg-gray-50 border border-gray-200 rounded-none px-2.5 py-1.5 text-[12px] font-semibold text-[#191919] outline-none">
+              className="bg-gray-50 border border-gray-200 rounded-none px-2.5 py-1.5 text-[12px] font-semibold text-[#1f2937] outline-none">
               {lcYears.filter((y) => y <= endYear).map((y) => <option key={y} value={y}>{y}</option>)}
             </select>
           </label>
           <label className="flex items-center gap-1.5 text-[12px] text-gray-600">
             To
             <select value={endYear} onChange={(e) => setEndYear(Number(e.target.value))}
-              className="bg-gray-50 border border-gray-200 rounded-none px-2.5 py-1.5 text-[12px] font-semibold text-[#191919] outline-none">
+              className="bg-gray-50 border border-gray-200 rounded-none px-2.5 py-1.5 text-[12px] font-semibold text-[#1f2937] outline-none">
               {lcYears.filter((y) => y >= startYear).map((y) => <option key={y} value={y}>{y}</option>)}
             </select>
           </label>
@@ -305,7 +305,7 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
       </div>
       {lc.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-none p-4">
-          <p className="text-[12px] font-bold text-[#191919] mb-1">Net change {first?.year} → {last?.year}</p>
+          <p className="text-[12px] font-bold text-[#1f2937] mb-1">Net change {first?.year} → {last?.year}</p>
           <ChangeLegend classes={[...ELIGIBLE, ...INELIGIBLE]} first={first} last={last} />
         </div>
       )}
@@ -316,9 +316,9 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
           footer={`${defor.reduce((s, d) => s + (d.loss_ha || 0), 0).toFixed(1)} ha lost since 2010 — establishes the baseline deforestation scenario.`}>
           <ResponsiveContainer>
             <BarChart data={defor} margin={{ top: 4, right: 6, left: -16, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F0EEE6" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#eef2f6" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} ha`, 'Loss']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} ha`, 'Loss']} />
               <Bar dataKey="loss_ha" fill="#ef4444" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -327,9 +327,9 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
           footer={`${fire.reduce((s, d) => s + (d.burn_ha || 0), 0).toFixed(1)} ha burned since 2010 — informs permanence & reversal risk.`}>
           <ResponsiveContainer>
             <BarChart data={fire} margin={{ top: 4, right: 6, left: -16, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F0EEE6" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#eef2f6" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} ha`, 'Burned']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} ha`, 'Burned']} />
               <Bar dataKey="burn_ha" fill="#f97316" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -342,7 +342,7 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
           footer="Rising NDVI = recovering vegetation; falling = degradation.">
           <ResponsiveContainer>
             <LineChart data={ndvi} margin={{ top: 4, right: 6, left: -16, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F0EEE6" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#eef2f6" />
               <XAxis dataKey="year" {...ax} /><YAxis domain={[0, 1]} {...ax} />
               <Tooltip contentStyle={tip} formatter={(v) => [v, 'NDVI']} />
               <Line type="monotone" dataKey="ndvi" stroke="#16a34a" strokeWidth={2.5} dot={{ r: 3, fill: '#16a34a' }} />
@@ -353,9 +353,9 @@ export default function LandHistoryPanel({ data, loading, error, onRetry }) {
           footer="Climate context for growth potential and drought risk.">
           <ResponsiveContainer>
             <BarChart data={rain} margin={{ top: 4, right: 6, left: -8, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F0EEE6" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#eef2f6" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} mm`, 'Rainfall']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} mm`, 'Rainfall']} />
               <Bar dataKey="mm" fill="#3b82f6" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

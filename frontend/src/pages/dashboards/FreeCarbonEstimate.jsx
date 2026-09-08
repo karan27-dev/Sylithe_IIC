@@ -65,19 +65,19 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
   /* ── Empty state ── */
   if (!res) {
     return (
-      <div className="flex-1 flex flex-col h-full bg-[#F0EEE6]">
+      <div className="flex-1 flex flex-col h-full bg-[#F8FAFB]">
         <Header area={null} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-green-100 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-inner">
               <Leaf size={34} className="text-emerald-500" />
             </div>
-            <h2 className="text-[18px] font-black text-[#191919] mb-2">No scan results yet</h2>
+            <h2 className="text-[18px] font-black text-[#0F172A] mb-2">No scan results yet</h2>
             <p className="text-[13px] text-gray-400 mb-7 max-w-xs leading-relaxed mx-auto">
               Run a Land Eligibility scan first to see the carbon estimate and market value for your land.
             </p>
             <button onClick={() => onSectionChange?.('land_eligibility')}
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#B3542F] text-white font-bold rounded-xl text-[13px] hover:bg-[#9A4626] transition-colors shadow-sm">
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#08292F] text-white font-bold rounded-xl text-[13px] hover:bg-[#062125] transition-colors shadow-sm">
               <ArrowLeft size={14} /> Run Land Eligibility
             </button>
           </div>
@@ -87,14 +87,14 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
   }
 
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-[#F0EEE6]">
+    <div className="flex flex-col h-full overflow-hidden bg-[#F8FAFB]">
       <Header area={res.area_ha} />
 
       {/* ── Split body ── */}
       <div className="flex flex-1 overflow-hidden">
 
         {/* LEFT — dark carbon panel */}
-        <div className="w-[360px] shrink-0 bg-[#B3542F] flex flex-col overflow-hidden">
+        <div className="w-[360px] shrink-0 bg-[#08292F] flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
 
             {/* Hero */}
@@ -159,7 +159,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
                 { label: '25-yr Total',  value: `${fmtS(mid * 25)}`,      unit: 'tCO₂e' },
                 { label: 'Area',         value: `${fmt(res.area_ha)}`,     unit: 'ha' },
               ].map(({ label, value, unit }) => (
-                <div key={label} className="bg-[#B3542F] px-5 py-4">
+                <div key={label} className="bg-[#08292F] px-5 py-4">
                   <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">{label}</p>
                   <p className="text-[20px] font-black text-white leading-none">{value}</p>
                   <p className="text-[10px] text-gray-500 mt-0.5">{unit}</p>
@@ -210,7 +210,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
               <div className="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-2">
                   <TrendingUp size={15} className="text-emerald-600" />
-                  <h3 className="text-[14px] font-bold text-[#191919]">Estimated Market Value</h3>
+                  <h3 className="text-[14px] font-bold text-[#0F172A]">Estimated Market Value</h3>
                 </div>
                 <div className="flex gap-1.5 flex-wrap">
                   {Object.entries(RATES).map(([key, r]) => (
@@ -229,7 +229,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
                 ].map(({ label, tco2, note }, i) => (
                   <div key={label} className="px-6 py-6 text-center">
                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">{label}</p>
-                    <p className="text-[28px] font-black text-[#191919] leading-none mb-1">
+                    <p className="text-[28px] font-black text-[#0F172A] leading-none mb-1">
                       {RATES[rate].fn(tco2)}
                     </p>
                     <p className="text-[11px] text-gray-400">{note}</p>
@@ -247,7 +247,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
               className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-2">
                 <BarChart3 size={15} className="text-gray-500" />
-                <h3 className="text-[14px] font-bold text-[#191919]">Sequestration Revenue · 25-Year Crediting Period</h3>
+                <h3 className="text-[14px] font-bold text-[#0F172A]">Sequestration Revenue · 25-Year Crediting Period</h3>
               </div>
               <div className="divide-y divide-gray-100">
                 {[
@@ -259,7 +259,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
                   return (
                     <div key={label} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors">
                       <div>
-                        <p className="text-[13px] font-semibold text-[#191919]">{label}</p>
+                        <p className="text-[13px] font-semibold text-[#0F172A]">{label}</p>
                         <p className="text-[11px] text-gray-400">{fmt(seq)} tCO₂e/yr × 25 yr = {fmt(total)} tCO₂e</p>
                       </div>
                       <div className="text-right">
@@ -277,7 +277,7 @@ export default function FreeCarbonEstimate({ freeScanResult, onSectionChange }) 
 
             {/* Upgrade CTA */}
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}
-              className="bg-[#B3542F] rounded-2xl p-7 text-white">
+              className="bg-[#08292F] rounded-2xl p-7 text-white">
               <div className="flex items-center gap-2 mb-4">
                 <Lock size={13} className="text-emerald-400" />
                 <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Unlock Full Verification</span>
@@ -329,7 +329,7 @@ function Header({ area }) {
     <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-3 shrink-0">
       <div className="flex items-center gap-2.5">
         <Leaf size={18} className="text-emerald-500" />
-        <h1 className="text-[17px] font-bold text-[#191919]">Carbon Estimate</h1>
+        <h1 className="text-[17px] font-bold text-[#0F172A]">Carbon Estimate</h1>
       </div>
       <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-wide flex items-center gap-1">
         <Zap size={9} /> Free

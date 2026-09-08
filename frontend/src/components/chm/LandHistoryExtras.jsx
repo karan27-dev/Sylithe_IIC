@@ -14,18 +14,18 @@ function Box({ icon: Icon, title, subtitle, color, footer, children }) {
       <div className="flex items-start gap-2 p-5 pb-4 border-b border-gray-100">
         <Icon size={18} style={{ color }} className="mt-0.5" />
         <div>
-          <h3 className="text-[18px] font-bold tracking-tight text-[#191919] leading-tight">{title}</h3>
+          <h3 className="text-[18px] font-bold tracking-tight text-[#1f2937] leading-tight">{title}</h3>
           {subtitle && <p className="text-[13px] text-gray-500 mt-0.5">{subtitle}</p>}
         </div>
       </div>
       <div className="p-5"><div style={{ width: '100%', height: 240 }}>{children}</div></div>
-      {footer && <div className="px-5 py-4 border-t border-gray-100"><p className="text-[12px] leading-relaxed text-[#6C6B68]">{footer}</p></div>}
+      {footer && <div className="px-5 py-4 border-t border-gray-100"><p className="text-[12px] leading-relaxed text-[#6b7280]">{footer}</p></div>}
     </div>
   );
 }
 
-const ax = { tick: { fill: '#6C6B68', fontSize: 12 }, axisLine: { stroke: '#E3DFD3' }, tickLine: false };
-const tip = { borderRadius: 6, border: '1px solid #E3DFD3', fontSize: 13, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' };
+const ax = { tick: { fill: '#6b7280', fontSize: 12 }, axisLine: { stroke: '#e5e7eb' }, tickLine: false };
+const tip = { borderRadius: 6, border: '1px solid #e5e7eb', fontSize: 13, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' };
 
 export default function LandHistoryExtras({ data }) {
   if (!data) return null;
@@ -43,9 +43,9 @@ export default function LandHistoryExtras({ data }) {
           footer={`${totalLoss.toFixed(1)} ha of tree-cover loss recorded since 2010. Used to establish the baseline scenario and additionality for REDD+ crediting.`}>
           <ResponsiveContainer>
             <BarChart data={defor} margin={{ top: 4, right: 8, left: -18, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#E3DFD3" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#e5e7eb" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} ha`, 'Loss']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} ha`, 'Loss']} />
               <Bar dataKey="loss_ha" fill="#ef4444" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -55,9 +55,9 @@ export default function LandHistoryExtras({ data }) {
           footer={`${totalFire.toFixed(1)} ha burned since 2010. Fire history informs permanence and reversal risk for the project.`}>
           <ResponsiveContainer>
             <BarChart data={fire} margin={{ top: 4, right: 8, left: -18, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#E3DFD3" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#e5e7eb" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} ha`, 'Burned']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} ha`, 'Burned']} />
               <Bar dataKey="burn_ha" fill="#f97316" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -67,7 +67,7 @@ export default function LandHistoryExtras({ data }) {
           footer="Year-over-year NDVI trend indicates vegetation recovery or degradation across the project boundary.">
           <ResponsiveContainer>
             <LineChart data={ndvi} margin={{ top: 4, right: 8, left: -18, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#E3DFD3" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#e5e7eb" />
               <XAxis dataKey="year" {...ax} /><YAxis domain={[0, 1]} {...ax} />
               <Tooltip contentStyle={tip} formatter={(v) => [v, 'NDVI']} />
               <Line type="monotone" dataKey="ndvi" stroke="#16a34a" strokeWidth={2.5} dot={{ r: 3, fill: '#16a34a' }} />
@@ -79,9 +79,9 @@ export default function LandHistoryExtras({ data }) {
           footer="Annual precipitation provides climate context for growth potential and drought risk.">
           <ResponsiveContainer>
             <BarChart data={rain} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#E3DFD3" />
+              <CartesianGrid strokeDasharray="0" vertical={false} stroke="#e5e7eb" />
               <XAxis dataKey="year" {...ax} /><YAxis {...ax} />
-              <Tooltip contentStyle={tip} cursor={{ fill: '#F0EEE6' }} formatter={(v) => [`${v} mm`, 'Rainfall']} />
+              <Tooltip contentStyle={tip} cursor={{ fill: '#f9fafb' }} formatter={(v) => [`${v} mm`, 'Rainfall']} />
               <Bar dataKey="mm" fill="#3b82f6" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

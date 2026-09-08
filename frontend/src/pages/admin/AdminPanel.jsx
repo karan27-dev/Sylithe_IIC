@@ -134,7 +134,7 @@ function UserDrawer({ userId, token, onClose, onTierChange }) {
           >
             {/* Header */}
             <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white">
-              <p className="text-[13px] font-black text-[#191919] uppercase tracking-wider">User Profile</p>
+              <p className="text-[13px] font-black text-[#0F172A] uppercase tracking-wider">User Profile</p>
               <button onClick={onClose} className="w-8 h-8 rounded-xl hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors">
                 <X size={16} />
               </button>
@@ -146,7 +146,7 @@ function UserDrawer({ userId, token, onClose, onTierChange }) {
               <div className="flex-1 overflow-y-auto">
 
                 {/* ── Profile hero ── */}
-                <div className="bg-gradient-to-br from-[#B3542F] to-[#0d3d47] px-6 py-7">
+                <div className="bg-gradient-to-br from-[#08292F] to-[#0d3d47] px-6 py-7">
                   <div className="flex items-start gap-4 mb-5">
                     <Avatar name={u.fullName} email={u.email} size="lg" />
                     <div className="flex-1 min-w-0 pt-1">
@@ -213,7 +213,7 @@ function UserDrawer({ userId, token, onClose, onTierChange }) {
                         const a = data?.usage?.actions?.[k]; const rem = Math.max(0, a?.remaining ?? 3); const used = a?.used ?? 0;
                         return (
                           <div key={k} className="bg-gray-50 rounded-xl px-3 py-2.5">
-                            <p className={`text-[16px] font-black leading-none ${rem <= 0 ? 'text-red-500' : 'text-[#191919]'}`}>{rem}/3</p>
+                            <p className={`text-[16px] font-black leading-none ${rem <= 0 ? 'text-red-500' : 'text-[#0F172A]'}`}>{rem}/3</p>
                             <p className="text-[10px] text-gray-400 mt-1">{label} left · {used} used</p>
                           </div>
                         );
@@ -227,7 +227,7 @@ function UserDrawer({ userId, token, onClose, onTierChange }) {
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-3">Actions</p>
                   <div className="flex gap-2">
                     <a href={`mailto:${u.email}?subject=Your Sylithe Account`}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-[#B3542F] hover:bg-[#9A4626] text-white font-bold rounded-xl text-[12px] transition-colors">
+                      className="flex items-center gap-2 px-4 py-2.5 bg-[#08292F] hover:bg-[#062125] text-white font-bold rounded-xl text-[12px] transition-colors">
                       <Mail size={13} /> Send Email
                     </a>
                     {u.tier === 'free' ? (
@@ -306,7 +306,7 @@ function UserDrawer({ userId, token, onClose, onTierChange }) {
                               <MapPin size={12} className="text-emerald-600" />
                             </div>
                             <div>
-                              <p className="text-[12px] font-semibold text-[#191919]">
+                              <p className="text-[12px] font-semibold text-[#0F172A]">
                                 {s.area_ha ? `${Number(s.area_ha).toFixed(1)} ha` : 'Area unknown'}
                               </p>
                               <p className="text-[10px] text-gray-400">{fmtDate(s.created_at)}</p>
@@ -344,7 +344,7 @@ function StatCard({ label, value, sub, icon: Icon, color, onClick }) {
         {onClick && <ArrowUpRight size={14} className="text-gray-300" />}
       </div>
       <div>
-        <p className="text-[28px] font-black text-[#191919] leading-none">{value ?? '—'}</p>
+        <p className="text-[28px] font-black text-[#0F172A] leading-none">{value ?? '—'}</p>
         <p className="text-[12px] font-semibold text-gray-400 mt-1">{label}</p>
         {sub && <p className="text-[11px] text-gray-300 mt-0.5">{sub}</p>}
       </div>
@@ -358,11 +358,11 @@ function Overview({ stats, recentUsers, recentRequests, onNav }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-[20px] font-black text-[#191919] mb-1">Platform Overview</h2>
+        <h2 className="text-[20px] font-black text-[#0F172A] mb-1">Platform Overview</h2>
         <p className="text-[13px] text-gray-400">Live snapshot of all activity across the Sylithe platform.</p>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard label="Total Users"      value={stats.total_users}      icon={Users}      color="bg-[#B3542F]"   onClick={() => onNav('users')} />
+        <StatCard label="Total Users"      value={stats.total_users}      icon={Users}      color="bg-[#08292F]"   onClick={() => onNav('users')} />
         <StatCard label="Free Tier"        value={stats.free_users}       icon={Leaf}       color="bg-emerald-500" sub={stats.total_users ? `${Math.round(stats.free_users/stats.total_users*100)}% of users` : ''} />
         <StatCard label="Pro Users"        value={stats.pro_users}        icon={Star}       color="bg-violet-500"  />
         <StatCard label="Access Requests"  value={stats.total_requests}   icon={Bell}       color="bg-amber-500"   onClick={() => onNav('requests')} />
@@ -377,7 +377,7 @@ function Overview({ stats, recentUsers, recentRequests, onNav }) {
         {/* Recent signups */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h3 className="text-[14px] font-black text-[#191919]">Recent Signups</h3>
+            <h3 className="text-[14px] font-black text-[#0F172A]">Recent Signups</h3>
             <button onClick={() => onNav('users')} className="text-[11px] text-emerald-600 font-bold hover:text-emerald-700 flex items-center gap-1">
               View all <ChevronRight size={12} />
             </button>
@@ -389,7 +389,7 @@ function Overview({ stats, recentUsers, recentRequests, onNav }) {
                 <div key={u._id} className="flex items-center gap-3 px-5 py-3.5">
                   <Avatar name={u.fullName} email={u.email} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-[#191919] truncate">{u.fullName || u.email}</p>
+                    <p className="text-[13px] font-semibold text-[#0F172A] truncate">{u.fullName || u.email}</p>
                     <p className="text-[11px] text-gray-400 truncate">{u.email}</p>
                   </div>
                   <div className="text-right shrink-0">
@@ -403,7 +403,7 @@ function Overview({ stats, recentUsers, recentRequests, onNav }) {
         {/* Recent requests */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h3 className="text-[14px] font-black text-[#191919]">Recent Access Requests</h3>
+            <h3 className="text-[14px] font-black text-[#0F172A]">Recent Access Requests</h3>
             <button onClick={() => onNav('requests')} className="text-[11px] text-emerald-600 font-bold hover:text-emerald-700 flex items-center gap-1">
               View all <ChevronRight size={12} />
             </button>
@@ -415,7 +415,7 @@ function Overview({ stats, recentUsers, recentRequests, onNav }) {
                 <div key={r._id} className="flex items-center gap-3 px-5 py-3.5">
                   <Avatar name={r.user_name} email={r.user_email} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-[#191919] truncate">{r.user_name || r.user_email}</p>
+                    <p className="text-[13px] font-semibold text-[#0F172A] truncate">{r.user_name || r.user_email}</p>
                     <p className="text-[11px] text-gray-400 truncate">{r.user_email}</p>
                   </div>
                   <div className="text-right shrink-0">
@@ -467,7 +467,7 @@ function AccessRequests({ token }) {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[20px] font-black text-[#191919] mb-1">Access Requests</h2>
+          <h2 className="text-[20px] font-black text-[#0F172A] mb-1">Access Requests</h2>
           <p className="text-[13px] text-gray-400">{total} total requests</p>
         </div>
         <button onClick={load} className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 text-[12px] text-gray-500 hover:bg-gray-50 transition-colors">
@@ -477,7 +477,7 @@ function AccessRequests({ token }) {
       <div className="flex gap-2 flex-wrap">
         {['', 'pending', 'contacted', 'approved', 'rejected'].map(s => (
           <button key={s} onClick={() => { setFilter(s); setPage(1); }}
-            className={`px-4 py-2 rounded-xl text-[12px] font-bold transition-colors ${filter === s ? 'bg-[#B3542F] text-white' : 'bg-white border border-gray-200 text-gray-500 hover:border-gray-300'}`}>
+            className={`px-4 py-2 rounded-xl text-[12px] font-bold transition-colors ${filter === s ? 'bg-[#08292F] text-white' : 'bg-white border border-gray-200 text-gray-500 hover:border-gray-300'}`}>
             {s === '' ? 'All' : STATUS_CFG[s]?.label}
           </button>
         ))}
@@ -502,7 +502,7 @@ function AccessRequests({ token }) {
                       <div className="flex items-center gap-2.5">
                         <Avatar name={r.user_name} email={r.user_email} />
                         <div className="min-w-0">
-                          <span className="block text-[13px] font-semibold text-[#191919] whitespace-nowrap">{r.user_name || '—'}</span>
+                          <span className="block text-[13px] font-semibold text-[#0F172A] whitespace-nowrap">{r.user_name || '—'}</span>
                           {r.user_company && <span className="block text-[11px] text-gray-400 truncate">{r.user_company}</span>}
                         </div>
                       </div>
@@ -580,7 +580,7 @@ function UsersSection({ token }) {
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-[20px] font-black text-[#191919] mb-1">All Users</h2>
+            <h2 className="text-[20px] font-black text-[#0F172A] mb-1">All Users</h2>
             <p className="text-[13px] text-gray-400">{total} registered users · click any row for full profile</p>
           </div>
           <button onClick={load} className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 text-[12px] text-gray-500 hover:bg-gray-50 transition-colors">
@@ -623,7 +623,7 @@ function UsersSection({ token }) {
                         <div className="flex items-center gap-2.5">
                           <Avatar name={u.fullName} email={u.email} />
                           <div>
-                            <p className="text-[13px] font-semibold text-[#191919] whitespace-nowrap">{u.fullName || '—'}</p>
+                            <p className="text-[13px] font-semibold text-[#0F172A] whitespace-nowrap">{u.fullName || '—'}</p>
                           </div>
                         </div>
                       </td>
@@ -695,7 +695,7 @@ function ScansSection({ token }) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-[20px] font-black text-[#191919] mb-1">Free Scans</h2>
+        <h2 className="text-[20px] font-black text-[#0F172A] mb-1">Free Scans</h2>
         <p className="text-[13px] text-gray-400">{total} scans run on the platform</p>
       </div>
       {loading ? <Loader /> : (
@@ -715,7 +715,7 @@ function ScansSection({ token }) {
                 {rows.map(s => (
                   <tr key={s._id} className="hover:bg-gray-50/50">
                     <td className="px-5 py-4 text-[13px] text-gray-700">{s.email || s.user_email || '—'}</td>
-                    <td className="px-5 py-4 text-[13px] font-semibold text-[#191919]">{s.area_ha ? Number(s.area_ha).toFixed(1) : '—'}</td>
+                    <td className="px-5 py-4 text-[13px] font-semibold text-[#0F172A]">{s.area_ha ? Number(s.area_ha).toFixed(1) : '—'}</td>
                     <td className="px-5 py-4">
                       <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${s.status === 'success' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}`}>
                         {s.status || '—'}
@@ -753,7 +753,7 @@ function NewsletterSection({ token }) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-[20px] font-black text-[#191919] mb-1">Newsletter Subscribers</h2>
+        <h2 className="text-[20px] font-black text-[#0F172A] mb-1">Newsletter Subscribers</h2>
         <p className="text-[13px] text-gray-400">{total} subscribers</p>
       </div>
       {loading ? <Loader /> : (
@@ -834,7 +834,7 @@ function ProjectsSection({ token }) {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[20px] font-black text-[#191919] mb-1">Submitted Projects</h2>
+          <h2 className="text-[20px] font-black text-[#0F172A] mb-1">Submitted Projects</h2>
           <p className="text-[13px] text-gray-400">{rows.length} projects onboarded by developers · click a row for details & boundary</p>
         </div>
         <div className="relative">
@@ -862,7 +862,7 @@ function ProjectsSection({ token }) {
               {rows.map(p => (
                 <tr key={p._id} onClick={() => setSelectedId(p._id)}
                   className={`cursor-pointer transition-colors hover:bg-emerald-50/60 ${selectedId === p._id ? 'bg-emerald-50' : ''}`}>
-                  <td className="px-5 py-4 text-[13px] font-semibold text-[#191919] whitespace-nowrap">{p.name || '—'}</td>
+                  <td className="px-5 py-4 text-[13px] font-semibold text-[#0F172A] whitespace-nowrap">{p.name || '—'}</td>
                   <td className="px-5 py-4 text-[13px] text-emerald-600 whitespace-nowrap">{p.developer_email}</td>
                   <td className="px-5 py-4 text-[12px] text-gray-600">{p.type || '—'}</td>
                   <td className="px-5 py-4 text-[12px] text-gray-500 max-w-[180px] truncate">{[p.district, p.state, p.country].filter(Boolean).join(', ') || '—'}</td>
@@ -911,7 +911,7 @@ function ProjectDrawer({ projectId, token, onClose }) {
     <div className="fixed inset-0 z-[80] flex justify-end">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
       <div className="relative w-full max-w-md h-full bg-white shadow-2xl overflow-y-auto">
-        <div className="sticky top-0 bg-[#B3542F] text-white px-6 py-5 flex items-start justify-between">
+        <div className="sticky top-0 bg-[#08292F] text-white px-6 py-5 flex items-start justify-between">
           <div>
             <p className="text-[10px] font-black uppercase tracking-wider text-emerald-300">Project</p>
             <h2 className="text-[18px] font-black leading-tight">{p?.name || '…'}</h2>
@@ -927,7 +927,7 @@ function ProjectDrawer({ projectId, token, onClose }) {
               {p.geojson ? (
                 <div className="flex gap-2">
                   <button onClick={() => downloadFile(`${safe}.geojson`, JSON.stringify(p.geojson, null, 2), 'application/geo+json')}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-[#B3542F] hover:bg-[#9A4626] text-white font-bold rounded-xl text-[12px]">
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#08292F] hover:bg-[#062125] text-white font-bold rounded-xl text-[12px]">
                     <ArrowUpRight size={13} /> GeoJSON
                   </button>
                   <button onClick={() => downloadFile(`${safe}.kml`, geojsonToKml(p.geojson, p.name), 'application/vnd.google-earth.kml+xml')}
@@ -1006,10 +1006,10 @@ export default function AdminPanel() {
   useEffect(() => { loadStats(); }, [loadStats]);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#F0EEE6]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#F8FAFB]">
 
       {/* Sidebar */}
-      <aside className="w-60 shrink-0 bg-[#B3542F] flex flex-col h-full">
+      <aside className="w-60 shrink-0 bg-[#08292F] flex flex-col h-full">
         <div className="px-6 py-5 border-b border-white/10">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center">
@@ -1062,7 +1062,7 @@ export default function AdminPanel() {
       <main className="flex-1 overflow-y-auto">
         <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-[15px] font-black text-[#191919]">{NAV.find(n => n.key === section)?.label}</h1>
+            <h1 className="text-[15px] font-black text-[#0F172A]">{NAV.find(n => n.key === section)?.label}</h1>
             <p className="text-[11px] text-gray-400">Sylithe Platform Admin</p>
           </div>
           <button onClick={loadStats}

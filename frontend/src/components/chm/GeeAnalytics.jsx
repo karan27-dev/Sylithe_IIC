@@ -7,7 +7,7 @@ const CarbonBox = ({ title, subtitle, rightElement, children, footerText }) => (
   <div className="bg-white border border-gray-200 rounded-[8px] flex flex-col h-full shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
     <div className="flex justify-between items-start p-5 pb-4 border-b border-gray-100">
       <div>
-        <h3 className="text-[18px] font-bold tracking-tight text-[#191919] leading-tight">{title}</h3>
+        <h3 className="text-[18px] font-bold tracking-tight text-[#1f2937] leading-tight">{title}</h3>
         {subtitle && <p className="text-[14px] text-gray-500 mt-0.5">{subtitle}</p>}
       </div>
       {rightElement && <div>{rightElement}</div>}
@@ -17,7 +17,7 @@ const CarbonBox = ({ title, subtitle, rightElement, children, footerText }) => (
     </div>
     {footerText && (
       <div className="px-5 py-4 bg-white border-t border-gray-100 rounded-b-[8px]">
-        <p className="text-[12px] leading-relaxed text-[#6C6B68]">{footerText}</p>
+        <p className="text-[12px] leading-relaxed text-[#6b7280]">{footerText}</p>
       </div>
     )}
   </div>
@@ -28,10 +28,10 @@ const CarbonBarChart = ({ data, color, yUnit }) => (
     <div className="text-[13px] font-bold text-gray-500 mb-4">{yUnit}</div>
     <ResponsiveContainer width="100%" height="90%">
       <BarChart data={data} margin={{ top: 0, right: 0, left: -25, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#E3DFD3" />
-        <XAxis dataKey="month" axisLine={true} tickLine={false} tick={{ fontSize: 12, fill: '#6C6B68' }} dy={10} />
-        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6C6B68' }} />
-        <RechartsTooltip cursor={{ fill: '#F0EEE6' }} contentStyle={{ borderRadius: '6px', border: '1px solid #E3DFD3', fontSize: '13px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }} />
+        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#e5e7eb" />
+        <XAxis dataKey="month" axisLine={true} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+        <RechartsTooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '6px', border: '1px solid #e5e7eb', fontSize: '13px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }} />
         <Bar dataKey="value" fill={color} isAnimationActive={true} />
       </BarChart>
     </ResponsiveContainer>
@@ -46,13 +46,13 @@ const CarbonProgressBarList = ({ data, valueUnit, totalColor = "#d8b4e2" }) => {
       {data.map(item => (
         <div key={item.label} className="flex justify-between items-end gap-6">
           <div className="flex-1">
-            <p className="text-[14px] font-bold text-[#191919] mb-2">{item.label}</p>
+            <p className="text-[14px] font-bold text-[#1f2937] mb-2">{item.label}</p>
             <div className="w-full h-3.5 bg-gray-100 rounded-[2px] overflow-hidden">
               <div className="h-full transition-all duration-1000" style={{ width: `${Math.max(item.pct, 0.5)}%`, backgroundColor: item.color || '#d8b4e2' }} />
             </div>
           </div>
           <div className="text-right shrink-0 pb-1">
-            <p className="text-[14px] font-bold tracking-tight text-[#191919] leading-none mb-1">
+            <p className="text-[14px] font-bold tracking-tight text-[#1f2937] leading-none mb-1">
               {item.amount.toLocaleString()} <span className="text-[12px] font-normal text-gray-500">{valueUnit}</span>
             </p>
             <p className="text-[12px] text-gray-400 leading-none">{item.pct.toFixed(2)}%</p>
@@ -62,10 +62,10 @@ const CarbonProgressBarList = ({ data, valueUnit, totalColor = "#d8b4e2" }) => {
       <div className="pt-5 border-t border-gray-100 flex justify-between items-center mt-6">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded-[2px]" style={{ backgroundColor: totalColor }} />
-          <span className="text-[13px] font-medium text-[#191919]">Pixels in <span className="font-normal text-gray-500">{valueUnit}</span></span>
+          <span className="text-[13px] font-medium text-[#1f2937]">Pixels in <span className="font-normal text-gray-500">{valueUnit}</span></span>
         </div>
         <div className="text-right">
-          <p className="text-[14px] font-bold text-[#191919]">Total {total.toLocaleString()} <span className="font-normal text-gray-500 text-[12px]">{valueUnit}</span></p>
+          <p className="text-[14px] font-bold text-[#1f2937]">Total {total.toLocaleString()} <span className="font-normal text-gray-500 text-[12px]">{valueUnit}</span></p>
           <p className="text-[12px] text-gray-400">100.00% of analyzed boundary</p>
         </div>
       </div>
@@ -94,7 +94,7 @@ const CarbonDonutChart = ({ data }) => {
             ))}
           </Pie>
           <RechartsTooltip
-            contentStyle={{ borderRadius: '6px', border: '1px solid #E3DFD3', fontSize: '13px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}
+            contentStyle={{ borderRadius: '6px', border: '1px solid #e5e7eb', fontSize: '13px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </PieChart>
@@ -106,7 +106,7 @@ const CarbonDonutChart = ({ data }) => {
 const LoadingState = ({ text }) => (
   <div className="bg-white border border-gray-200 rounded-[8px] min-h-[400px] flex items-center justify-center p-8">
     <div className="flex flex-col items-center gap-4">
-      <div className="w-8 h-8 border-4 border-[#191919] border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-[#0F172A] border-t-transparent rounded-full animate-spin" />
       <span className="text-gray-500 font-medium text-sm">{text}</span>
     </div>
   </div>
@@ -380,7 +380,7 @@ export const GeeLandCoverPanel = ({ selectedFY, projectGeojson, onMapReady }) =>
         subtitle={`Sylithe World cover(${year})`}
         footerText="Prioritize strategic reforestation efforts with deep dives into spatial distributions. The bars represent total area classified, ranked from highest to lowest prevalence."
       >
-        <CarbonProgressBarList data={data.distribution} valueUnit="px" totalColor="#E3DFD3" />
+        <CarbonProgressBarList data={data.distribution} valueUnit="px" totalColor="#e5e7eb" />
       </CarbonBox>
     </div>
   );

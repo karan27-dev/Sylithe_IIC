@@ -13,7 +13,7 @@ import SylitheLeftNav from '../../components/chm/SylitheLeftNav';
 import DataManagement from '../../components/esg/DataManagement';
 
 const s = {
-  bg: '#F0EEE6',
+  bg: '#FAFAF9',
   bgDark: '#08292F',
   accent: '#16a34a',
   accentSoft: 'rgba(22,163,74,0.12)',
@@ -52,7 +52,7 @@ const CorporateDashboard = () => {
   const renderFootprints = () => (
     <main className="p-4 md:p-8 overflow-y-auto">
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-[#191919]">Your Carbon Footprint</h2>
+        <h2 className="text-lg font-bold text-[#0F172A]">Your Carbon Footprint</h2>
         <p className="text-sm text-gray-500">Live summary reflecting your data entries across all scopes.</p>
       </div>
 
@@ -79,7 +79,7 @@ const CorporateDashboard = () => {
             </div>
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">{kpi.label}</p>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-[#191919]">{kpi.value}</span>
+              <span className="text-2xl font-bold text-[#0F172A]">{kpi.value}</span>
               <span className="text-xs text-slate-400 font-medium">{kpi.unit}</span>
             </div>
           </motion.div>
@@ -88,7 +88,7 @@ const CorporateDashboard = () => {
 
       {/* Scope pie chart */}
       <div className="bg-white p-4 md:p-8 rounded-2xl border border-gray-200 shadow-sm">
-        <h3 className="text-lg font-bold text-[#191919] mb-6">Scope Distribution</h3>
+        <h3 className="text-lg font-bold text-[#0F172A] mb-6">Scope Distribution</h3>
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
           <div className="h-[220px] w-[220px] shrink-0">
             <ResponsiveContainer width="100%" height="100%">
@@ -110,7 +110,7 @@ const CorporateDashboard = () => {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-sm font-bold text-gray-600">{item.name}</span>
                   </div>
-                  <span className="text-sm font-bold text-[#191919]">{item.value}%</span>
+                  <span className="text-sm font-bold text-[#0F172A]">{item.value}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <motion.div animate={{ width: `${item.value}%` }} transition={{ duration: 0.4 }}
@@ -157,7 +157,7 @@ const CorporateDashboard = () => {
             </div>
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">{kpi.label}</p>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-[#191919]">{kpi.value}</span>
+              <span className="text-2xl font-bold text-[#0F172A]">{kpi.value}</span>
               <span className="text-xs text-slate-400 font-medium">{kpi.unit}</span>
             </div>
           </motion.div>
@@ -169,12 +169,12 @@ const CorporateDashboard = () => {
         <div className="lg:col-span-8 bg-white p-4 md:p-8 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-lg font-bold text-[#191919]">Emissions Trend</h3>
+              <h3 className="text-lg font-bold text-[#0F172A]">Emissions Trend</h3>
               <p className="text-sm text-gray-500 font-medium">Monthly breakdown across all scopes</p>
             </div>
             <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
               {[
-                { label: 'Scope 1', color: 'bg-[#B3542F]' },
+                { label: 'Scope 1', color: 'bg-[#08292F]' },
                 { label: 'Scope 2', color: 'bg-[#16a34a]' },
                 { label: 'Scope 3', color: 'bg-[#a4fca1]' },
               ].map(s => (
@@ -208,7 +208,7 @@ const CorporateDashboard = () => {
         <div className="lg:col-span-4 space-y-6">
           {/* Scope Breakdown */}
           <div className="bg-white p-4 md:p-8 rounded-2xl border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-bold text-[#191919] mb-8">Scope Distribution</h3>
+            <h3 className="text-lg font-bold text-[#0F172A] mb-8">Scope Distribution</h3>
             <div className="h-[200px] mb-8">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -228,14 +228,14 @@ const CorporateDashboard = () => {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-sm font-bold text-gray-600">{item.name}</span>
                   </div>
-                  <span className="text-sm font-bold text-[#191919]">{item.value}%</span>
+                  <span className="text-sm font-bold text-[#0F172A]">{item.value}%</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Supply Chain Status */}
-          <div className="bg-[#B3542F] p-8 rounded-2xl shadow-xl text-white">
+          <div className="bg-[#08292F] p-8 rounded-2xl shadow-xl text-white">
             <div className="flex items-center gap-3 mb-6">
               <TbTruckDelivery className="text-[#a4fca1] text-2xl" />
               <h3 className="text-lg font-bold">Supply Chain Audit</h3>
@@ -253,7 +253,7 @@ const CorporateDashboard = () => {
               <p className="text-sm text-white/70 leading-relaxed">
                 12 suppliers are currently flagged for high deforestation risk in Southeast Asia.
               </p>
-              <button className="w-full py-3 bg-[#a4fca1] text-[#191919] rounded-xl font-bold text-sm hover:scale-[1.02] transition-all">
+              <button className="w-full py-3 bg-[#a4fca1] text-[#08292F] rounded-xl font-bold text-sm hover:scale-[1.02] transition-all">
                 View Risk Map
               </button>
             </div>
@@ -318,7 +318,7 @@ const CorporateDashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#F0EEE6] font-sans">
+    <div className="flex min-h-screen bg-[#FAFAF9] font-sans">
       <SylitheLeftNav activeSection={activeSection} onSectionChange={setActiveSection} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="flex-1 md:ml-[260px] flex flex-col min-w-0">
         {/* Mobile Header */}
@@ -327,7 +327,7 @@ const CorporateDashboard = () => {
             <div className="p-1.5 bg-blue-50 rounded-md">
               <TbBuilding className="text-blue-600 text-lg" />
             </div>
-            <span className="font-bold text-[#191919] text-sm">{getHeaderTitle()}</span>
+            <span className="font-bold text-[#0F172A] text-sm">{getHeaderTitle()}</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
             <TbMenu2 size={20} />
@@ -341,10 +341,10 @@ const CorporateDashboard = () => {
               <div className="p-2 bg-blue-50 rounded-lg">
                 <TbBuilding className="text-blue-600 text-xl" />
               </div>
-              <h1 className="text-lg font-bold text-[#191919]">{getHeaderTitle()}</h1>
+              <h1 className="text-lg font-bold text-[#0F172A]">{getHeaderTitle()}</h1>
             </div>
             <div className="flex items-center gap-4">
-              <button className="px-4 py-2 bg-[#B3542F] text-white rounded-xl text-sm font-bold shadow-md hover:bg-[#9A4626] transition-all">
+              <button className="px-4 py-2 bg-[#08292F] text-white rounded-xl text-sm font-bold shadow-md hover:bg-[#062125] transition-all">
                 Export ESG Report
               </button>
             </div>

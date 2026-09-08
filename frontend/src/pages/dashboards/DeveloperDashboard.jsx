@@ -39,7 +39,7 @@ import { CircleCheck, ExternalLink, UploadCloud, CheckCircle2, FileText, Trash2,
 import { userKey } from '../../lib/userStorage';
 
 /* ─── DESIGN TOKENS ─── */
-const s = { bg: '#F0EEE6', bgDark: '#08292F', accent: '#16a34a', text: '#191919', muted: '#64748B', border: '#E2E8F0' };
+const s = { bg: '#FAFAF9', bgDark: '#08292F', accent: '#16a34a', text: '#0F172A', muted: '#64748B', border: '#E2E8F0' };
 
 /* ─── GEODESIC AREA ─── */
 const toRad = (d) => (d * Math.PI) / 180;
@@ -141,7 +141,7 @@ const TableRowInput = ({ label, name, type = 'text', value, onChange, placeholde
     <div className="flex-1 flex justify-end">
       <input
         id={name} type={type} name={name} value={value} onChange={onChange} placeholder={placeholder} required={required}
-        className="w-full max-w-[300px] bg-transparent outline-none text-[13px] font-semibold text-[#191919] text-right placeholder-gray-300"
+        className="w-full max-w-[300px] bg-transparent outline-none text-[13px] font-semibold text-[#0F172A] text-right placeholder-gray-300"
       />
     </div>
   </div>
@@ -152,7 +152,7 @@ const TableRowSelect = ({ label, name, value, onChange, options, required = fals
     <div className="flex-1 flex justify-end">
       <select
         id={name} name={name} value={value} onChange={onChange} required={required}
-        className={`w-full max-w-[300px] bg-transparent outline-none text-[13px] font-semibold text-right cursor-pointer appearance-none ${value ? 'text-[#191919]' : 'text-gray-400'}`}
+        className={`w-full max-w-[300px] bg-transparent outline-none text-[13px] font-semibold text-right cursor-pointer appearance-none ${value ? 'text-[#0F172A]' : 'text-gray-400'}`}
         style={{ direction: 'rtl' }}
       >
         <option value="" disabled>{placeholder}</option>
@@ -167,9 +167,9 @@ const TableRow = ({ label, value, badge = false }) => (
   <div className="flex items-center justify-between py-3.5 px-6 border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition-colors">
     <span className="text-[13px] text-gray-500 font-medium">{label}</span>
     {badge ? (
-      <span className="px-3 py-1 bg-gray-100 text-[#191919] rounded-full text-[12px] font-bold">{value}</span>
+      <span className="px-3 py-1 bg-gray-100 text-[#0F172A] rounded-full text-[12px] font-bold">{value}</span>
     ) : (
-      <span className="text-[13px] font-semibold text-[#191919] text-right max-w-[50%] truncate">{value || '—'}</span>
+      <span className="text-[13px] font-semibold text-[#0F172A] text-right max-w-[50%] truncate">{value || '—'}</span>
     )}
   </div>
 );
@@ -340,8 +340,8 @@ const DeveloperDashboard = () => {
       <div className="bg-white border-b border-gray-200 px-8 py-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-[22px] font-bold text-[#191919]">{projectData.name || 'Untitled Project'}</h1>
-            <span className="px-3 py-1 bg-[#B3542F] text-white text-[11px] font-bold rounded-full uppercase tracking-wide">In Progress</span>
+            <h1 className="text-[22px] font-bold text-[#0F172A]">{projectData.name || 'Untitled Project'}</h1>
+            <span className="px-3 py-1 bg-[#08292F] text-white text-[11px] font-bold rounded-full uppercase tracking-wide">In Progress</span>
           </div>
           <div className="flex items-center gap-3">
             <select value={selectedFY} onChange={(e) => setSelectedFY(e.target.value)} className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-semibold outline-none">
@@ -369,7 +369,7 @@ const DeveloperDashboard = () => {
           {/* 5-Column Project Summary Box (Carbon Direct style) */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-8 shadow-sm">
             <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-              <h2 className="text-[16px] font-bold text-[#191919]">Project Information</h2>
+              <h2 className="text-[16px] font-bold text-[#0F172A]">Project Information</h2>
               <button onClick={() => { setStep(1); setShowResult(false); }} className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg text-[13px] font-semibold text-gray-600 hover:bg-gray-50 bg-white">
                 Edit Details ↗
               </button>
@@ -382,12 +382,12 @@ const DeveloperDashboard = () => {
                   <div className="flex items-center gap-1.5 mb-2 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
                     Total Area
                   </div>
-                  <div className="text-[28px] font-bold text-[#191919] mb-2 leading-none">
+                  <div className="text-[28px] font-bold text-[#0F172A] mb-2 leading-none">
                     {aoiStats?.areaHa ? Number(aoiStats.areaHa).toLocaleString() : 'TBD'} <span className="text-[18px]">ha</span>
                   </div>
                 </div>
                 <div className="pt-4 border-t border-dotted border-gray-200 mt-6">
-                  <div className="text-[13px] font-bold text-[#191919] mb-0.5">Verified Boundary</div>
+                  <div className="text-[13px] font-bold text-[#08292F] mb-0.5">Verified Boundary</div>
                   <div className="text-[12px] text-gray-400 font-medium">{projectData?.country || 'Location TBD'}</div>
                 </div>
               </div>
@@ -397,15 +397,15 @@ const DeveloperDashboard = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#ec4899] shrink-0" />
-                    <span className="text-[11px] font-bold text-[#191919] uppercase tracking-widest">Est. Carbon</span>
+                    <span className="text-[11px] font-bold text-[#0F172A] uppercase tracking-widest">Est. Carbon</span>
                     <HiOutlineInformationCircle className="text-gray-400" size={14} />
                   </div>
-                  <div className="text-[28px] font-bold text-[#191919] mb-2 leading-none">
+                  <div className="text-[28px] font-bold text-[#0F172A] mb-2 leading-none">
                     {aoiStats?.areaHa ? (aoiStats.areaHa * 4.5).toLocaleString(undefined, { maximumFractionDigits: 0 }) : '—'} <span className="text-[18px]">t</span>
                   </div>
                 </div>
                 <div className="pt-4 border-t border-dotted border-gray-200 mt-6">
-                  <div className="text-[13px] font-bold text-[#191919] mb-0.5">▲ +4.5 tCO₂e / ha</div>
+                  <div className="text-[13px] font-bold text-[#08292F] mb-0.5">▲ +4.5 tCO₂e / ha</div>
                   <div className="text-[12px] text-gray-400 font-medium">Estimated average yield</div>
                 </div>
               </div>
@@ -415,15 +415,15 @@ const DeveloperDashboard = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#eab308] shrink-0" />
-                    <span className="text-[11px] font-bold text-[#191919] uppercase tracking-widest">Standard</span>
+                    <span className="text-[11px] font-bold text-[#0F172A] uppercase tracking-widest">Standard</span>
                     <HiOutlineInformationCircle className="text-gray-400" size={14} />
                   </div>
-                  <div className="text-[24px] font-bold text-[#191919] mb-2 leading-tight">
+                  <div className="text-[24px] font-bold text-[#0F172A] mb-2 leading-tight">
                     {projectData.creditingStandard || 'VCS'}
                   </div>
                 </div>
                 <div className="pt-4 border-t border-dotted border-gray-200 mt-6">
-                  <div className="text-[13px] font-bold text-[#191919] mb-0.5">CCP Eligible</div>
+                  <div className="text-[13px] font-bold text-[#08292F] mb-0.5">CCP Eligible</div>
                   <div className="text-[12px] text-gray-400 font-medium">Under Review</div>
                 </div>
               </div>
@@ -433,15 +433,15 @@ const DeveloperDashboard = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#0ea5e9] shrink-0" />
-                    <span className="text-[11px] font-bold text-[#191919] uppercase tracking-widest">Methodology</span>
+                    <span className="text-[11px] font-bold text-[#0F172A] uppercase tracking-widest">Methodology</span>
                     <HiOutlineInformationCircle className="text-gray-400" size={14} />
                   </div>
-                  <div className="text-[24px] font-bold text-[#191919] mb-2 leading-tight">
+                  <div className="text-[24px] font-bold text-[#0F172A] mb-2 leading-tight">
                     {projectData.type || 'ARR'}
                   </div>
                 </div>
                 <div className="pt-4 border-t border-dotted border-gray-200 mt-6">
-                  <div className="text-[13px] font-bold text-[#191919] mb-0.5">Forestry Tracking</div>
+                  <div className="text-[13px] font-bold text-[#08292F] mb-0.5">Forestry Tracking</div>
                   <div className="text-[12px] text-gray-400 font-medium">Remote Sensing</div>
                 </div>
               </div>
@@ -454,8 +454,8 @@ const DeveloperDashboard = () => {
                     <HiOutlineInformationCircle className="text-gray-400" size={14} />
                   </div>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-[28px] font-bold text-[#191919] leading-none">{projectData.projectLength || '40'}</span>
-                    <span className="text-[18px] text-[#191919] font-bold">yrs</span>
+                    <span className="text-[28px] font-bold text-[#0F172A] leading-none">{projectData.projectLength || '40'}</span>
+                    <span className="text-[18px] text-[#0F172A] font-bold">yrs</span>
                   </div>
                 </div>
 
@@ -463,7 +463,7 @@ const DeveloperDashboard = () => {
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[11px] text-gray-400 font-medium">Start:</span>
                     <div className="flex p-0.5 bg-gray-100 rounded border border-gray-200 text-[11px] font-bold overflow-hidden">
-                      <button className="px-2 py-0.5 bg-white shadow-sm text-[#191919] rounded">2026</button>
+                      <button className="px-2 py-0.5 bg-white shadow-sm text-[#0F172A] rounded">2026</button>
                     </div>
                   </div>
                   <div className="text-[12px] text-gray-400 font-medium mt-1">First issuance: 2031</div>
@@ -475,7 +475,7 @@ const DeveloperDashboard = () => {
           {/* Description */}
           {projectData.description && (
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-              <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#191919]">Project Description</h3></div>
+              <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#0F172A]">Project Description</h3></div>
               <div className="px-6 py-4"><p className="text-[13px] text-gray-600 leading-relaxed">{projectData.description}</p></div>
             </div>
           )}
@@ -495,14 +495,14 @@ const DeveloperDashboard = () => {
               <div className="absolute top-4 right-4 z-[1000] bg-white/90 backdrop-blur-md p-1 rounded-xl shadow-lg border border-gray-100 flex items-center">
                 <button
                   onClick={() => setMapStyle('street')}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'street' ? 'bg-[#B3542F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'street' ? 'bg-[#08292F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
                 >
                   <TbMap2 size={16} />
                   Street
                 </button>
                 <button
                   onClick={() => setMapStyle('satellite')}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'satellite' ? 'bg-[#B3542F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all duration-300 ${mapStyle === 'satellite' ? 'bg-[#08292F] text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
                 >
                   <TbSatellite size={16} />
                   Satellite
@@ -522,13 +522,13 @@ const DeveloperDashboard = () => {
           {/* Satellite Analytics */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden pb-6 mt-8">
             <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between mb-6">
-              <h3 className="text-[14px] font-bold text-[#191919]">Satellite Analytics (GEE)</h3>
+              <h3 className="text-[14px] font-bold text-[#0F172A]">Satellite Analytics (GEE)</h3>
               <div className="flex gap-4 items-center">
                 {geojsonData?.type === "FeatureCollection" && geojsonData.features.length > 1 && (
                   <select
                     value={activeAoiIndex}
                     onChange={(e) => { setActiveAoiIndex(e.target.value === 'all' ? 'all' : parseInt(e.target.value)); setHasRunAnalytics(false); }}
-                    className="border border-gray-300 rounded-[4px] px-2 py-1.5 text-[13px] font-bold text-[#191919] bg-white cursor-pointer hover:bg-gray-50 outline-none focus:border-[#16a34a] shadow-sm uppercase tracking-wider"
+                    className="border border-gray-300 rounded-[4px] px-2 py-1.5 text-[13px] font-bold text-[#0F172A] bg-white cursor-pointer hover:bg-gray-50 outline-none focus:border-[#16a34a] shadow-sm uppercase tracking-wider"
                   >
                     <option value="all">ALL AOIS ({geojsonData.features.length})</option>
                     {geojsonData.features.map((f, i) => (
@@ -538,10 +538,10 @@ const DeveloperDashboard = () => {
                     ))}
                   </select>
                 )}
-                <span className="text-[11px] font-bold text-[#191919] bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">FY {selectedFY}</span>
+                <span className="text-[11px] font-bold text-[#08292F] bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">FY {selectedFY}</span>
                 <button
                   onClick={() => setHasRunAnalytics(true)}
-                  className="px-4 py-1.5 bg-[#B3542F] text-white font-bold rounded-lg shadow-sm text-[12px] uppercase tracking-wider hover:bg-[#9A4626] transition-colors whitespace-nowrap"
+                  className="px-4 py-1.5 bg-[#08292F] text-white font-bold rounded-lg shadow-sm text-[12px] uppercase tracking-wider hover:bg-[#062125] transition-colors whitespace-nowrap"
                 >
                   Run Analytics
                 </button>
@@ -560,7 +560,7 @@ const DeveloperDashboard = () => {
 
           {/* Land Cover Summary */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mt-8">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#191919]">Land Cover Classification</h3></div>
+            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50"><h3 className="text-[14px] font-bold text-[#0F172A]">Land Cover Classification</h3></div>
             <div className="p-6">
               {hasRunAnalytics ? (
                 <GeeLandCoverPanel
@@ -590,7 +590,7 @@ const DeveloperDashboard = () => {
         {step === 1 && (
           <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="p-2">
             <div className="sm:mx-auto sm:max-w-7xl">
-              <h3 className="text-xl font-semibold text-[#191919]">
+              <h3 className="text-xl font-semibold text-[#0F172A]">
                 Project Details
               </h3>
               <p className="text-muted-foreground text-sm mb-6">
@@ -803,7 +803,7 @@ const DeveloperDashboard = () => {
               <Separator className="my-10" />
               <div className="flex items-center justify-end space-x-4">
                 <Button variant="ghost" onClick={clearPersistence} className="text-gray-500 font-bold hover:text-red-600">Cancel</Button>
-                <Button onClick={nextStep} disabled={!isStep1Valid} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">Next Step <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
+                <Button onClick={nextStep} disabled={!isStep1Valid} className="px-8 shadow-lg bg-[#08292F] hover:bg-[#062125] text-white rounded-xl font-bold">Next Step <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
               </div>
             </div>
           </motion.div>
@@ -813,7 +813,7 @@ const DeveloperDashboard = () => {
         {step === 2 && (
           <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="p-2">
             <div className="sm:mx-auto sm:max-w-7xl">
-              <h3 className="text-xl font-semibold text-[#191919]">Project Boundary (AOI)</h3>
+              <h3 className="text-xl font-semibold text-[#0F172A]">Project Boundary (AOI)</h3>
               <p className="text-muted-foreground text-sm mb-6">Upload your project area of interest.</p>
 
               {/* ── Upload Card (FileUploadCard style) ── */}
@@ -825,7 +825,7 @@ const DeveloperDashboard = () => {
                     <UploadCloud className="w-6 h-6 text-gray-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[15px] font-semibold text-[#191919] leading-tight">Upload boundary file</h4>
+                    <h4 className="text-[15px] font-semibold text-[#0F172A] leading-tight">Upload boundary file</h4>
                     <p className="text-[13px] text-gray-400 mt-0.5">Select and upload the spatial file for your project area</p>
                   </div>
                 </div>
@@ -864,11 +864,11 @@ const DeveloperDashboard = () => {
                         {isParsing
                           ? <div className="w-6 h-6 border-[3px] border-gray-400 border-t-[#08292F] rounded-full animate-spin" />
                           : justUploaded && (geojsonData || georasterData) && !parseError
-                            ? <CheckCircle2 className="w-7 h-7 text-[#191919]" />
+                            ? <CheckCircle2 className="w-7 h-7 text-[#08292F]" />
                             : <UploadCloud className="w-7 h-7 text-gray-400" />
                         }
                       </div>
-                      <p className="text-[14px] font-semibold text-[#191919] mb-1">
+                      <p className="text-[14px] font-semibold text-[#0F172A] mb-1">
                         {isParsing
                           ? 'Analyzing file…'
                           : justUploaded && (geojsonData || georasterData) && !parseError
@@ -915,12 +915,12 @@ const DeveloperDashboard = () => {
                           <FileCode2 className="w-5 h-5 text-gray-500" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[13px] font-semibold text-[#191919] truncate">{file?.name}</p>
+                          <p className="text-[13px] font-semibold text-[#0F172A] truncate">{file?.name}</p>
                           <p className="text-[12px] text-gray-400 mt-0.5">
                             {fileFormat} &nbsp;·&nbsp; Parsed successfully
                           </p>
                         </div>
-                        <CheckCircle2 className="w-5 h-5 text-[#191919] shrink-0" />
+                        <CheckCircle2 className="w-5 h-5 text-[#0F172A] shrink-0" />
                       </div>
 
                       {/* Stats row */}
@@ -929,7 +929,7 @@ const DeveloperDashboard = () => {
                           <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                             <MapPin className="w-3 h-3" /> Area
                           </span>
-                          <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                          <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                             {aoiStats ? `${Number(aoiStats.areaHa).toLocaleString()} ha` : 'Raster loaded'}
                           </span>
                         </div>
@@ -937,7 +937,7 @@ const DeveloperDashboard = () => {
                           <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                             <Hash className="w-3 h-3" /> Features
                           </span>
-                          <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                          <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                             {aoiStats?.featureCount ?? '—'}
                           </span>
                         </div>
@@ -945,7 +945,7 @@ const DeveloperDashboard = () => {
                           <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                             <FileCode2 className="w-3 h-3" /> Format
                           </span>
-                          <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                          <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                             {fileFormat || '—'}
                           </span>
                         </div>
@@ -957,8 +957,8 @@ const DeveloperDashboard = () => {
 
               <Separator className="my-10" />
               <div className="flex items-center justify-end space-x-4">
-                <Button variant="ghost" onClick={prevStep} className="text-gray-500 font-bold hover:text-[#191919]">Back</Button>
-                <Button onClick={nextStep} disabled={!file || isParsing} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">Proceed to Review <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
+                <Button variant="ghost" onClick={prevStep} className="text-gray-500 font-bold hover:text-[#0F172A]">Back</Button>
+                <Button onClick={nextStep} disabled={!file || isParsing} className="px-8 shadow-lg bg-[#08292F] hover:bg-[#062125] text-white rounded-xl font-bold">Proceed to Review <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
               </div>
             </div>
           </motion.div>
@@ -968,7 +968,7 @@ const DeveloperDashboard = () => {
         {step === 3 && (
           <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="p-2">
             <div className="sm:mx-auto sm:max-w-7xl">
-              <h3 className="text-xl font-semibold text-[#191919]">Final Review</h3>
+              <h3 className="text-xl font-semibold text-[#0F172A]">Final Review</h3>
               <p className="text-muted-foreground text-sm mb-6">Review your project details before submitting.</p>
 
               <div className="space-y-4">
@@ -980,7 +980,7 @@ const DeveloperDashboard = () => {
                       <FileText className="w-6 h-6 text-gray-500" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-[15px] font-semibold text-[#191919] leading-tight">Project Information</h4>
+                      <h4 className="text-[15px] font-semibold text-[#0F172A] leading-tight">Project Information</h4>
                       <p className="text-[13px] text-gray-400 mt-0.5">Summary of all entered project details</p>
                     </div>
                   </div>
@@ -999,7 +999,7 @@ const DeveloperDashboard = () => {
                       ].map((r, i) => (
                         <div key={i} className="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50/50 transition-colors">
                           <span className="text-[12px] font-medium text-gray-400 uppercase tracking-wide shrink-0 w-2/5">{r.l}</span>
-                          <span className="text-[13px] font-semibold text-[#191919] text-right truncate max-w-[55%]">{r.v || '—'}</span>
+                          <span className="text-[13px] font-semibold text-[#0F172A] text-right truncate max-w-[55%]">{r.v || '—'}</span>
                         </div>
                       ))}
                     </div>
@@ -1015,7 +1015,7 @@ const DeveloperDashboard = () => {
                       ].map((r, i) => (
                         <div key={i} className="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50/50 transition-colors">
                           <span className="text-[12px] font-medium text-gray-400 uppercase tracking-wide shrink-0 w-2/5">{r.l}</span>
-                          <span className="text-[13px] font-semibold text-[#191919] text-right truncate max-w-[55%]">{r.v || '—'}</span>
+                          <span className="text-[13px] font-semibold text-[#0F172A] text-right truncate max-w-[55%]">{r.v || '—'}</span>
                         </div>
                       ))}
                     </div>
@@ -1029,7 +1029,7 @@ const DeveloperDashboard = () => {
                       <FileCode2 className="w-6 h-6 text-gray-500" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-[15px] font-semibold text-[#191919] leading-tight">Boundary File</h4>
+                      <h4 className="text-[15px] font-semibold text-[#0F172A] leading-tight">Boundary File</h4>
                       <p className="text-[13px] text-gray-400 mt-0.5">Uploaded spatial boundary for the project area</p>
                     </div>
                   </div>
@@ -1040,12 +1040,12 @@ const DeveloperDashboard = () => {
                       <FileCode2 className="w-5 h-5 text-gray-500" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[13px] font-semibold text-[#191919] truncate">{file?.name || 'From previous session'}</p>
+                      <p className="text-[13px] font-semibold text-[#0F172A] truncate">{file?.name || 'From previous session'}</p>
                       <p className="text-[12px] text-gray-400 mt-0.5">
                         {fileFormat || 'Spatial file'}&nbsp;·&nbsp;Ready for submission
                       </p>
                     </div>
-                    <CheckCircle2 className="w-5 h-5 text-[#191919] shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-[#0F172A] shrink-0" />
                   </div>
 
                   {/* AOI Stats row */}
@@ -1055,7 +1055,7 @@ const DeveloperDashboard = () => {
                         <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                           <MapPin className="w-3 h-3" /> Area
                         </span>
-                        <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                        <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                           {Number(aoiStats.areaHa).toLocaleString()} ha
                         </span>
                       </div>
@@ -1063,7 +1063,7 @@ const DeveloperDashboard = () => {
                         <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                           <Hash className="w-3 h-3" /> Features
                         </span>
-                        <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                        <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                           {aoiStats.featureCount}
                         </span>
                       </div>
@@ -1071,7 +1071,7 @@ const DeveloperDashboard = () => {
                         <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
                           <FileCode2 className="w-3 h-3" /> Format
                         </span>
-                        <span className="text-[16px] font-bold text-[#191919] leading-snug tracking-tight">
+                        <span className="text-[16px] font-bold text-[#0F172A] leading-snug tracking-tight">
                           {fileFormat || '—'}
                         </span>
                       </div>
@@ -1083,11 +1083,11 @@ const DeveloperDashboard = () => {
 
               <Separator className="my-10" />
               <div className="flex items-center justify-between">
-                <Button variant="ghost" onClick={prevStep} className="text-gray-500 font-bold hover:text-[#191919]">Back</Button>
+                <Button variant="ghost" onClick={prevStep} className="text-gray-500 font-bold hover:text-[#0F172A]">Back</Button>
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold flex items-center gap-2"
+                  className="px-8 shadow-lg bg-[#08292F] hover:bg-[#062125] text-white rounded-xl font-bold flex items-center gap-2"
                 >
                   {isSubmitting ? 'Processing…' : 'Submit Project'}
                   <HiArrowRight strokeWidth={2} />
@@ -1107,7 +1107,7 @@ const DeveloperDashboard = () => {
   const isProjectDetails = !SECTIONS.includes(activeSection);
 
   return (
-    <div className="flex min-h-screen bg-[#F0EEE6] font-sans">
+    <div className="flex min-h-screen bg-[#FAFAF9] font-sans">
       <SylitheLeftNav activeSection={activeSection} onSectionChange={setActiveSection} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} forceHidden={navCollapsed} />
 
       <div className={`flex-1 ${navCollapsed ? '' : 'md:ml-[260px]'} flex flex-col min-w-0 transition-[margin] duration-300`}>
@@ -1118,7 +1118,7 @@ const DeveloperDashboard = () => {
             <div className="p-1.5 bg-emerald-50 rounded-md">
               <TbPlant2 className="text-emerald-600 text-lg" />
             </div>
-            <span className="font-bold text-[#191919] text-sm">Developer Tools</span>
+            <span className="font-bold text-[#0F172A] text-sm">Developer Tools</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
             <TbMenu2 size={20} />
@@ -1129,16 +1129,16 @@ const DeveloperDashboard = () => {
         <div className="flex-1 flex flex-col" style={{ display: isProjectDetails ? undefined : 'none' }}>
           <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-50/50">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-sm text-center">
-              <div className="w-16 h-16 bg-[#B3542F]/10 text-[#191919] rounded-full flex items-center justify-center mx-auto mb-5">
+              <div className="w-16 h-16 bg-[#08292f]/10 text-[#08292f] rounded-full flex items-center justify-center mx-auto mb-5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
               </div>
-              <h2 className="text-[18px] font-bold text-[#191919] mb-2">Project Registration Moved</h2>
+              <h2 className="text-[18px] font-bold text-[#0F172A] mb-2">Project Registration Moved</h2>
               <p className="text-[13px] text-gray-500 mb-6">
                 Project registration and management has been integrated into the new unified Project Hub.
               </p>
               <button
                 onClick={() => window.location.href = '/dashboard/project-hub'}
-                className="w-full bg-[#B3542F] text-white font-semibold py-2.5 rounded-xl hover:bg-[#9A4626] transition-colors text-[13px]"
+                className="w-full bg-[#08292F] text-white font-semibold py-2.5 rounded-xl hover:bg-[#062125] transition-colors text-[13px]"
               >
                 Go to Project Hub
               </button>
