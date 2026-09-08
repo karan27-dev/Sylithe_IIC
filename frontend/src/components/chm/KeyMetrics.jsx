@@ -2,7 +2,7 @@ import React from 'react';
 
 // Define MetricCard here so it's available to KeyMetrics
 const MetricCard = ({ label, value, gediValue }) => (
-  <div className="bg-[#F1F1F1] p-4 rounded-xl border border-gray-100 shadow-sm">
+  <div className="bg-[#F0EEE6] p-4 rounded-xl border border-gray-100 shadow-sm">
     <div className="flex justify-between items-center">
       <div>
         <p className="text-[10px] font-bold text-gray-400 uppercase">Model Prediction</p>

@@ -36,7 +36,7 @@ const STATUS_CONFIG = {
   analyzed:    { label: 'Analyzed',    color: '#16a34a', bg: '#dcfce7', dot: '#16a34a' },
   mrv_active:  { label: 'MRV Active',  color: '#2563eb', bg: '#dbeafe', dot: '#2563eb' },
   report_ready:{ label: 'Report Ready',color: '#7c3aed', bg: '#ede9fe', dot: '#7c3aed' },
-  draft:       { label: 'Draft',       color: '#6b7280', bg: '#f3f4f6', dot: '#9ca3af' },
+  draft:       { label: 'Draft',       color: '#6C6B68', bg: '#f3f4f6', dot: '#9ca3af' },
   alert:       { label: 'Alert',       color: '#dc2626', bg: '#fee2e2', dot: '#dc2626' },
 };
 
@@ -48,7 +48,7 @@ const KpiCard = ({ label, value, sub, trend, chartData, color = '#16a34a' }) => 
     <div className="flex items-start justify-between">
       <div>
         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
-        <p className="text-2xl font-black text-[#0F172A] leading-none">{value}</p>
+        <p className="text-2xl font-black text-[#191919] leading-none">{value}</p>
         {sub && <p className="text-[11px] text-gray-400 mt-1">{sub}</p>}
       </div>
       {trend && (
@@ -68,7 +68,7 @@ const KpiCard = ({ label, value, sub, trend, chartData, color = '#16a34a' }) => 
           </defs>
           <Area type="monotone" dataKey="v" stroke={color} strokeWidth={1.5} fill={`url(#grad-${label})`} dot={false} />
           <Tooltip
-            contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8 }}
+            contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #E3DFD3', borderRadius: 8 }}
             labelStyle={{ display: 'none' }}
             formatter={(v) => [v, '']}
           />
@@ -88,14 +88,14 @@ const ProjectCard = ({ project, onSelect, selected }) => {
     <div
       onClick={() => onSelect(project)}
       className={`cursor-pointer rounded-2xl border p-4 transition-all duration-200 hover:shadow-md ${
-        selected ? 'border-[#08292F] bg-[#08292F]/5' : 'border-gray-200 bg-white'
+        selected ? 'border-[#B3542F] bg-[#B3542F]/5' : 'border-gray-200 bg-white'
       }`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-lg">{project.icon || '🌿'}</span>
           <div>
-            <p className="font-bold text-[#0F172A] text-[14px] leading-snug">{project.name}</p>
+            <p className="font-bold text-[#191919] text-[14px] leading-snug">{project.name}</p>
             <p className="text-[11px] text-gray-400">{project.state} · {project.area_ha ? `${fmt(project.area_ha)} ha` : 'Area TBD'}</p>
           </div>
         </div>
@@ -131,7 +131,7 @@ const ProjectCard = ({ project, onSelect, selected }) => {
           </div>
           <div className="text-center">
             <p className="text-[10px] text-gray-400 uppercase tracking-wide">CHM avg</p>
-            <p className="text-[13px] font-bold text-[#0F172A]">{project.chm_avg ? `${project.chm_avg}m` : '—'}</p>
+            <p className="text-[13px] font-bold text-[#191919]">{project.chm_avg ? `${project.chm_avg}m` : '—'}</p>
           </div>
           <div className="text-center">
             <p className="text-[10px] text-gray-400 uppercase tracking-wide">tCO₂/yr</p>
@@ -155,7 +155,7 @@ const ActivityItem = ({ type, title, sub, time }) => {
     <div className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
       {icons[type] || icons.info}
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] text-[#0F172A] font-medium leading-snug">{title}</p>
+        <p className="text-[13px] text-[#191919] font-medium leading-snug">{title}</p>
         {sub && <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>}
       </div>
       <span className="text-[10px] text-gray-400 shrink-0">{time}</span>
@@ -181,7 +181,7 @@ const DetailPanel = ({ project, onAnalyze }) => {
         <div className="flex items-start gap-3 mb-3">
           <span className="text-2xl">{project.icon || '🌿'}</span>
           <div>
-            <h3 className="font-bold text-[#0F172A] text-[15px] leading-snug">{project.name}</h3>
+            <h3 className="font-bold text-[#191919] text-[15px] leading-snug">{project.name}</h3>
             <p className="text-[12px] text-gray-400">{project.state} · {project.area_ha ? `${fmt(project.area_ha)} ha` : ''}</p>
           </div>
         </div>
@@ -207,7 +207,7 @@ const DetailPanel = ({ project, onAnalyze }) => {
                     {completed && <HiCheckCircle size={12} className="text-white" />}
                     {current && <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />}
                   </div>
-                  <span className={`text-[12px] font-medium ${completed ? 'text-[#0F172A]' : current ? 'text-amber-500' : 'text-gray-300'}`}>
+                  <span className={`text-[12px] font-medium ${completed ? 'text-[#191919]' : current ? 'text-amber-500' : 'text-gray-300'}`}>
                     {step}
                   </span>
                 </div>
@@ -240,7 +240,7 @@ const DetailPanel = ({ project, onAnalyze }) => {
         <div className="space-y-2 pt-2">
           <button
             onClick={onAnalyze}
-            className="w-full bg-[#08292F] text-white font-bold py-3 rounded-xl text-[13px] flex items-center justify-center gap-2 hover:bg-[#0d3d46] transition-colors"
+            className="w-full bg-[#B3542F] text-white font-bold py-3 rounded-xl text-[13px] flex items-center justify-center gap-2 hover:bg-[#0d3d46] transition-colors"
           >
             <TbSatellite size={15} /> Open Analysis Tool
           </button>
@@ -305,7 +305,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex h-screen w-full bg-[#F1F1F1] overflow-hidden font-sans">
+    <div className="flex h-screen w-full bg-[#F0EEE6] overflow-hidden font-sans">
 
       {/* Left nav */}
       <SylitheLeftNav activeSection={activeSection} onSectionChange={setActiveSection} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
@@ -316,7 +316,7 @@ const Dashboard = () => {
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 shrink-0">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#0F172A] text-sm">Dashboard</span>
+            <span className="font-bold text-[#191919] text-sm">Dashboard</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
             <TbMenu2 size={20} />
@@ -327,7 +327,7 @@ const Dashboard = () => {
         <div className="shrink-0 hidden md:flex h-[64px] px-8 bg-white border-b border-gray-200 items-center justify-between">
           <div>
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{greeting}</p>
-            <h1 className="text-[18px] font-black text-[#0F172A] tracking-tight leading-tight">{firstName}</h1>
+            <h1 className="text-[18px] font-black text-[#191919] tracking-tight leading-tight">{firstName}</h1>
           </div>
           <div className="flex items-center gap-3">
             <button className="relative p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-200">
@@ -338,7 +338,7 @@ const Dashboard = () => {
             </button>
             <button
               onClick={() => navigate('/chm-verification')}
-              className="flex items-center gap-2 bg-[#08292F] text-white font-bold px-5 py-2.5 rounded-xl text-[13px] hover:bg-[#0d3d46] transition-colors"
+              className="flex items-center gap-2 bg-[#B3542F] text-white font-bold px-5 py-2.5 rounded-xl text-[13px] hover:bg-[#0d3d46] transition-colors"
             >
               <HiPlus size={16} /> New Analysis
             </button>
@@ -363,17 +363,17 @@ const Dashboard = () => {
             {/* ── Col 1: Projects list ── */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-[13px] font-black text-[#0F172A] uppercase tracking-wider">My Projects</h2>
+                <h2 className="text-[13px] font-black text-[#191919] uppercase tracking-wider">My Projects</h2>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => navigate('/projects')}
-                    className="flex items-center gap-1.5 text-[12px] text-gray-400 hover:text-[#08292F] transition-colors font-semibold"
+                    className="flex items-center gap-1.5 text-[12px] text-gray-400 hover:text-[#191919] transition-colors font-semibold"
                   >
                     <TbMap2 size={14} /> Browse Registry
                   </button>
                   <button
                     onClick={() => navigate('/chm-verification')}
-                    className="flex items-center gap-1.5 text-[12px] text-[#16a34a] hover:text-[#0F172A] transition-colors font-bold"
+                    className="flex items-center gap-1.5 text-[12px] text-[#16a34a] hover:text-[#191919] transition-colors font-bold"
                   >
                     <HiPlus size={14} /> Add Project
                   </button>
@@ -387,7 +387,7 @@ const Dashboard = () => {
                   <p className="text-gray-400 text-[12px] mt-1 mb-5">Draw a project boundary in the analysis tool to get started</p>
                   <button
                     onClick={() => navigate('/chm-verification')}
-                    className="inline-flex items-center gap-2 bg-[#08292F] text-white font-bold px-5 py-2.5 rounded-xl text-[13px] hover:bg-[#0d3d46] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#B3542F] text-white font-bold px-5 py-2.5 rounded-xl text-[13px] hover:bg-[#0d3d46] transition-colors"
                   >
                     <TbSatellite size={15} /> Launch Analysis Tool <HiArrowRight />
                   </button>
@@ -408,18 +408,18 @@ const Dashboard = () => {
               {/* Registry shortcut */}
               <button
                 onClick={() => navigate('/projects')}
-                className="w-full flex items-center justify-between p-4 bg-white border border-gray-200 rounded-2xl hover:border-[#08292F]/40 hover:shadow-sm transition-all group"
+                className="w-full flex items-center justify-between p-4 bg-white border border-gray-200 rounded-2xl hover:border-[#B3542F]/40 hover:shadow-sm transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
                     <TbMap2 size={18} className="text-blue-500" />
                   </div>
                   <div className="text-left">
-                    <p className="text-[13px] font-bold text-[#0F172A]">Explore India Carbon Registry</p>
+                    <p className="text-[13px] font-bold text-[#191919]">Explore India Carbon Registry</p>
                     <p className="text-[11px] text-gray-400">Browse Verra, Gold Standard and more</p>
                   </div>
                 </div>
-                <HiChevronRight size={18} className="text-gray-300 group-hover:text-[#08292F] transition-colors" />
+                <HiChevronRight size={18} className="text-gray-300 group-hover:text-[#191919] transition-colors" />
               </button>
             </div>
 
@@ -464,7 +464,7 @@ const Dashboard = () => {
                     >
                       <span className="text-[#16a34a]">{icon}</span>
                       {label}
-                      <HiArrowRight size={13} className="ml-auto text-gray-300 group-hover:text-[#08292F] transition-colors" />
+                      <HiArrowRight size={13} className="ml-auto text-gray-300 group-hover:text-[#191919] transition-colors" />
                     </button>
                   ))}
                 </div>
@@ -473,7 +473,7 @@ const Dashboard = () => {
               {/* Account card */}
               <div className="bg-white border border-gray-200 rounded-2xl p-5">
                 <h2 className="text-[12px] font-black text-gray-400 uppercase tracking-wider mb-3">Account</h2>
-                <p className="text-[#0F172A] font-bold text-[14px]">{user.fullName}</p>
+                <p className="text-[#191919] font-bold text-[14px]">{user.fullName}</p>
                 {user.companyName && <p className="text-gray-400 text-[12px]">{user.companyName}</p>}
                 {user.designation && <p className="text-gray-400 text-[11px] mt-0.5">{user.designation}</p>}
                 <div className="mt-3 flex items-center gap-2">

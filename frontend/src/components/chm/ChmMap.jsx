@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer, FeatureGroup, GeoJSON, useMap, Marker, Circle, CircleMarker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { EditControl } from "react-leaflet-draw";
-import { FileUp } from "lucide-react";
+import { FileUp, LocateFixed, Loader2 } from "lucide-react";
 import shp, { parseShp, parseDbf, combine } from 'shpjs';
 import { kml } from '@tmcw/togeojson';
 import "leaflet/dist/leaflet.css";
@@ -80,9 +80,66 @@ const LiveLocation = () => {
   return position ? (
     <>
       <Marker position={position} />
-      <Circle center={position} radius={50} pathOptions={{ color: "blue", fillOpacity: 0.1 }} />
+      <Circle center={position} radius={50} pathOptions={{ color: "#D97757", fillColor: "#D97757", fillOpacity: 0.12 }} />
     </>
   ) : null;
+};
+
+/* ─── "Go to my live location" control ───────────────────────────────
+   LiveLocation flies to the user once on mount; this button lets them
+   return there at any time (after panning away, or if the first fix was
+   denied and later granted). Rendered inside MapContainer so it can use
+   useMap(). Sits above Leaflet's own panes (z-[1000]). */
+const LocateButton = () => {
+  const map = useMap();
+  const [state, setState] = useState('idle'); // idle | locating | denied
+  const timer = useRef(null);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const flash = (next) => {
+    setState(next);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setState('idle'), 3000);
+  };
+
+  const goToMe = () => {
+    if (state === 'locating') return;
+    if (!navigator.geolocation) return flash('denied');
+    setState('locating');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        map.flyTo([pos.coords.latitude, pos.coords.longitude], 16, { duration: 1.2 });
+        setState('idle');
+      },
+      () => flash('denied'),
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
+    );
+  };
+
+  const denied = state === 'denied';
+  return (
+    <div className="leaflet-top leaflet-right" style={{ top: 64, right: 8 }}>
+      <div className="leaflet-control leaflet-bar !border-0 !bg-transparent !shadow-none">
+        <button
+          type="button"
+          onClick={goToMe}
+          disabled={state === 'locating'}
+          aria-label="Go to my live location"
+          title={denied ? 'Location unavailable — allow location access in your browser' : 'Go to my live location'}
+          className={`flex h-11 w-11 items-center justify-center rounded-lg border shadow-md transition-colors duration-200
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D97757] focus-visible:ring-offset-2
+            ${denied
+              ? 'cursor-not-allowed border-red-200 bg-red-50 text-red-500'
+              : 'cursor-pointer border-[#E3DFD3] bg-[#F0EEE6] text-[#B3542F] hover:bg-[#F5E6DF] disabled:cursor-wait'}`}
+        >
+          {state === 'locating'
+            ? <Loader2 size={19} className="animate-spin" aria-hidden="true" />
+            : <LocateFixed size={19} aria-hidden="true" />}
+        </button>
+      </div>
+    </div>
+  );
 };
 
 const getChmColor = (height) => {
@@ -277,14 +334,14 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
   return (
     <div className="absolute inset-0 z-10">
       <div className="absolute top-4 right-14 z-[1000]">
-        <label className="flex items-center gap-2 bg-[#F1F1F1] px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 border border-gray-100 transition-all group">
+        <label className="flex items-center gap-2 bg-[#F0EEE6] px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 border border-gray-100 transition-all group">
           <FileUp size={16} className="text-gray-500 group-hover:text-black" />
           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700">Import AOI</span>
           <input type="file" accept=".geojson,.json,.kml,.zip,.shp,.dbf,.prj" className="hidden" multiple onChange={handleImport} />
         </label>
       </div>
 
-      <MapContainer center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#0d0f0d]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
+      <MapContainer center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#1F1E1D]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
         <MapResizeHandler currentPolygon={currentPolygon} />
         <TileLayer 
           url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}" 
@@ -330,7 +387,7 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
             }}
           >
             <Popup className="font-sans text-[13px]" closeButton={false}>
-              <div className="text-center font-bold text-[#0d0f0d]">
+              <div className="text-center font-bold text-[#1F1E1D]">
                 Tree #{tree.id} = {tree.height}m
               </div>
             </Popup>
@@ -359,6 +416,7 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
         ))}
 
         <LiveLocation />
+        <LocateButton />
 
         <FeatureGroup>
           <EditControl

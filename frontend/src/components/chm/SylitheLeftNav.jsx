@@ -21,7 +21,7 @@ const SubItem = ({ label, active, onClick, locked, hideBadge }) => (
     disabled={locked}
     className={`w-full flex items-center gap-2.5 pl-8 pr-3 py-[7px] text-[14px] transition-all duration-100 rounded-md
       ${active && !locked
-        ? 'bg-[#E8F5E9] text-[#0F172A] font-semibold'
+        ? 'bg-[#E8F5E9] text-[#191919] font-semibold'
         : locked
           ? 'text-gray-400 cursor-not-allowed bg-transparent'
           : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
@@ -74,8 +74,8 @@ const RequestPill = ({ plan }) => {
 /* ─── Section Header (bold, with icon, Carbon Direct) ── */
 const SectionHead = ({ icon: Icon, label, locked, requestPlan }) => (
   <div className="flex items-center gap-2.5 px-4 pt-5 pb-1.5">
-    {Icon && <Icon size={18} className="text-[#0F172A] shrink-0" />}
-    <span className="text-[14px] font-bold text-[#0F172A]">{label}</span>
+    {Icon && <Icon size={18} className="text-[#191919] shrink-0" />}
+    <span className="text-[14px] font-bold text-[#191919]">{label}</span>
     {requestPlan
       ? <RequestPill plan={requestPlan} />
       : locked && (
@@ -94,7 +94,7 @@ const TopItem = ({ icon: Icon, label, active, onClick }) => (
     onClick={onClick}
     className={`w-full flex items-center gap-2.5 px-4 py-[9px] text-[14px] transition-all duration-100 rounded-md
       ${active
-        ? 'bg-[#E8F5E9] text-[#0F172A] font-semibold'
+        ? 'bg-[#E8F5E9] text-[#191919] font-semibold'
         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
       }`}
   >
@@ -150,7 +150,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       {/* Section 2: Free Features */}
       <div className="flex items-center gap-2 px-4 pt-5 pb-1.5">
         <TbSparkles size={17} className="text-emerald-600 shrink-0" />
-        <span className="text-[14px] font-bold text-[#0F172A]">Free Features</span>
+        <span className="text-[14px] font-bold text-[#191919]">Free Features</span>
         <span className="ml-auto px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-wide">Free</span>
       </div>
       <div className="space-y-[1px] px-1">
@@ -310,7 +310,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       {/* ─── Logo ─── */}
       <div className="h-[64px] flex items-center gap-3 px-5 shrink-0">
         <img src={treeLogo} alt="Sylithe" className="w-8 h-8 object-contain" />
-        <span className="text-[18px] font-bold text-[#08292F] tracking-tight">Sylithe</span>
+        <span className="text-[18px] font-bold text-[#191919] tracking-tight">Sylithe</span>
       </div>
 
       {/* ─── Top nav items ─── */}

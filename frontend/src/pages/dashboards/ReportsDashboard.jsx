@@ -18,14 +18,14 @@ export default function ReportsDashboard({ projectData }) {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto bg-[#FAFAF9]">
+    <div className="flex-1 overflow-y-auto bg-[#F0EEE6]">
       
       {/* ─── Header (Carbon Direct FY View) ─── */}
       <div className="bg-white border-b border-gray-200 pt-6 px-8">
         
         {/* Title & Dropdown */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-          <h1 className="text-[20px] md:text-[24px] font-bold text-[#0F172A]">Operations Emissions FY {selectedFY}</h1>
+          <h1 className="text-[20px] md:text-[24px] font-bold text-[#191919]">Operations Emissions FY {selectedFY}</h1>
           <select 
             value={selectedFY} 
             onChange={(e) => setSelectedFY(e.target.value)} 
@@ -54,7 +54,7 @@ export default function ReportsDashboard({ projectData }) {
           <span className="text-[14px] text-gray-500 font-medium">Project length: {projectData?.projectLength || '40'} years</span>
         </div>
 
-        <h2 className="text-[24px] md:text-[32px] font-bold text-[#0F172A] mb-8">Sample: {projectData?.name || 'Ghanian Regeneration'}</h2>
+        <h2 className="text-[24px] md:text-[32px] font-bold text-[#191919] mb-8">Sample: {projectData?.name || 'Ghanian Regeneration'}</h2>
 
         {/* Navigation Tabs */}
         <div className="flex items-center gap-6 md:gap-8 border-b-2 border-transparent -mb-[2px] overflow-x-auto scrollbar-hide">
@@ -63,7 +63,7 @@ export default function ReportsDashboard({ projectData }) {
               key={tab.id} 
               onClick={() => setActiveTab(tab.id)}
               className={`pb-4 text-[14px] font-bold transition-all relative
-                ${activeTab === tab.id ? 'text-[#0F172A]' : 'text-gray-400 hover:text-gray-600'}`}
+                ${activeTab === tab.id ? 'text-[#191919]' : 'text-gray-400 hover:text-gray-600'}`}
             >
               {tab.label}
               {activeTab === tab.id && (
@@ -94,7 +94,7 @@ export default function ReportsDashboard({ projectData }) {
               <div className="bg-[#F0FDF4] rounded-2xl p-6 border border-[#BBF7D0]">
                 <div className="flex items-center gap-2 mb-4">
                   <HiCheckCircle className="text-[#16a34a]" size={22} />
-                  <span className="font-bold text-[#0F172A] text-[16px]">Strengths</span>
+                  <span className="font-bold text-[#191919] text-[16px]">Strengths</span>
                 </div>
                 <ul className="space-y-3 text-[14px] text-gray-700 leading-relaxed">
                   <li className="flex gap-2.5">
@@ -115,7 +115,7 @@ export default function ReportsDashboard({ projectData }) {
               <div className="bg-[#FFFBEB] rounded-2xl p-6 border border-[#FDE68A]">
                 <div className="flex items-center gap-2 mb-4">
                   <HiExclamationCircle className="text-[#d97706]" size={22} />
-                  <span className="font-bold text-[#0F172A] text-[16px]">Concerns</span>
+                  <span className="font-bold text-[#191919] text-[16px]">Concerns</span>
                 </div>
                 <ul className="space-y-3 text-[14px] text-gray-700 leading-relaxed">
                   <li className="flex gap-2.5">
@@ -132,7 +132,7 @@ export default function ReportsDashboard({ projectData }) {
               <div className="bg-[#F0F9FF] rounded-2xl p-6 border border-[#BAE6FD]">
                 <div className="flex items-center gap-2 mb-4">
                   <HiOutlineInformationCircle className="text-[#0284c7]" size={22} />
-                  <span className="font-bold text-[#0F172A] text-[16px]">Potential mitigations</span>
+                  <span className="font-bold text-[#191919] text-[16px]">Potential mitigations</span>
                 </div>
                 <ul className="space-y-3 text-[14px] text-gray-700 leading-relaxed">
                   <li className="flex gap-2.5">
@@ -155,7 +155,7 @@ export default function ReportsDashboard({ projectData }) {
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm mt-8 pb-4">
               <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between">
                 <div>
-                  <h3 className="text-[18px] font-bold text-[#0F172A]">Earth Engine Satellite Analytics</h3>
+                  <h3 className="text-[18px] font-bold text-[#191919]">Earth Engine Satellite Analytics</h3>
                   <p className="text-[13px] text-gray-500 mt-1">Real-time statistics derived from Sentinel-2 & ERA5 data.</p>
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function ReportsDashboard({ projectData }) {
         {activeTab === 'growth' && (
           <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in">
             <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 text-2xl font-bold">↑</div>
-            <h3 className="text-[20px] font-bold text-[#0F172A] mb-2">Growth Modeling</h3>
+            <h3 className="text-[20px] font-bold text-[#191919] mb-2">Growth Modeling</h3>
             <p className="text-gray-500 max-w-sm">Detailed tree growth and carbon yield curves will be generated post-field inventory.</p>
           </div>
         )}

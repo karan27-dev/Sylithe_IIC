@@ -26,7 +26,7 @@ const RequestAccessButton = () => {
       className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-[0.08em] border transition-all
         ${state === 'done'
           ? 'border-[#a4fca1]/40 text-[#a4fca1] cursor-default'
-          : 'border-[#a4fca1]/50 text-[#a4fca1] hover:bg-[#a4fca1] hover:text-[#0d0f0d]'}`}>
+          : 'border-[#a4fca1]/50 text-[#a4fca1] hover:bg-[#a4fca1] hover:text-[#1F1E1D]'}`}>
       {state === 'done' ? 'Requested ✓' : state === 'sending' ? 'Sending…' : 'Request'}
     </button>
   );
@@ -37,7 +37,7 @@ const ClassificationRow = ({ title, area, color, onToggle, isActive }) => {
   const isHex = color?.startsWith('#');
 
   return (
-    <div className="flex items-center justify-between py-2 pl-4 hover:bg-[#F1F1F1]/[0.05] transition-all group cursor-pointer rounded-r-lg mr-2" onClick={onToggle}>
+    <div className="flex items-center justify-between py-2 pl-4 hover:bg-[#F0EEE6]/[0.05] transition-all group cursor-pointer rounded-r-lg mr-2" onClick={onToggle}>
       <div className="flex items-center gap-3">
         {/* Hollow Pill inside */}
         <div className="flex items-center justify-center w-3 h-[18px]">
@@ -256,7 +256,7 @@ export default function ChmSidebar({
                       </div>
                       <div className="max-h-[240px] overflow-y-auto scrollbar-hide space-y-1 border border-white/10 rounded-lg p-2 bg-black/20">
                         {detectedTrees.map((tree) => (
-                          <div key={tree.id} className="flex items-center justify-between py-2 px-3 hover:bg-[#F1F1F1]/5 rounded transition-colors group">
+                          <div key={tree.id} className="flex items-center justify-between py-2 px-3 hover:bg-[#F0EEE6]/5 rounded transition-colors group">
                             <span className="text-[13px] text-gray-300 group-hover:text-white font-medium">Tree #{tree.id}</span>
                             <span className="text-[13px] font-mono font-bold text-[#a4fca1]">{tree.height}m</span>
                           </div>
@@ -275,7 +275,7 @@ export default function ChmSidebar({
                 ) : null}
               </>
             ) : (
-              <div className="bg-[#F1F1F1]/[0.02] p-8 mx-2 rounded-xl border border-dashed border-white/10 text-center">
+              <div className="bg-[#F0EEE6]/[0.02] p-8 mx-2 rounded-xl border border-dashed border-white/10 text-center">
                 <p className="text-gray-400 text-[13px] leading-relaxed">Run analysis on a forested area to see height data.</p>
               </div>
             )}
@@ -296,7 +296,7 @@ export default function ChmSidebar({
                 Land must be an eligible classification type to qualify for carbon crediting.
               </p>
               <div className="flex items-center gap-4 mt-2">
-                <div className="flex-1 h-[14px] bg-[#F1F1F1] rounded-md overflow-hidden flex shadow-inner">
+                <div className="flex-1 h-[14px] bg-[#F0EEE6] rounded-md overflow-hidden flex shadow-inner">
                   <div className="h-full bg-[#a4fca1] transition-all duration-700" style={{ width: `${data.eligibility.percentage}%` }} />
                 </div>
                 <span className="text-[14px] font-bold text-white shrink-0">{data.eligibility.percentage}% eligible</span>
@@ -305,7 +305,7 @@ export default function ChmSidebar({
 
             {/* 1. ELIGIBLE LAND */}
             <div>
-              <button onClick={() => setOpen({ ...open, eligible: !open.eligible })} className="w-full flex items-center justify-between py-3 px-1 hover:bg-[#F1F1F1]/5 rounded-md transition-colors">
+              <button onClick={() => setOpen({ ...open, eligible: !open.eligible })} className="w-full flex items-center justify-between py-3 px-1 hover:bg-[#F0EEE6]/5 rounded-md transition-colors">
                 <div className="flex items-center gap-3">
                   {open.eligible ? <ChevronDown size={14} className="text-white" /> : <ChevronRight size={14} className="text-white" />}
                   <div className="w-[7px] h-[18px] rounded-full bg-[#a4fca1]" />
@@ -324,7 +324,7 @@ export default function ChmSidebar({
 
               {open.eligible && (
                 <div className="pl-6 border-l-[1.5px] border-white/[0.08] ml-[10px] pb-2">
-                  <button onClick={() => setOpen({ ...open, eligibleClass: !open.eligibleClass })} className="w-full flex items-center justify-between py-2 pl-2 hover:bg-[#F1F1F1]/5 rounded transition-colors mt-1 group">
+                  <button onClick={() => setOpen({ ...open, eligibleClass: !open.eligibleClass })} className="w-full flex items-center justify-between py-2 pl-2 hover:bg-[#F0EEE6]/5 rounded transition-colors mt-1 group">
                     <div className="flex items-center gap-3">
                       {open.eligibleClass ? <ChevronDown size={14} className="text-gray-500 group-hover:text-white" /> : <ChevronRight size={14} className="text-gray-500 group-hover:text-white" />}
                       <span className="text-[13px] text-gray-200">Eligible land classification</span>
@@ -356,10 +356,10 @@ export default function ChmSidebar({
 
             {/* 2. INELIGIBLE LAND */}
             <div className="mt-4">
-              <button onClick={() => setOpen({ ...open, ineligible: !open.ineligible })} className="w-full flex items-center justify-between py-3 px-1 hover:bg-[#F1F1F1]/5 rounded-md transition-colors">
+              <button onClick={() => setOpen({ ...open, ineligible: !open.ineligible })} className="w-full flex items-center justify-between py-3 px-1 hover:bg-[#F0EEE6]/5 rounded-md transition-colors">
                 <div className="flex items-center gap-3">
                   {open.ineligible ? <ChevronDown size={14} className="text-white" /> : <ChevronRight size={14} className="text-white" />}
-                  <div className="w-[7px] h-[18px] rounded-full bg-[#F1F1F1]" />
+                  <div className="w-[7px] h-[18px] rounded-full bg-[#F0EEE6]" />
                   <span className="text-[15px] font-semibold tracking-wide text-white">Ineligible land</span>
                 </div>
                 <div className="flex items-center gap-3 pr-2">
@@ -370,7 +370,7 @@ export default function ChmSidebar({
 
               {open.ineligible && (
                 <div className="pl-6 border-l-[1.5px] border-white/[0.08] ml-[10px] pb-4">
-                  <button onClick={() => setOpen({ ...open, ineligibleClass: !open.ineligibleClass })} className="w-full flex items-center justify-between py-2 pl-2 hover:bg-[#F1F1F1]/5 rounded transition-colors mt-1 group">
+                  <button onClick={() => setOpen({ ...open, ineligibleClass: !open.ineligibleClass })} className="w-full flex items-center justify-between py-2 pl-2 hover:bg-[#F0EEE6]/5 rounded transition-colors mt-1 group">
                     <div className="flex items-center gap-3">
                       {open.ineligibleClass ? <ChevronDown size={14} className="text-gray-500 group-hover:text-white" /> : <ChevronRight size={14} className="text-gray-500 group-hover:text-white" />}
                       <span className="text-[13px] text-gray-200">Ineligible land classification</span>
@@ -406,7 +406,7 @@ export default function ChmSidebar({
             <button
               onClick={() => (assessOut ? onGetFullAccess?.() : onRunAnalysis(year || 2023))}
               disabled={(!hasPolygon || isAnalyzing) && !assessOut}
-              className="w-full bg-[#a4fca1] text-[#0d0f0d] font-bold py-3.5 rounded-full text-[13px] disabled:opacity-30 uppercase tracking-[0.1em] transition-all hover:bg-[#F1F1F1]"
+              className="w-full bg-[#a4fca1] text-[#1F1E1D] font-bold py-3.5 rounded-full text-[13px] disabled:opacity-30 uppercase tracking-[0.1em] transition-all hover:bg-[#F0EEE6]"
             >
               {isAnalyzing ? "Processing Region..." : assessOut ? "Limit reached — Request access" : "RUN INITIAL BOUNDARY"}
             </button>
@@ -417,7 +417,7 @@ export default function ChmSidebar({
             <button
               onClick={onExportReport}
               disabled={reportBusy || (!reportUnlimited && reportRemaining === 0)}
-              className={`w-full flex items-center justify-center gap-2 bg-[#a4fca1] text-[#0d0f0d] font-bold py-3.5 rounded-full text-[13px] ${reportBusy ? '' : 'uppercase tracking-[0.1em]'} hover:bg-[#F1F1F1] disabled:opacity-90 disabled:cursor-not-allowed transition-all shadow-lg`}
+              className={`w-full flex items-center justify-center gap-2 bg-[#a4fca1] text-[#1F1E1D] font-bold py-3.5 rounded-full text-[13px] ${reportBusy ? '' : 'uppercase tracking-[0.1em]'} hover:bg-[#F0EEE6] disabled:opacity-90 disabled:cursor-not-allowed transition-all shadow-lg`}
             >
               {reportBusy ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
               {reportBusy ? <GeneratingStatus open /> : "EXPORT LULC REPORT"}

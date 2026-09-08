@@ -15,6 +15,21 @@
         --geist-warning: #f5a623;
         --geist-violet: #7928ca;
         --geist-foreground: #000;
+
+        /* ── Claude palette (internal dashboard chrome) ──────────────────
+           Data-semantic colours (LULC legend, CHM height ramp) are NOT part
+           of this palette — they mirror the Dynamic World / ESA WorldCover
+           tile palettes generated in backend/routes/chm.py and must stay
+           byte-identical or the map legend stops matching the tiles. */
+        --claude-clay: #D97757;         /* brand accent: icons, rings, active marks */
+        --claude-clay-strong: #B3542F;  /* button fills — 4.97:1 on white (AA) */
+        --claude-clay-hover: #9A4626;
+        --claude-clay-tint: #F5E6DF;    /* subtle accent wash */
+        --claude-ink: #191919;          /* primary text — 15.1:1 on cream */
+        --claude-ink-muted: #6C6B68;    /* secondary text — 4.59:1 on cream */
+        --claude-cream: #F0EEE6;        /* page background */
+        --claude-surface: #FAF9F5;      /* raised surface */
+        --claude-border: #E3DFD3;
     }
 
     .dark {

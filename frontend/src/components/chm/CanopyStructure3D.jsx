@@ -5,7 +5,7 @@ const CanopyStructure3D = ({ data }) => {
   const maxValue = Math.max(...data.map(d => d.value), 1);
 
   return (
-    <div className="mt-6 p-4 bg-[#F1F1F1] rounded-xl border border-gray-100 shadow-sm">
+    <div className="mt-6 p-4 bg-[#F0EEE6] rounded-xl border border-gray-100 shadow-sm">
       <p className="text-[10px] font-bold text-gray-400 uppercase mb-4 tracking-widest">3D Canopy Profile (GEDI)</p>
       <div className="space-y-3">
         {data.map((layer, i) => (

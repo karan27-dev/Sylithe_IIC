@@ -279,7 +279,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
     return (
       <div className="p-8 max-w-6xl mx-auto space-y-6">
         <div>
-          <h2 className="text-[24px] font-heading font-black text-[#0F172A] mb-1 tracking-tight">Plot Inventory</h2>
+          <h2 className="text-[24px] font-heading font-black text-[#191919] mb-1 tracking-tight">Plot Inventory</h2>
           <p className="text-[14px] text-gray-500">Select a project to record individual tree data for its plots.</p>
         </div>
 
@@ -288,10 +288,10 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
             <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <FolderOpen className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-[16px] font-bold text-[#0F172A] mb-2">No Projects Found</h3>
+            <h3 className="text-[16px] font-bold text-[#191919] mb-2">No Projects Found</h3>
             <p className="text-[14px] text-gray-500 mb-6">Create a project in the Project Hub to start taking plot inventories.</p>
             <button onClick={() => window.location.href = '/dashboard/project-hub'}
-              className="px-6 py-2.5 bg-[#08292F] text-white font-bold rounded-xl shadow-sm text-[13px] hover:bg-[#062125]">
+              className="px-6 py-2.5 bg-[#B3542F] text-white font-bold rounded-xl shadow-sm text-[13px] hover:bg-[#9A4626]">
               Go to Project Hub
             </button>
           </div>
@@ -315,13 +315,13 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
                   )}
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-[400]" />
                   <div className="absolute bottom-4 left-4 right-4 z-[400]">
-                    <span className="px-3 py-1 bg-[#08292F] text-white text-[11px] font-bold rounded-full uppercase tracking-wide shadow-md">
+                    <span className="px-3 py-1 bg-[#B3542F] text-white text-[11px] font-bold rounded-full uppercase tracking-wide shadow-md">
                       {p.status || 'Draft'}
                     </span>
                   </div>
                 </div>
                 <div className="p-8 flex flex-col flex-1">
-                  <h4 className="text-[20px] font-heading font-bold text-[#0F172A] mb-2 group-hover:text-emerald-600 transition-colors">{p.name}</h4>
+                  <h4 className="text-[20px] font-heading font-bold text-[#191919] mb-2 group-hover:text-emerald-600 transition-colors">{p.name}</h4>
                   <p className="text-[14px] text-gray-500 mb-6">{p.type} · {p.country}</p>
                   <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-[12px] font-bold text-gray-400">
@@ -345,10 +345,10 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
     return (
       <div className="p-8 max-w-6xl mx-auto space-y-6">
         <div className="flex items-center gap-4 mb-2">
-          <button onClick={() => { setSelectedProjectId(''); setSelectedPlotIndex(null); setFullProject(null); }} className="text-[13px] font-bold text-gray-500 hover:text-[#08292F]">← Back to Projects</button>
+          <button onClick={() => { setSelectedProjectId(''); setSelectedPlotIndex(null); setFullProject(null); }} className="text-[13px] font-bold text-gray-500 hover:text-[#191919]">← Back to Projects</button>
         </div>
         <div>
-          <h2 className="text-[24px] font-heading font-black text-[#0F172A] mb-1 tracking-tight">{selectedProject.name} — Select Plot</h2>
+          <h2 className="text-[24px] font-heading font-black text-[#191919] mb-1 tracking-tight">{selectedProject.name} — Select Plot</h2>
           <p className="text-[14px] text-gray-500">Choose a polygon to record tree measurements.</p>
         </div>
 
@@ -379,7 +379,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
                   </div>
                   <div className="p-5 flex items-center justify-between">
                     <div>
-                      <h4 className="text-[16px] font-bold text-[#0F172A]">Plot #{idx + 1}</h4>
+                      <h4 className="text-[16px] font-bold text-[#191919]">Plot #{idx + 1}</h4>
                       <p className="text-[13px] text-gray-500">Click to open inventory</p>
                     </div>
                     <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
@@ -428,7 +428,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
             <Marker key={t._id} position={[t.latitude, t.longitude]}>
               <Popup>
                 <div className="text-center font-sans">
-                  <p className="font-bold text-[#0F172A] text-[13px] m-0 leading-none mb-1">Tree #{t.tree_id}</p>
+                  <p className="font-bold text-[#191919] text-[13px] m-0 leading-none mb-1">Tree #{t.tree_id}</p>
                   <p className="text-[11px] text-gray-500 m-0">{t.species_common || 'Unknown'}</p>
                   <p className="text-[11px] text-gray-400 mt-1">H: {t.height_m || '?'}m | DBH: {t.dbh_cm || '?'}cm</p>
                 </div>
@@ -444,7 +444,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
       {/* Mobile Sidebar Toggle Button */}
       <div className="absolute top-5 left-5 z-[2000] md:hidden">
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="flex items-center justify-center p-2.5 bg-white/90 backdrop-blur-md rounded-xl text-[#0F172A] shadow-lg border border-black/10 transition-colors hover:bg-white">
+          className="flex items-center justify-center p-2.5 bg-white/90 backdrop-blur-md rounded-xl text-[#191919] shadow-lg border border-black/10 transition-colors hover:bg-white">
           {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
@@ -459,7 +459,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
               <X size={18} />
             </button>
             <div>
-              <h2 className="text-[16px] font-bold text-[#0F172A] leading-tight flex items-center gap-2">
+              <h2 className="text-[16px] font-bold text-[#191919] leading-tight flex items-center gap-2">
                 <TreePine size={16} className="text-emerald-600" /> Plot #{selectedPlotIndex + 1}
               </h2>
               <p className="text-[12px] text-gray-600 font-medium">Tree Inventory</p>
@@ -480,7 +480,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
           <div className="grid grid-cols-2">
             <div className="p-5 border-b border-r border-white/40 flex flex-col justify-center bg-white/20">
               <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Total Trees</p>
-              <p className="text-[20px] font-black text-[#0F172A]">{trees.length}</p>
+              <p className="text-[20px] font-black text-[#191919]">{trees.length}</p>
             </div>
             <div className="p-5 border-b border-white/40 flex flex-col justify-center bg-white/20">
               <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Health Status</p>
@@ -563,7 +563,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
               </div>
 
               <div className="pt-4">
-                <button onClick={handleSaveTree} className="w-full flex items-center justify-center gap-2 py-3 bg-[#08292F] hover:bg-[#062125] text-white font-bold rounded-xl text-[13px] shadow-lg transition-all active:scale-[0.98]">
+                <button onClick={handleSaveTree} className="w-full flex items-center justify-center gap-2 py-3 bg-[#B3542F] hover:bg-[#9A4626] text-white font-bold rounded-xl text-[13px] shadow-lg transition-all active:scale-[0.98]">
                   <Save size={15} />
                   Save Tree
                 </button>
@@ -581,7 +581,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
                             {t.tree_id || idx + 1}
                           </div>
                           <div className="min-w-0">
-                            <p className="text-[12px] font-bold text-[#0F172A] truncate">Tree ID {t.tree_id || idx + 1}</p>
+                            <p className="text-[12px] font-bold text-[#191919] truncate">Tree ID {t.tree_id || idx + 1}</p>
                             <p className="text-[10px] text-gray-500 truncate">{t.species_common || 'Unknown'} · H {t.height_m || '?'}m</p>
                           </div>
                         </div>
@@ -611,7 +611,7 @@ export default function FreeTreeInventory({ savedProjects = [], onSectionChange 
       {/* Top Right Tree Overlay Toggle */}
       <div className="absolute top-5 right-5 z-[1000]">
         <button onClick={() => setShowTreeOverlay(!showTreeOverlay)}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[12px] font-bold shadow-lg transition-all border ${showTreeOverlay ? 'bg-[#0F172A]/90 text-white border-white/10' : 'bg-white/90 text-[#0F172A] border-black/10'}`}>
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[12px] font-bold shadow-lg transition-all border ${showTreeOverlay ? 'bg-[#191919]/90 text-white border-white/10' : 'bg-white/90 text-[#191919] border-black/10'}`}>
           <Layers size={14} className={showTreeOverlay ? 'text-emerald-400' : 'text-gray-500'} />
           Tree Overlay {showTreeOverlay ? 'ON' : 'OFF'}
         </button>

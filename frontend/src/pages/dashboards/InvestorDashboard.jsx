@@ -14,7 +14,7 @@ import { TbCoin, TbMap2, TbChartPie, TbAlertTriangle, TbMenu2 } from 'react-icon
 import SylitheLeftNav from '../../components/chm/SylitheLeftNav';
 
 const s = {
-  bg: '#FAFAF9',
+  bg: '#F0EEE6',
   bgDark: '#08292F',
   accent: '#16a34a',
   accentSoft: 'rgba(22,163,74,0.12)',
@@ -38,7 +38,7 @@ const InvestorDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#FAFAF9] font-sans">
+    <div className="flex min-h-screen bg-[#F0EEE6] font-sans">
       <SylitheLeftNav isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="flex-1 md:ml-[260px] flex flex-col min-w-0">
         
@@ -48,7 +48,7 @@ const InvestorDashboard = () => {
             <div className="p-1.5 bg-amber-50 rounded-md">
               <TbCoin className="text-amber-600 text-lg" />
             </div>
-            <span className="font-bold text-[#0F172A] text-sm">Investor Dashboard</span>
+            <span className="font-bold text-[#191919] text-sm">Investor Dashboard</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
             <TbMenu2 size={20} />
@@ -61,7 +61,7 @@ const InvestorDashboard = () => {
             <div className="p-2 bg-amber-50 rounded-lg">
               <TbCoin className="text-amber-600 text-xl" />
             </div>
-            <h1 className="text-lg font-bold text-[#0F172A]">Buyer & Investor Dashboard</h1>
+            <h1 className="text-lg font-bold text-[#191919]">Buyer & Investor Dashboard</h1>
           </div>
           <div className="flex items-center gap-4">
              <div className="relative">
@@ -94,7 +94,7 @@ const InvestorDashboard = () => {
                   </div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{kpi.label}</p>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-[#0F172A]">{kpi.value}</span>
+                    <span className="text-2xl font-bold text-[#191919]">{kpi.value}</span>
                     <span className="text-[10px] text-gray-400 font-bold uppercase">{kpi.unit}</span>
                   </div>
                 </div>
@@ -105,11 +105,11 @@ const InvestorDashboard = () => {
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
               <div className="p-6 border-b border-gray-100 flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-[#0F172A]">Global Project Discovery</h3>
+                  <h3 className="font-bold text-[#191919]">Global Project Discovery</h3>
                   <p className="text-xs text-gray-500 font-medium">Verified high-quality carbon projects</p>
                 </div>
                 <div className="flex gap-2">
-                   <button className="px-3 py-1.5 bg-[#08292F] text-white rounded-lg text-xs font-bold">Map View</button>
+                   <button className="px-3 py-1.5 bg-[#B3542F] text-white rounded-lg text-xs font-bold">Map View</button>
                    <button className="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-500 rounded-lg text-xs font-bold">List View</button>
                 </div>
               </div>
@@ -143,7 +143,7 @@ const InvestorDashboard = () => {
                 <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-xl border border-gray-100 z-[1000] flex flex-col gap-2">
                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Project Types</p>
                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#08292F]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#B3542F]" />
                       <span className="text-xs text-gray-600 font-medium">REDD+</span>
                    </div>
                    <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ const InvestorDashboard = () => {
           <div className="lg:col-span-4 flex flex-col gap-8">
              {/* Portfolio Mix Pie Chart */}
              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-                <h3 className="font-bold text-[#0F172A] mb-8">Portfolio Impact Mix</h3>
+                <h3 className="font-bold text-[#191919] mb-8">Portfolio Impact Mix</h3>
                 <div className="h-[240px] mb-8">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -189,7 +189,7 @@ const InvestorDashboard = () => {
                         <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
                         <span className="text-xs font-bold text-gray-600">{item.name}</span>
                       </div>
-                      <span className="text-xs font-bold text-[#0F172A]">{item.value}%</span>
+                      <span className="text-xs font-bold text-[#191919]">{item.value}%</span>
                     </div>
                   ))}
                 </div>
@@ -198,7 +198,7 @@ const InvestorDashboard = () => {
              {/* Integrity Alerts Feed */}
              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex-1">
                 <div className="flex items-center justify-between mb-8">
-                   <h3 className="font-bold text-[#0F172A]">Integrity Alerts</h3>
+                   <h3 className="font-bold text-[#191919]">Integrity Alerts</h3>
                    <span className="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] rounded-full font-bold uppercase tracking-wider">2 Critical</span>
                 </div>
                 <div className="space-y-6">
@@ -213,7 +213,7 @@ const InvestorDashboard = () => {
                                alert.level === 'critical' ? 'bg-red-500' : 
                                alert.level === 'positive' ? 'bg-emerald-500' : 'bg-blue-500'
                             }`} />
-                            <h4 className="text-sm font-bold text-[#0F172A] group-hover:text-[#16a34a] transition-colors">{alert.title}</h4>
+                            <h4 className="text-sm font-bold text-[#191919] group-hover:text-[#16a34a] transition-colors">{alert.title}</h4>
                          </div>
                          <p className="text-xs text-gray-500 leading-relaxed font-medium pl-5">{alert.desc}</p>
                       </div>

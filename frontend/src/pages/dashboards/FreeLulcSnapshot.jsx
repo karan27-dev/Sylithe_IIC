@@ -107,19 +107,19 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
   /* ── Empty state ── */
   if (!res) {
     return (
-      <div className="flex-1 flex flex-col h-full bg-[#F8FAFB]">
+      <div className="flex-1 flex flex-col h-full bg-[#F0EEE6]">
         <Header area={null} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-inner">
               <Layers size={34} className="text-blue-500" />
             </div>
-            <h2 className="text-[18px] font-black text-[#0F172A] mb-2">No scan results yet</h2>
+            <h2 className="text-[18px] font-black text-[#191919] mb-2">No scan results yet</h2>
             <p className="text-[13px] text-gray-400 mb-7 max-w-xs leading-relaxed mx-auto">
               Run a Land Eligibility scan first to see your land use &amp; land cover classification.
             </p>
             <button onClick={() => onSectionChange?.('land_eligibility')}
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#08292F] text-white font-bold rounded-xl text-[13px] hover:bg-[#062125] transition-colors shadow-sm">
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#B3542F] text-white font-bold rounded-xl text-[13px] hover:bg-[#9A4626] transition-colors shadow-sm">
               <ArrowLeft size={14} /> Run Land Eligibility
             </button>
           </div>
@@ -190,7 +190,7 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
           {/* KPI strip */}
           <div className="grid grid-cols-2 gap-px border-b border-white/30">
             {[
-              { label: 'Total Area', value: `${fmt(res.area_ha)} ha`, color: 'text-[#0F172A]' },
+              { label: 'Total Area', value: `${fmt(res.area_ha)} ha`, color: 'text-[#191919]' },
               { label: 'Tree Cover', value: `${res.forest.cover_pct}%`, color: 'text-emerald-700' },
               { label: 'Eligible Land', value: `${eligiblePct}%`, color: 'text-blue-700' },
               { label: 'Defor. Risk', value: risk.label, color: risk.text },
@@ -207,7 +207,7 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
             <button
               onClick={handleDownloadReport}
               disabled={reportBusy || remaining === 0}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#08292F] hover:bg-[#062125] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl text-[13px] transition-all active:scale-[0.98] shadow-sm">
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#B3542F] hover:bg-[#9A4626] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl text-[13px] transition-all active:scale-[0.98] shadow-sm">
               {reportBusy
                 ? <><Loader2 size={15} className="animate-spin" /> Generating report…</>
                 : <><FileText size={15} /> Download Verra LULC Report <Download size={14} /></>}
@@ -242,12 +242,12 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: v.color }} />
-                        <span className="text-[12px] font-semibold text-[#0F172A] leading-none">{name}</span>
+                        <span className="text-[12px] font-semibold text-[#191919] leading-none">{name}</span>
                         {isElig && <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 text-[9px] font-black rounded uppercase tracking-wide">Carbon</span>}
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-[11px] text-gray-400">{fmt(v.ha)} ha</span>
-                        <span className="text-[12px] font-bold text-[#0F172A] w-9 text-right">{v.pct}%</span>
+                        <span className="text-[12px] font-bold text-[#191919] w-9 text-right">{v.pct}%</span>
                       </div>
                     </div>
                     <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -343,7 +343,7 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
         </div>
 
         {/* Upgrade CTA */}
-        <div className="shrink-0 border-t border-white/20 p-4 bg-[#08292F]/90 backdrop-blur-md">
+        <div className="shrink-0 border-t border-white/20 p-4 bg-[#B3542F]/90 backdrop-blur-md">
           <div className="flex items-center gap-1.5 mb-2">
             <Lock size={11} className="text-emerald-400" />
             <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Sylithe Verified</span>
@@ -369,7 +369,7 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
             className="w-full flex items-center gap-3 px-4 py-3.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-colors group">
             <span className="text-lg">🌿</span>
             <div className="flex-1 text-left">
-              <p className="text-[13px] font-bold text-[#0F172A] leading-none mb-0.5">View Carbon Estimate</p>
+              <p className="text-[13px] font-bold text-[#191919] leading-none mb-0.5">View Carbon Estimate</p>
               <p className="text-[11px] text-gray-400">Carbon stock &amp; market value</p>
             </div>
             <ChevronRight size={16} className="text-gray-400 group-hover:text-gray-700 transition-colors" />
@@ -384,7 +384,7 @@ export default function FreeLulcSnapshot({ freeScanResult, freeScanGeojson, onSe
       {/* Map layer toggles (top-right) */}
       <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-2 items-end">
         <button onClick={() => setShowTile(v => !v)}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl shadow-md border text-[12px] font-bold backdrop-blur-sm transition-colors ${showTile ? 'bg-[#08292F]/90 border-white/10 text-white' : 'bg-white/90 border-gray-200 text-gray-700'}`}>
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl shadow-md border text-[12px] font-bold backdrop-blur-sm transition-colors ${showTile ? 'bg-[#B3542F]/90 border-white/10 text-white' : 'bg-white/90 border-gray-200 text-gray-700'}`}>
           {showTile ? <Eye size={13} /> : <EyeOff size={13} />}
           {showTile ? 'LULC overlay ON' : 'LULC overlay OFF'}
         </button>
@@ -428,7 +428,7 @@ function Header({ area }) {
     <div className="bg-white/30 border-b border-white/30 px-6 py-4 flex items-center gap-3 shrink-0">
       <div className="flex items-center gap-2.5">
         <Layers size={18} className="text-blue-600" />
-        <h1 className="text-[17px] font-bold text-[#0F172A]">LULC Snapshot</h1>
+        <h1 className="text-[17px] font-bold text-[#191919]">LULC Snapshot</h1>
       </div>
       <span className="px-2.5 py-0.5 bg-emerald-100/80 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-wide flex items-center gap-1">
         <Zap size={9} /> Free
