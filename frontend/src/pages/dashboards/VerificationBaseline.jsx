@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   Legend, ReferenceLine, ReferenceArea,
@@ -34,14 +34,49 @@ const Stat = ({ label, value, sub, tone = 'default' }) => {
   );
 };
 
-export default function DynamicBaselinePage({ savedProjects, onProjectSelect }) {
+export default function DynamicBaselinePage({ savedProjects, onProjectSelect, geojsonData }) {
   const [polygon, setPolygon] = useState(null);
+  const [selectedProject, setSelectedProject] = useState('');
+  const [loadingPlot, setLoadingPlot] = useState(false);
+  const loadTimer = useRef(null);
   const [startYear, setStartYear] = useState(2021);
   const [bufferKm, setBufferKm] = useState(25);
   const [k, setK] = useState(20);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState('');
   const [data, setData] = useState(null);
+
+  // A project picked in the selector loads its boundary into the dashboard's
+  // geojsonData. Adopt it as the active plot and discard any baseline computed
+  // for the previous one, so the chart can never describe a different plot
+  // from the one drawn on the map.
+  useEffect(() => {
+    if (!geojsonData) return;
+    clearTimeout(loadTimer.current);
+    setPolygon(geojsonData);
+    setData(null);
+    setError('');
+    setLoadingPlot(false);
+  }, [geojsonData]);
+
+  useEffect(() => () => clearTimeout(loadTimer.current), []);
+
+  const pickProject = (id) => {
+    setSelectedProject(id);
+    clearTimeout(loadTimer.current);
+    if (!id) { setLoadingPlot(false); return; }
+    setLoadingPlot(true);
+    setData(null);
+    setError('');
+    onProjectSelect?.(id);
+    // A project saved without a boundary never updates geojsonData, so the
+    // effect above would not fire and the panel would sit on "Loading…"
+    // indefinitely. Give up after a reasonable wait and say why.
+    loadTimer.current = setTimeout(() => {
+      setLoadingPlot(false);
+      setError('That project has no saved boundary. Draw the plot on the map instead.');
+    }, 10000);
+  };
 
   const run = async () => {
     if (!polygon) return;
@@ -93,8 +128,8 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect }) 
           <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-gray-400">Project plot</p>
           {savedProjects?.length > 0 && (
             <select
-              onChange={(e) => e.target.value && onProjectSelect?.(e.target.value)}
-              defaultValue=""
+              value={selectedProject}
+              onChange={(e) => pickProject(e.target.value)}
               className="mb-2 w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white focus:outline-none focus:ring-2 focus:ring-[#a4fca1]"
             >
               <option value="" className="bg-[#0d0f0d]">Select a saved project…</option>
@@ -104,9 +139,14 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect }) 
             </select>
           )}
           <p className={`rounded-lg border px-3 py-2 text-[12px] ${
-            polygon ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                    : 'border-white/10 bg-white/5 text-gray-400'}`}>
-            {polygon ? 'Plot boundary ready.' : 'Draw a plot on the map, or import an AOI.'}
+            loadingPlot ? 'border-white/10 bg-white/5 text-gray-300'
+              : polygon ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                        : 'border-white/10 bg-white/5 text-gray-400'}`}>
+            {loadingPlot
+              ? 'Loading the project boundary…'
+              : polygon
+                ? (selectedProject ? 'Project boundary loaded on the map.' : 'Plot boundary ready.')
+                : 'Draw a plot on the map, or select a saved project.'}
           </p>
         </div>
 
@@ -213,7 +253,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect }) 
         <div className="h-[52%] min-h-[320px] w-full">
           <div className="relative h-full w-full">
             <ChmMap
-              onPolygonComplete={setPolygon}
+              onPolygonComplete={(gj) => { setPolygon(gj); setSelectedProject(''); setData(null); }}
               currentPolygon={polygon}
               controlPoints={data?.controls}
             />
