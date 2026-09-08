@@ -38,6 +38,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
   const [polygon, setPolygon] = useState(null);
   const [selectedProject, setSelectedProject] = useState('');
   const [loadingPlot, setLoadingPlot] = useState(false);
+  const [activeAoiIndex, setActiveAoiIndex] = useState('all');
   const loadTimer = useRef(null);
   const [startYear, setStartYear] = useState(2021);
   const [bufferKm, setBufferKm] = useState(25);
@@ -54,6 +55,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
     if (!geojsonData) return;
     clearTimeout(loadTimer.current);
     setPolygon(geojsonData);
+    setActiveAoiIndex('all');
     setData(null);
     setError('');
     setLoadingPlot(false);
@@ -78,8 +80,26 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
     }, 10000);
   };
 
+  // The geometry actually analysed and drawn: a single chosen feature, or
+  // the whole collection when "all" is selected.
+  const activeGeojson = useMemo(() => {
+    if (!polygon || activeAoiIndex === 'all') return polygon;
+    if (polygon.type === 'FeatureCollection' && polygon.features?.[activeAoiIndex]) {
+      return { ...polygon, features: [polygon.features[activeAoiIndex]] };
+    }
+    return polygon;
+  }, [polygon, activeAoiIndex]);
+
+  const featureCount = polygon?.type === 'FeatureCollection' ? (polygon.features?.length || 0) : 0;
+
+  const pickAoi = (val) => {
+    setActiveAoiIndex(val === 'all' ? 'all' : Number(val));
+    setData(null);   // a baseline belongs to the plot it was built from
+    setError('');
+  };
+
   const run = async () => {
-    if (!polygon) return;
+    if (!activeGeojson) return;
     setRunning(true); setError(''); setData(null);
     try {
       const base = import.meta.env.VITE_API_URL || '';
@@ -87,7 +107,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          geojson: polygon, project_start_year: Number(startYear),
+          geojson: activeGeojson, project_start_year: Number(startYear),
           buffer_km: Number(bufferKm), k: Number(k),
         }),
       });
@@ -138,6 +158,20 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
               ))}
             </select>
           )}
+          {featureCount > 1 && (
+            <select
+              value={activeAoiIndex}
+              onChange={(e) => pickAoi(e.target.value)}
+              className="mb-2 w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white focus:outline-none focus:ring-2 focus:ring-[#a4fca1]"
+            >
+              <option value="all" className="bg-[#0d0f0d]">All plots combined ({featureCount})</option>
+              {polygon.features.map((f, i) => (
+                <option key={i} value={i} className="bg-[#0d0f0d]">
+                  Plot {i + 1}{f?.properties?.name ? ` — ${f.properties.name}` : ''}
+                </option>
+              ))}
+            </select>
+          )}
           <p className={`rounded-lg border px-3 py-2 text-[12px] ${
             loadingPlot ? 'border-white/10 bg-white/5 text-gray-300'
               : polygon ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
@@ -145,7 +179,11 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
             {loadingPlot
               ? 'Loading the project boundary…'
               : polygon
-                ? (selectedProject ? 'Project boundary loaded on the map.' : 'Plot boundary ready.')
+                ? (featureCount > 1
+                    ? (activeAoiIndex === 'all'
+                        ? `All ${featureCount} plots combined — the baseline covers them as one area.`
+                        : `Plot ${activeAoiIndex + 1} of ${featureCount} selected.`)
+                    : selectedProject ? 'Project boundary loaded on the map.' : 'Plot boundary ready.')
                 : 'Draw a plot on the map, or select a saved project.'}
           </p>
         </div>
@@ -189,7 +227,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
 
           <button
             onClick={run}
-            disabled={!polygon || running}
+            disabled={!activeGeojson || running}
             className="mt-1 w-full cursor-pointer rounded-lg bg-[#a4fca1] py-2.5 text-[13px] font-black uppercase tracking-wide text-[#0d0f0d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {running ? 'Matching control plots…' : 'Build dynamic baseline'}
@@ -253,8 +291,8 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
         <div className="h-[52%] min-h-[320px] w-full">
           <div className="relative h-full w-full">
             <ChmMap
-              onPolygonComplete={(gj) => { setPolygon(gj); setSelectedProject(''); setData(null); }}
-              currentPolygon={polygon}
+              onPolygonComplete={(gj) => { setPolygon(gj); setSelectedProject(''); setActiveAoiIndex('all'); setData(null); }}
+              currentPolygon={activeGeojson}
               controlPoints={data?.controls}
             />
             {running && (
