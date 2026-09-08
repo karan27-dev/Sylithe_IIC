@@ -61,7 +61,15 @@ ALLOWED_GSD_CM = [20, 30, 50, 100]
 # published canopy height products are 1 m; the v1 aerial decoder was trained
 # near 0.5 m. Anything finer is extrapolation, so the UI is told to say so.
 MODEL_NATIVE_GSD_CM = 100
-MODEL_ID = "facebook/dinov3-vitl16-chmv2-dpt-head"
+
+# What the product calls this pipeline, and what actually produces the raster.
+# Sylithe's contribution is the resampling, the multi-resolution comparison and
+# the conversion to ground units; the weights are Meta's and stay attributed,
+# both because the DINOv3 licence expects it and because a reviewer who spots
+# an unattributed foundation model stops trusting everything else on the page.
+PIPELINE_NAME = "Sylithe CHM v2"
+BASE_MODEL_ID = "facebook/dinov3-vitl16-chmv2-dpt-head"
+BASE_MODEL_LABEL = "Meta CHMv2 · DINOv3 ViT-L/16"
 
 MAX_UPLOAD_MB = 25
 MAX_EDGE_PX = 4096          # guard against a full orthomosaic being posted
@@ -159,6 +167,28 @@ def _call_inference(data):
     raise RuntimeError("Inference stream ended before returning a result.")
 
 
+
+def _derive(result, target_gsd_cm, input_px):
+    """Turn one Space result into ground units for a given resolution."""
+    stats = (result or {}).get("stats") or {}
+    px_area_m2 = (target_gsd_cm / 100.0) ** 2
+    canopy_px = stats.get("canopy_pixels")
+    total_px = stats.get("total_pixels") or (input_px[0] * input_px[1])
+    derived = {}
+    if canopy_px is not None and total_px:
+        canopy_m2 = float(canopy_px) * px_area_m2
+        derived["canopy_area_m2"] = round(canopy_m2, 1)
+        derived["canopy_pct"] = round(float(canopy_px) / float(total_px) * 100, 1)
+        mean_h = stats.get("mean_height_m") or 0
+        if mean_h and mean_h > 0:
+            crown_d = 1.2 * math.sqrt(mean_h)
+            crown_area = math.pi * (crown_d / 2) ** 2
+            if crown_area > 0:
+                derived["estimated_trees"] = int(round(canopy_m2 / crown_area))
+                derived["mean_crown_diameter_m"] = round(crown_d, 1)
+    return stats, derived
+
+
 @chm_image_bp.route("/infer-image", methods=["POST", "OPTIONS"])
 def infer_image():
     """Predict canopy height for an uploaded drone or satellite image."""
@@ -236,7 +266,8 @@ def infer_image():
             "message": ("Canopy height inference is not connected. Deploy CHMv2 to a Hugging Face "
                         "Space and set CHM_INFERENCE_URL to its base URL in the backend "
                         "environment."),
-            "model": MODEL_ID,
+            "model": PIPELINE_NAME,
+            "base_model": BASE_MODEL_ID,
             "ground": ground,
         }), 503
 
@@ -256,30 +287,14 @@ def infer_image():
         return jsonify({"status": "error",
                         "message": "Inference endpoint returned an unexpected payload shape."}), 502
 
-    stats = result.get("stats") or {}
-    px_area_m2 = (target_gsd_cm / 100.0) ** 2
-    canopy_px = stats.get("canopy_pixels")
-    total_px = stats.get("total_pixels") or (img.size[0] * img.size[1])
-
-    derived = {}
-    if canopy_px is not None:
-        canopy_m2 = float(canopy_px) * px_area_m2
-        derived["canopy_area_m2"] = round(canopy_m2, 1)
-        derived["canopy_pct"] = round(float(canopy_px) / float(total_px) * 100, 1)
-        # Crown area from mean height via a simple height-to-crown relation;
-        # indicative only, and labelled as such in the response.
-        mean_h = stats.get("mean_height_m") or 0
-        if mean_h and mean_h > 0:
-            crown_d = 1.2 * math.sqrt(mean_h)
-            crown_area = math.pi * (crown_d / 2) ** 2
-            if crown_area > 0:
-                derived["estimated_trees"] = int(round(canopy_m2 / crown_area))
-                derived["mean_crown_diameter_m"] = round(crown_d, 1)
+    stats, derived = _derive(result, target_gsd_cm, list(img.size))
 
     return jsonify({
         "status": "success",
         "elapsed_s": elapsed,
-        "model": MODEL_ID,
+        "model": PIPELINE_NAME,
+        "base_model": BASE_MODEL_ID,
+        "base_model_label": BASE_MODEL_LABEL,
         "ground": ground,
         "stats": stats,
         "derived": derived,

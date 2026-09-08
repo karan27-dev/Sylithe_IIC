@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ChmSidebar from "../../components/chm/ChmSidebar";
 import ChmMap from "../../components/chm/ChmMap";
+import useImageInference from "../../components/chm/useImageInference";
+import ImageInferenceResults from "../../components/chm/ImageInferenceResults";
 
 export default function CHMReportPage({ projectData, geojsonData, activeAoiIndex, onAoiChange, onReturn, savedProjects, onProjectSelect }) {
   const [currentPolygon, setCurrentPolygon] = useState(null);
@@ -93,6 +95,13 @@ export default function CHMReportPage({ projectData, geojsonData, activeAoiIndex
   const [detectedTrees, setDetectedTrees] = useState(null);
   const [showTreeCount, setShowTreeCount] = useState(false);
 
+  // "Drop Image" runs Sylithe CHM v2 on an uploaded scene. Its state lives here
+  // so the drop controls can sit in the sidebar while the comparison takes the
+  // full area the map would otherwise occupy — four height maps side by side
+  // need the room.
+  const [chmTab, setChmTab] = useState('map');
+  const imageInference = useImageInference();
+
   return (
     <div className="flex w-full h-full overflow-hidden bg-[#0a0c0a] relative">
       <ChmSidebar
@@ -115,8 +124,16 @@ export default function CHMReportPage({ projectData, geojsonData, activeAoiIndex
         onToggleTreeCount={() => setShowTreeCount(!showTreeCount)}
         savedProjects={savedProjects}
         onProjectSelect={onProjectSelect}
+        chmTab={chmTab}
+        setChmTab={setChmTab}
+        imageInference={imageInference}
       />
 
+      {chmTab === 'image' ? (
+        <div className="relative flex-1 h-full overflow-hidden">
+          <ImageInferenceResults inf={imageInference} />
+        </div>
+      ) : (
       <div className="relative flex-1 h-full">
         <ChmMap
           onPolygonComplete={handlePolygonComplete}
@@ -136,6 +153,7 @@ export default function CHMReportPage({ projectData, geojsonData, activeAoiIndex
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

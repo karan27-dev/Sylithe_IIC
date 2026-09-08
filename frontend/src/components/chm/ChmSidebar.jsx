@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronRight, ChevronLeft, Eye, EyeOff, Ruler, Info, Download, Loader2 } from "lucide-react";
 import LandHistoryPanel from "./LandHistoryPanel";
 import GeneratingStatus, { useGeneratingStep } from "./ReportGeneratingOverlay";
-import ImageInferencePanel from './ImageInferencePanel';
+import ImageInferenceControls from './ImageInferenceControls';
 
 // Inline "Request" button → files a Full dMRV access request to the admin panel.
 const RequestAccessButton = () => {
@@ -82,6 +82,9 @@ export default function ChmSidebar({
   onNextSteps,
   savedProjects = [],
   onProjectSelect,
+  chmTab = 'map',
+  setChmTab,
+  imageInference,
   landTab = 'eligibility',
   onLandTabChange,
   historyData,
@@ -105,7 +108,6 @@ export default function ChmSidebar({
   const [open, setOpen] = useState({ eligible: true, ineligible: true, eligibleClass: true, ineligibleClass: true, treeData: true });
   // Canopy Heights runs on the drawn polygon; Drop Image runs CHMv2 on an
   // uploaded drone/satellite scene, so the two share nothing but the panel.
-  const [chmTab, setChmTab] = useState('map');
   const isChmImage = activeSection === 'chm' && chmTab === 'image';
 
   const formatHa = (val) => val ? val.toLocaleString(undefined, { maximumFractionDigits: 0 }) : 0;
@@ -196,7 +198,7 @@ export default function ChmSidebar({
 
       {isChmImage && (
         <div className="flex-1 overflow-y-auto scrollbar-hide mt-2">
-          <ImageInferencePanel />
+          <ImageInferenceControls inf={imageInference} />
         </div>
       )}
 
