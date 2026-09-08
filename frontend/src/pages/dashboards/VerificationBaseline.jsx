@@ -133,31 +133,31 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
   const q = data?.match_quality;
 
   return (
-    <div className="relative flex h-full w-full overflow-hidden bg-[#0a0c0a]">
+    <div className="relative flex h-full w-full overflow-hidden bg-[#0A0A0A]">
       {/* ── Control + results panel ───────────────────────────────── */}
-      <aside className="relative z-50 flex h-full w-[450px] shrink-0 flex-col overflow-y-auto border-r border-white/5 bg-[#2c3327]/80 font-sans text-white shadow-2xl backdrop-blur-[24px]">
-        <div className="shrink-0 px-6 pb-4 pt-10">
-          <h1 className="text-[26px] font-bold tracking-tight text-white">Dynamic baseline</h1>
-          <div className="mt-4 flex items-center gap-6 border-b border-white/20">
-            <span className="whitespace-nowrap border-b-2 border-white pb-3 text-[14px] font-semibold text-white">
+      <aside className="relative z-10 flex h-full w-[400px] shrink-0 flex-col overflow-y-auto border-r border-white/40 bg-white/75 font-sans text-[#0F172A] shadow-[12px_0_40px_rgba(0,0,0,0.1)] backdrop-blur-xl">
+        <div className="shrink-0 border-b border-white/40 bg-white/30 p-5">
+          <h1 className="text-[16px] font-bold leading-tight text-[#0F172A]">Dynamic baseline</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <span className="text-[12px] font-medium text-gray-600">
               DCAB
             </span>
-            <span className="pb-3 text-[12px] text-gray-400">VM0047 performance benchmark</span>
+            <span className="rounded-full bg-emerald-50/80 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700">VM0047 performance benchmark</span>
           </div>
         </div>
 
         {/* Plot selection */}
-        <div className="border-b border-white/10 px-6 py-4">
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-gray-400">Project plot</p>
+        <div className="border-b border-white/40 bg-white/20 p-5">
+          <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-gray-500">Project plot</p>
           {savedProjects?.length > 0 && (
             <select
               value={selectedProject}
               onChange={(e) => pickProject(e.target.value)}
-              className="mb-2 w-full cursor-pointer rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
+              className="mb-2 h-9 w-full cursor-pointer rounded-lg border border-gray-300/50 bg-white/60 px-3 text-[12px] text-[#0F172A] outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/30"
             >
-              <option value="" className="bg-[#0d0f0d]">Select a saved project…</option>
+              <option value="" className="bg-white">Select a saved project…</option>
               {savedProjects.map((p) => (
-                <option key={p._id} value={p._id} className="bg-[#0d0f0d]">{p.name}</option>
+                <option key={p._id} value={p._id} className="bg-white">{p.name}</option>
               ))}
             </select>
           )}
@@ -165,20 +165,20 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
             <select
               value={activeAoiIndex}
               onChange={(e) => pickAoi(e.target.value)}
-              className="mb-2 w-full cursor-pointer rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
+              className="mb-2 h-9 w-full cursor-pointer rounded-lg border border-gray-300/50 bg-white/60 px-3 text-[12px] text-[#0F172A] outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/30"
             >
-              <option value="all" className="bg-[#0d0f0d]">All plots combined ({featureCount})</option>
+              <option value="all" className="bg-white">All plots combined ({featureCount})</option>
               {polygon.features.map((f, i) => (
-                <option key={i} value={i} className="bg-[#0d0f0d]">
+                <option key={i} value={i} className="bg-white">
                   Plot {i + 1}{f?.properties?.name ? ` — ${f.properties.name}` : ''}
                 </option>
               ))}
             </select>
           )}
           <p className={`rounded-md border px-3 py-2 text-[12px] ${
-            loadingPlot ? 'border-white/10 bg-[#F1F1F1]/[0.03] text-gray-300'
-              : polygon ? 'border-[#a4fca1]/40 bg-[#a4fca1]/10 text-[#a4fca1]'
-                        : 'border-white/10 bg-[#F1F1F1]/[0.03] text-gray-400'}`}>
+            loadingPlot ? 'border-gray-200/60 bg-white/50 text-gray-600'
+              : polygon ? 'border-emerald-300/60 bg-emerald-50/70 text-emerald-800'
+                        : 'border-gray-200/60 bg-white/50 text-gray-500'}`}>
             {loadingPlot
               ? 'Loading the project boundary…'
               : polygon
@@ -192,15 +192,15 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
         </div>
 
         {/* Parameters */}
-        <div className="space-y-3 border-b border-white/10 px-6 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Parameters</p>
+        <div className="space-y-4 border-b border-white/40 bg-white/20 p-5">
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Parameters</p>
 
           <label className="block">
-            <span className="text-[12px] font-medium text-gray-300">Project start year</span>
+            <span className="text-[12px] font-bold text-gray-800">Project start year</span>
             <input
               type="number" min={2019} max={CURRENT_YEAR - 1} value={startYear}
               onChange={(e) => setStartYear(e.target.value)}
-              className="mt-1 w-full rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
+              className="mt-1 h-9 w-full rounded-lg border border-gray-300/50 bg-white/60 px-3 text-[12px] text-[#0F172A] outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/30"
             />
             <span className="mt-1 block text-[10.5px] leading-snug text-gray-500">
               Splits baseline from crediting period. Needs two years either side; Sentinel-2 begins 2018.
@@ -208,11 +208,11 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
           </label>
 
           <label className="block">
-            <span className="text-[12px] font-medium text-gray-300">Donor pool radius — {bufferKm} km</span>
+            <span className="text-[12px] font-bold text-gray-800">Donor pool radius — {bufferKm} km</span>
             <input
               type="range" min={10} max={100} step={5} value={bufferKm}
               onChange={(e) => setBufferKm(e.target.value)}
-              className="mt-1.5 w-full cursor-pointer accent-[#a4fca1]"
+              className="mt-1.5 w-full cursor-pointer accent-emerald-600"
             />
             <span className="mt-1 block text-[10.5px] leading-snug text-gray-500">
               Ring searched for control plots, excluding a 2 km leakage belt around the project.
@@ -220,63 +220,63 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
           </label>
 
           <label className="block">
-            <span className="text-[12px] font-medium text-gray-300">Matched controls (k) — {k}</span>
+            <span className="text-[12px] font-bold text-gray-800">Matched controls (k) — {k}</span>
             <input
               type="range" min={5} max={50} step={5} value={k}
               onChange={(e) => setK(e.target.value)}
-              className="mt-1.5 w-full cursor-pointer accent-[#a4fca1]"
+              className="mt-1.5 w-full cursor-pointer accent-emerald-600"
             />
           </label>
 
           <button
             onClick={run}
             disabled={!activeGeojson || running}
-            className="mt-1 w-full cursor-pointer rounded-md bg-[#a4fca1] py-2.5 text-[13px] font-black uppercase tracking-wide text-[#0d0f0d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-1 w-full cursor-pointer rounded-xl bg-[#08292F] py-3 text-[13px] font-bold text-white shadow-lg transition-all hover:bg-[#062125] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {running ? 'Matching control plots…' : 'Build dynamic baseline'}
           </button>
 
-          {error && <p role="alert" className="text-[12px] font-semibold text-red-400">{error}</p>}
+          {error && <p role="alert" className="text-[12px] font-semibold text-red-600">{error}</p>}
         </div>
 
         {/* Results */}
         {data && (
-          <div className="space-y-4 px-6 py-4">
+          <div className="space-y-4 p-5">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Benchmark</p>
-              <p className={`mt-1 text-[26px] font-bold leading-none ${b.additional ? 'text-[#a4fca1]' : 'text-amber-400'}`}>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Benchmark</p>
+              <p className={`mt-1 text-[26px] font-bold leading-none ${b.additional ? 'text-emerald-700' : 'text-amber-600'}`}>
                 {b.benchmark > 0 ? '+' : ''}{b.benchmark}
               </p>
-              <p className="mt-1 text-[11px] text-gray-400">{b.units}</p>
-              <p className="mt-2 text-[12px] leading-relaxed text-gray-300">{b.verdict}</p>
+              <p className="mt-1 text-[11px] text-gray-500">{b.units}</p>
+              <p className="mt-2 text-[12px] leading-relaxed text-gray-600">{b.verdict}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-[12px]">
-              <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-2.5">
+              <div className="rounded-lg border border-gray-200/60 bg-white/50 p-3">
                 <p className="text-[10px] uppercase tracking-wide text-gray-500">Project slope</p>
-                <p className="font-bold text-white">{b.project_slope}</p>
+                <p className="font-bold text-[#0F172A]">{b.project_slope}</p>
               </div>
-              <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-2.5">
+              <div className="rounded-lg border border-gray-200/60 bg-white/50 p-3">
                 <p className="text-[10px] uppercase tracking-wide text-gray-500">Control slope</p>
-                <p className="font-bold text-white">{b.control_slope}</p>
+                <p className="font-bold text-[#0F172A]">{b.control_slope}</p>
               </div>
             </div>
 
-            <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-3">
+            <div className="rounded-lg border border-gray-200/60 bg-white/50 p-3">
               <div className="flex items-center justify-between">
-                <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Match quality</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Match quality</p>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-black uppercase ${
-                  q.rating === 'strong' ? 'bg-[#a4fca1]/20 text-[#a4fca1]'
-                  : q.rating === 'moderate' ? 'bg-amber-500/20 text-amber-300'
-                  : 'bg-red-500/20 text-red-300'}`}>{q.rating}</span>
+                  q.rating === 'strong' ? 'bg-emerald-100 text-emerald-700'
+                  : q.rating === 'moderate' ? 'bg-amber-100 text-amber-700'
+                  : 'bg-red-100 text-red-700'}`}>{q.rating}</span>
               </div>
-              <p className="mt-1.5 text-[12px] text-gray-300">
-                Pre-project bias <strong className="text-white">{q.pre_project_bias}</strong>
+              <p className="mt-1.5 text-[12px] text-gray-600">
+                Pre-project bias <strong className="text-[#0F172A]">{q.pre_project_bias}</strong>
               </p>
               <p className="mt-1 text-[10.5px] leading-snug text-gray-500">{q.note}</p>
             </div>
 
-            <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-3 text-[11px] leading-relaxed text-gray-400">
+            <div className="rounded-lg border border-gray-200/60 bg-white/50 p-3 text-[11px] leading-relaxed text-gray-500">
               <p><span className="text-gray-500">Stocking index:</span> {data.config.stocking_index}</p>
               <p className="mt-1"><span className="text-gray-500">Matched on:</span> {data.config.match_covariates.join(', ')}</p>
               <p className="mt-1">
