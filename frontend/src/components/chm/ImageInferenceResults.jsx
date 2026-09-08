@@ -39,7 +39,8 @@ const Spread = ({ title, unit, s }) => {
 };
 
 export default function ImageInferenceResults({ inf }) {
-  const { runs, failed, running, steps, preview, agreement, sourceGsd } = inf;
+  const { runs, failed, running, steps, preview, previewBroken, onPreviewError,
+          agreement, sourceGsd, file } = inf;
 
   if (!runs.length && !running && !failed.length) {
     return (
@@ -48,9 +49,10 @@ export default function ImageInferenceResults({ inf }) {
           <p className="text-[15px] font-bold text-[#0F172A]">Sylithe CHM v2</p>
           <p className="mt-2 text-[13px] leading-relaxed text-gray-500">
             Drop a drone or satellite scene in the panel and give its capture resolution.
-            The same scene is then predicted at every resolution it supports — 20 cm, 30 cm,
-            50 cm and 1 m — and the results compared, so you can see whether a canopy figure
-            is a property of the trees or of the scale it was measured at.
+            The same scene is then predicted at every resolution it supports — 10 cm, 20 cm,
+            50 cm and 1 m, whichever are at or coarser than the capture — and the results
+            compared, so you can see whether a canopy figure is a property of the trees or
+            of the scale it was measured at.
           </p>
         </div>
       </div>
@@ -109,9 +111,16 @@ export default function ImageInferenceResults({ inf }) {
 
         {/* Per-resolution height maps */}
         <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {preview && (
+          {file && (
             <figure className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-              <img src={preview} alt="Source scene" className="aspect-square w-full object-cover" />
+              {preview && !previewBroken ? (
+                <img src={preview} alt="Source scene" onError={onPreviewError}
+                     className="aspect-square w-full object-cover" />
+              ) : (
+                <div className="flex aspect-square w-full items-center justify-center bg-gray-100 px-3 text-center text-[11px] text-gray-400">
+                  No browser preview for {file.name?.split('.').pop()?.toUpperCase()}
+                </div>
+              )}
               <figcaption className="border-t border-gray-100 px-3 py-2">
                 <p className="text-[12px] font-bold text-[#0F172A]">Source</p>
                 <p className="text-[10.5px] text-gray-500">{sourceGsd} cm/px as captured</p>

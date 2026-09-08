@@ -9,9 +9,13 @@ import { useState, useRef, useCallback } from 'react';
  * report real per-resolution state instead of an animation that pretends to.
  */
 
+// The resolution ladder. A scene runs at every rung at or coarser than its own
+// capture resolution: a 3 cm or 10 cm drone mosaic runs all four, a 20 cm
+// capture runs three, a 50 cm capture runs two. Rungs finer than the capture
+// are struck out — upsampling invents ground detail that was never observed.
 export const GSD_OPTIONS = [
-  { cm: 20, label: '20 cm', hint: 'Drone detail' },
-  { cm: 30, label: '30 cm', hint: 'Fine survey' },
+  { cm: 10, label: '10 cm', hint: 'Drone detail' },
+  { cm: 20, label: '20 cm', hint: 'Fine survey' },
   { cm: 50, label: '50 cm', hint: 'Aerial / VHR' },
   { cm: 100, label: '1 m', hint: 'Model native' },
 ];
@@ -35,6 +39,9 @@ const spread = (runs, pick) => {
 export default function useImageInference() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  // Browsers cannot decode TIFF/GeoTIFF, so an object URL for one renders as a
+  // broken image. Pillow reads it fine server-side — this only affects display.
+  const [previewBroken, setPreviewBroken] = useState(false);
   const [sourceGsd, setSourceGsd] = useState('');
   const [running, setRunning] = useState(false);
   const [error, setError] = useState('');
@@ -47,6 +54,7 @@ export default function useImageInference() {
     if (!f) return;
     if (!/^image\//.test(f.type)) { setError('That file is not an image.'); return; }
     setError(''); setRuns([]); setFailed([]); setSteps([]); setFile(f);
+    setPreviewBroken(false);
     if (previewRef.current) URL.revokeObjectURL(previewRef.current);
     previewRef.current = URL.createObjectURL(f);
     setPreview(previewRef.current);
@@ -55,7 +63,7 @@ export default function useImageInference() {
   const clear = () => {
     setFile(null); setRuns([]); setFailed([]); setSteps([]); setError('');
     if (previewRef.current) { URL.revokeObjectURL(previewRef.current); previewRef.current = null; }
-    setPreview(null);
+    setPreview(null); setPreviewBroken(false);
   };
 
   /** Resolutions this capture can support — never finer than the source. */
@@ -91,7 +99,17 @@ export default function useImageInference() {
 
         setSteps((prev) => prev.map((s) => (s.cm === cm ? { ...s, state: 'predicting' } : s)));
         const res = await fetch(`${base}/api/chm/infer-image`, { method: 'POST', body: fd });
-        const d = await res.json();
+        // A server error returns an HTML page, not JSON. Parsing that throws and
+        // the failure used to surface as "could not reach the server", which sent
+        // debugging in the wrong direction. Report what actually came back.
+        let d;
+        const raw = await res.text();
+        try {
+          d = JSON.parse(raw);
+        } catch {
+          d = { status: 'error',
+                message: `Server returned ${res.status} ${res.statusText || ''}`.trim() };
+        }
 
         if (d.status === 'success') {
           done.push({ cm, ...d });
@@ -123,7 +141,8 @@ export default function useImageInference() {
   } : null;
 
   return {
-    file, preview, sourceGsd, setSourceGsd, accept, clear,
+    file, preview, previewBroken, onPreviewError: () => setPreviewBroken(true),
+    sourceGsd, setSourceGsd, accept, clear,
     running, error, runs, failed, steps, run,
     targets: targetsFor(sourceGsd),
     agreement,

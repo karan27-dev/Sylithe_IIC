@@ -16,8 +16,8 @@ const STEP_LABEL = {
 };
 
 export default function ImageInferenceControls({ inf }) {
-  const { file, preview, sourceGsd, setSourceGsd, accept, clear,
-          running, error, steps, run, targets } = inf;
+  const { file, preview, previewBroken, onPreviewError, sourceGsd, setSourceGsd,
+          accept, clear, running, error, steps, run, targets } = inf;
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef(null);
 
@@ -40,9 +40,16 @@ export default function ImageInferenceControls({ inf }) {
         className={`relative flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition-colors
           ${dragging ? 'border-[#a4fca1] bg-[#a4fca1]/10' : 'border-white/20 bg-[#F1F1F1]/[0.02] hover:border-white/40'}`}
       >
-        {preview ? (
+        {file ? (
           <>
-            <img src={preview} alt="Uploaded scene" className="max-h-36 w-full rounded-lg object-contain" />
+            {preview && !previewBroken ? (
+              <img src={preview} alt="Uploaded scene" onError={onPreviewError}
+                   className="max-h-36 w-full rounded-lg object-contain" />
+            ) : (
+              <div className="flex h-20 w-full items-center justify-center rounded-lg bg-[#F1F1F1]/[0.04] text-[11px] text-gray-400">
+                No browser preview for this format
+              </div>
+            )}
             <p className="mt-2 truncate text-[11px] text-gray-400">{file?.name}</p>
             <button
               onClick={(e) => { e.stopPropagation(); clear(); }}

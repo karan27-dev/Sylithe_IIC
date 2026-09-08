@@ -54,8 +54,12 @@ from flask import Blueprint, jsonify, request
 logger = logging.getLogger(__name__)
 chm_image_bp = Blueprint("chm_image", __name__)
 
-# Selectable ground sample distances, centimetres per pixel.
-ALLOWED_GSD_CM = [20, 30, 50, 100]
+# The resolution ladder, centimetres per pixel. A scene is predicted at every
+# rung at or coarser than its own capture resolution, so a 3 cm or 10 cm drone
+# mosaic runs all four, a 20 cm capture runs three, and a 50 cm capture runs
+# two. Rungs finer than the capture are never offered — upsampling would invent
+# ground detail that was never observed.
+ALLOWED_GSD_CM = [10, 20, 50, 100]
 
 # CHMv2's backbone is DINOv3 ViT-L/16 trained on satellite imagery. Meta's
 # published canopy height products are 1 m; the v1 aerial decoder was trained
