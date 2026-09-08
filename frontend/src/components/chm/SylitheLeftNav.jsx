@@ -120,7 +120,14 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
   const userStr = localStorage.getItem('sylithe_user');
   const user = userStr ? JSON.parse(userStr) : {};
   const role = user.primaryActivity;
-  const isSuperUser = user?.email === 'karan270905@gmail.com';
+  // Accounts that may open the Verification section. Defaults to the platform
+  // owner so production behaviour is unchanged; VITE_SUPERUSER_EMAILS (comma
+  // separated) lets a local dev account unlock it without a code edit.
+  const SUPERUSER_EMAILS = (import.meta.env.VITE_SUPERUSER_EMAILS || 'karan270905@gmail.com')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+  const isSuperUser = SUPERUSER_EMAILS.includes((user?.email || '').toLowerCase());
 
   const isActive = (path) => location.pathname === path;
 
