@@ -26,11 +26,14 @@ Configure with:
     CHM_INFERENCE_URL   base URL of the Space, e.g. https://user-space.hf.space
     HF_TOKEN            Hugging Face token, sent as a bearer credential
 
-Gradio 4 and 5 dropped the single-shot /run/predict endpoint. A call is now
-two steps — POST /call/<fn> returns an event id, then GET /call/<fn>/<id>
-streams the result as server-sent events — which is what _call_gradio below
-implements. A non-Gradio endpoint can still be used by giving a URL that
-already ends in a path, in which case it is POSTed to directly.
+Gradio 4 dropped the single-shot /run/predict endpoint and Gradio 5 moved the
+REST API under /gradio_api. A call is now two steps — POST
+/gradio_api/call/<fn> returns an event id, then GET
+/gradio_api/call/<fn>/<id> streams the result as server-sent events — which
+is what _call_inference below implements. Verified against the Space's own
+/gradio_api/info, which lists /predict as its named endpoint. A non-Gradio
+endpoint can still be used by giving a URL that already ends in a path, in
+which case it is POSTed to directly.
 
 Without those this endpoint reports that inference is not configured. It never
 fabricates a height map.
@@ -127,15 +130,17 @@ def _call_inference(data):
         r.raise_for_status()
         return _unwrap(r.json())
 
-    # Gradio 4/5: POST for an event id, then read the SSE stream for the result.
-    start = requests.post(f"{base}/call/predict", json={"data": data},
+    # Gradio 5/6 serve the REST API under /gradio_api. POST for an event id,
+    # then read the SSE stream for the result.
+    api = f"{base}/gradio_api"
+    start = requests.post(f"{api}/call/predict", json={"data": data},
                           headers=_headers(), timeout=60)
     start.raise_for_status()
     event_id = (start.json() or {}).get("event_id")
     if not event_id:
         raise RuntimeError("Gradio did not return an event id — check the Space is running.")
 
-    stream = requests.get(f"{base}/call/predict/{event_id}",
+    stream = requests.get(f"{api}/call/predict/{event_id}",
                           headers=_headers(), stream=True, timeout=300)
     stream.raise_for_status()
 

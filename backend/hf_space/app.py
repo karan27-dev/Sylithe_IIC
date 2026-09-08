@@ -28,7 +28,11 @@ import os
 try:
     import spaces
 
-    GPU_DECORATOR = spaces.GPU(duration=120)
+    # ZeroGPU RESERVES this many seconds of quota per call, whether or not the
+    # work uses them. Inference on a few-hundred-pixel scene takes about four
+    # seconds, so a 120 s reservation burned the entire anonymous allowance in
+    # a single request. 30 s is a safe ceiling that leaves room for many calls.
+    GPU_DECORATOR = spaces.GPU(duration=30)
     ZERO_GPU = True
 except ImportError:
     def GPU_DECORATOR(fn):
@@ -104,6 +108,10 @@ def predict(image_b64: str, target_gsd_cm: float):
     outputs = net(**inputs)
     post = processor.post_process_depth_estimation(outputs, target_sizes=[(img.height, img.width)])
     height = post[0]["predicted_depth"].float().cpu().numpy()
+    # The model can emit NaN on degenerate input (a flat, textureless scene).
+    # Left alone these serialise as JSON null and reach the UI as a blank
+    # figure, so they are folded to zero before any statistic is taken.
+    height = np.nan_to_num(height, nan=0.0, posinf=MAX_DEPTH_M, neginf=0.0)
     height = np.clip(height, 0.0, MAX_DEPTH_M)
 
     canopy = height >= MIN_TREE_HEIGHT_M
