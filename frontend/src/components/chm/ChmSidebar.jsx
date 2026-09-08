@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronRight, ChevronLeft, Eye, EyeOff, Ruler, Info, Download, Loader2 } from "lucide-react";
 import LandHistoryPanel from "./LandHistoryPanel";
 import GeneratingStatus, { useGeneratingStep } from "./ReportGeneratingOverlay";
+import ImageInferencePanel from './ImageInferencePanel';
 
 // Inline "Request" button → files a Full dMRV access request to the admin panel.
 const RequestAccessButton = () => {
@@ -102,6 +103,10 @@ export default function ChmSidebar({
   const data = result?.status === "success" ? result.results : null;
   const isHistory = activeSection === 'lulc' && landTab === 'history';
   const [open, setOpen] = useState({ eligible: true, ineligible: true, eligibleClass: true, ineligibleClass: true, treeData: true });
+  // Canopy Heights runs on the drawn polygon; Drop Image runs CHMv2 on an
+  // uploaded drone/satellite scene, so the two share nothing but the panel.
+  const [chmTab, setChmTab] = useState('map');
+  const isChmImage = activeSection === 'chm' && chmTab === 'image';
 
   const formatHa = (val) => val ? val.toLocaleString(undefined, { maximumFractionDigits: 0 }) : 0;
 
@@ -131,9 +136,18 @@ export default function ChmSidebar({
           {/* Tabs */}
           <div className="flex gap-6 border-b border-white/20 items-center">
             {activeSection === 'chm' ? (
-              <button className="pb-3 text-[14px] font-semibold text-white border-b-2 border-white whitespace-nowrap">
-                Canopy Heights
-              </button>
+              <>
+                <button
+                  onClick={() => setChmTab('map')}
+                  className={`pb-3 text-[14px] font-semibold whitespace-nowrap border-b-2 transition-colors ${chmTab === 'map' ? 'text-white border-white' : 'text-gray-400 border-transparent hover:text-white'}`}>
+                  Canopy Heights
+                </button>
+                <button
+                  onClick={() => setChmTab('image')}
+                  className={`pb-3 text-[14px] font-semibold whitespace-nowrap border-b-2 transition-colors ${chmTab === 'image' ? 'text-white border-white' : 'text-gray-400 border-transparent hover:text-white'}`}>
+                  Drop Image
+                </button>
+              </>
             ) : (
               <>
                 <button
@@ -180,11 +194,17 @@ export default function ChmSidebar({
         </div>
       </div>
 
+      {isChmImage && (
+        <div className="flex-1 overflow-y-auto scrollbar-hide mt-2">
+          <ImageInferencePanel />
+        </div>
+      )}
+
       {isHistory && (
         <LandHistoryPanel data={historyData} loading={historyLoading} error={historyError} onRetry={onHistoryRetry} />
       )}
 
-      <div className="flex-1 overflow-y-auto scrollbar-hide px-3 mt-2" style={isHistory ? { display: 'none' } : undefined}>
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-3 mt-2" style={(isHistory || isChmImage) ? { display: 'none' } : undefined}>
         {result?.status === "error" && (
           <div className="px-4 py-3 mx-4 mb-4 bg-red-500/20 border border-red-500/30 rounded text-red-100 text-[13px] leading-relaxed">
             <span className="font-bold">Analysis Failed:</span> {result.message}
@@ -400,7 +420,7 @@ export default function ChmSidebar({
 
       {/* Footer Actions */}
       <div className="px-6 py-8 space-y-3 z-10 w-full shrink-0">
-        {!isHistory && (!data ? (
+        {!isHistory && !isChmImage && (!data ? (
           (() => { const assessOut = !quotaUnlimited && assessRemaining != null && assessRemaining <= 0; return (
           <div className="space-y-1.5">
             <button

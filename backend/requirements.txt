@@ -8,3 +8,4 @@ bcrypt
 PyJWT
 requests
 earthengine-api
+Pillow
