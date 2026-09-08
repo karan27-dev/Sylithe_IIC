@@ -32,6 +32,7 @@ import { TbMap2, TbSatellite } from 'react-icons/tb';
 import { HiChevronRight, HiOutlineInformationCircle } from 'react-icons/hi';
 import { GeeAnalyticsPanel, GeeLandCoverPanel } from '../../components/chm/GeeAnalytics';
 import { userKey } from '../../lib/userStorage';
+import FarmerEnrolSection from './FarmerEnrolSection';
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 const VERIFICATION_STEPS = [
@@ -1510,6 +1511,55 @@ function ActivitySection({ activity, loading }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
+   SECTION: WHO IS ADDING? — project developer or farmer
+════════════════════════════════════════════════════════════════════ */
+function AddRoleChooser({ onPick }) {
+  const options = [
+    {
+      key: 'developer',
+      title: 'Project Developer',
+      blurb: 'Register a carbon project you are developing. Full project details, methodology and crediting period.',
+      points: ['Project details & methodology', 'Crediting period', 'Project boundary'],
+    },
+    {
+      key: 'farmer',
+      title: 'Farmer',
+      blurb: 'Enrol your own farmland. Answer a few questions, upload your boundary, and we check what it can earn.',
+      points: ['A few questions about your land', 'Upload your KML boundary', 'Instant eligibility check'],
+    },
+  ];
+  return (
+    <div className="mx-auto max-w-4xl py-10">
+      <h3 className="text-xl font-semibold text-[#0F172A]">Who is adding land?</h3>
+      <p className="text-muted-foreground mb-8 text-sm">Choose how you want to register.</p>
+      <div className="grid gap-5 md:grid-cols-2">
+        {options.map((o) => (
+          <button
+            key={o.key}
+            type="button"
+            onClick={() => onPick(o.key)}
+            className="group cursor-pointer rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-all hover:border-[#08292F] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#08292F] focus-visible:ring-offset-2"
+          >
+            <p className="text-[17px] font-bold text-[#0F172A]">{o.title}</p>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-gray-600">{o.blurb}</p>
+            <ul className="mt-4 space-y-1.5">
+              {o.points.map((pt) => (
+                <li key={pt} className="flex items-center gap-2 text-[12px] text-gray-500">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#08292F]" />{pt}
+                </li>
+              ))}
+            </ul>
+            <span className="mt-5 inline-flex items-center gap-1 text-[12px] font-bold text-[#08292F]">
+              Continue <HiChevronRight strokeWidth={2} />
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════
    SECTION: ADD NEW PROJECT (3-step wizard)
 ════════════════════════════════════════════════════════════════════ */
 function AddProjectSection({ token, onSuccess }) {
@@ -1998,6 +2048,9 @@ export default function ProjectDevHub() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  // Which flow the 'Add' section is showing: null = chooser.
+  const [addRole, setAddRole] = useState(null);
+  useEffect(() => { if (activeSection !== 'add-project') setAddRole(null); }, [activeSection]);
 
   const loadAll = useCallback(async () => {
     if (!token) return;
@@ -2152,7 +2205,16 @@ export default function ProjectDevHub() {
             <ActivitySection activity={activity} loading={loading} />
           )}
           {activeSection === 'add-project' && (
-            <AddProjectSection token={token} onSuccess={() => { loadAll(); setActiveSection('overview'); }} />
+            addRole === null
+              ? <AddRoleChooser onPick={setAddRole} />
+              : addRole === 'developer'
+                ? <AddProjectSection token={token} onSuccess={() => { loadAll(); setAddRole(null); setActiveSection('overview'); }} />
+                : <FarmerEnrolSection
+                    token={token}
+                    projects={projects}
+                    onBack={() => setAddRole(null)}
+                    onSuccess={() => { loadAll(); setAddRole(null); setActiveSection('my-projects'); }}
+                  />
           )}
         </div>
       </main>

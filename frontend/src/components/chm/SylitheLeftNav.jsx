@@ -6,7 +6,6 @@ import {
   TbFileReport, TbSatellite, TbLeaf, TbChartBar,
   TbShieldCheck, TbWorld, TbBriefcase, TbAlertTriangle,
   TbCloudStorm, TbTruck, TbListCheck, TbSparkles, TbLayoutDashboard,
-  TbUsersGroup, TbTrees, TbFlask, TbCoin as TbCoinStack,
 } from 'react-icons/tb';
 import {
   HiOutlineClipboardCheck, HiOutlineDocumentReport,
@@ -15,7 +14,6 @@ import {
 import treeLogo from '../../assets/treee13.png';
 import { TooltipV2 } from '../ui/tooltip-v2';
 import { clearUserCaches } from '../../lib/userStorage';
-import { AGRI_GROUPS } from '../../pages/dashboards/agri/agriStages';
 
 /* ─── Sub-item (plain text, Carbon Direct style) ─────── */
 const SubItem = ({ label, active, onClick, locked, hideBadge }) => (
@@ -106,12 +104,6 @@ const TopItem = ({ icon: Icon, label, active, onClick }) => (
   </button>
 );
 
-const AGRI_GROUP_ICON = {
-  onboarding: TbUsersGroup,
-  census: TbTrees,
-  biochar: TbFlask,
-  credits: TbCoinStack,
-};
 
 /* ═══════════════════════════════════════════════════════
    MAIN SIDEBAR COMPONENT
@@ -223,35 +215,6 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
           locked={!isSuperUser} hideBadge={!isSuperUser}
         />
       </div>
-
-      {/* Dotted separator */}
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
-
-      {/* Agroforestry + Biochar programme (FPO / census-based) */}
-      {AGRI_GROUPS.map((group) => (
-        <React.Fragment key={group.id}>
-          <div className="flex items-center gap-2 px-4 pt-5 pb-1.5">
-            {AGRI_GROUP_ICON[group.id] &&
-              React.createElement(AGRI_GROUP_ICON[group.id], { size: 17, className: 'text-[#0F766E] shrink-0' })}
-            <span className="text-[14px] font-bold text-[#0F172A]">{group.label}</span>
-            {group.badge && (
-              <span className="ml-auto px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-[10px] font-black uppercase tracking-wide">
-                {group.badge}
-              </span>
-            )}
-          </div>
-          <div className="space-y-[1px] px-1">
-            {group.stages.map((stage) => (
-              <SubItem
-                key={stage.key}
-                label={stage.title}
-                active={activeSection === stage.key}
-                onClick={() => { onSectionChange?.(stage.key); navigate('/dashboard/developer'); }}
-              />
-            ))}
-          </div>
-        </React.Fragment>
-      ))}
 
       {/* Dotted separator */}
       <div className="mx-4 my-2 border-t border-dotted border-gray-200" />

@@ -37,8 +37,6 @@ import { Badge } from '../../components/ui/badge';
 import { Textarea } from '../../components/ui/textarea';
 import { CircleCheck, ExternalLink, UploadCloud, CheckCircle2, FileText, Trash2, MapPin, Hash, FileCode2, Menu } from "lucide-react";
 import { userKey } from '../../lib/userStorage';
-import AgriProgram from './agri/AgriProgram';
-import { isAgriSection } from './agri/agriStages';
 
 /* ─── DESIGN TOKENS ─── */
 const s = { bg: '#FAFAF9', bgDark: '#08292F', accent: '#16a34a', text: '#0F172A', muted: '#64748B', border: '#E2E8F0' };
@@ -1193,13 +1191,6 @@ const DeveloperDashboard = () => {
         <div className="flex-1 flex flex-col" style={{ display: activeSection === 'reports_dashboard' ? undefined : 'none' }}>
           <ReportsDashboard projectData={projectData} />
         </div>
-
-        {/* ── Agroforestry + Biochar programme (FPO / census-based) ── */}
-        {isAgriSection(activeSection) && (
-          <div className="flex-1 flex flex-col">
-            <AgriProgram section={activeSection} onSectionChange={setActiveSection} />
-          </div>
-        )}
 
       </div>
     </div>
