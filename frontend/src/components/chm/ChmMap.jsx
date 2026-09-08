@@ -88,10 +88,14 @@ const LiveLocation = () => {
 /* ─── "Go to my live location" control ───────────────────────────────
    LiveLocation flies to the user once on mount; this button lets them
    return there at any time (after panning away, or if the first fix was
-   denied and later granted). Rendered inside MapContainer so it can use
-   useMap(). Sits above Leaflet's own panes (z-[1000]). */
-const LocateButton = () => {
-  const map = useMap();
+   denied and later granted).
+
+   Rendered as a plain overlay OUTSIDE MapContainer, not as a Leaflet
+   control: the draw toolbar already owns "topright" and was stacking on
+   top of this button, swallowing the clicks. It receives the Leaflet map
+   instance via prop instead of useMap(). Sits on the left, below the
+   default zoom control. */
+const LocateButton = ({ map }) => {
   const [state, setState] = useState('idle'); // idle | locating | denied
   const timer = useRef(null);
 
@@ -100,11 +104,11 @@ const LocateButton = () => {
   const flash = (next) => {
     setState(next);
     clearTimeout(timer.current);
-    timer.current = setTimeout(() => setState('idle'), 3000);
+    timer.current = setTimeout(() => setState('idle'), 4000);
   };
 
   const goToMe = () => {
-    if (state === 'locating') return;
+    if (!map || state === 'locating') return;
     if (!navigator.geolocation) return flash('denied');
     setState('locating');
     navigator.geolocation.getCurrentPosition(
@@ -112,32 +116,40 @@ const LocateButton = () => {
         map.flyTo([pos.coords.latitude, pos.coords.longitude], 16, { duration: 1.2 });
         setState('idle');
       },
-      () => flash('denied'),
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
+      (err) => {
+        console.warn('[LocateButton] geolocation failed:', err.code, err.message);
+        flash('denied');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
     );
   };
 
   const denied = state === 'denied';
   return (
-    <div className="leaflet-top leaflet-right" style={{ top: 64, right: 8 }}>
-      <div className="leaflet-control leaflet-bar !border-0 !bg-transparent !shadow-none">
-        <button
-          type="button"
-          onClick={goToMe}
-          disabled={state === 'locating'}
-          aria-label="Go to my live location"
-          title={denied ? 'Location unavailable — allow location access in your browser' : 'Go to my live location'}
-          className={`flex h-11 w-11 items-center justify-center rounded-lg border shadow-md transition-colors duration-200
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D97757] focus-visible:ring-offset-2
-            ${denied
-              ? 'cursor-not-allowed border-red-200 bg-red-50 text-red-500'
-              : 'cursor-pointer border-[#E3DFD3] bg-[#F0EEE6] text-[#B3542F] hover:bg-[#F5E6DF] disabled:cursor-wait'}`}
-        >
-          {state === 'locating'
-            ? <Loader2 size={19} className="animate-spin" aria-hidden="true" />
-            : <LocateFixed size={19} aria-hidden="true" />}
-        </button>
-      </div>
+    <div className="absolute left-3 top-[92px] z-[1000]">
+      <button
+        type="button"
+        onClick={goToMe}
+        disabled={!map || state === 'locating'}
+        aria-label="Go to my live location"
+        title={denied
+          ? 'Location unavailable — allow location access for this site in your browser'
+          : 'Go to my live location'}
+        className={`flex h-11 w-11 items-center justify-center rounded-lg border shadow-md transition-colors duration-200
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D97757] focus-visible:ring-offset-2
+          ${denied
+            ? 'cursor-not-allowed border-red-300 bg-red-50 text-red-600'
+            : 'cursor-pointer border-[#E3DFD3] bg-[#F0EEE6] text-[#B3542F] hover:bg-[#F5E6DF] disabled:cursor-wait disabled:opacity-60'}`}
+      >
+        {state === 'locating'
+          ? <Loader2 size={19} className="animate-spin" aria-hidden="true" />
+          : <LocateFixed size={19} aria-hidden="true" />}
+      </button>
+      {denied && (
+        <p role="status" className="mt-1.5 w-40 rounded-md bg-red-50 px-2 py-1 text-[10px] font-semibold leading-snug text-red-700 shadow-sm">
+          Location blocked. Allow it for this site in your browser settings.
+        </p>
+      )}
     </div>
   );
 };
@@ -262,6 +274,9 @@ function detectTrees(points, radiusMeters = 4, minHeight = 2) {
 
 const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPolygon, onTreesDetected, showTreeCount }) => {
   const [importedGeoJson, setImportedGeoJson] = useState(null);
+  // Leaflet map instance, captured so overlay controls rendered outside
+  // MapContainer (e.g. LocateButton) can drive the map.
+  const [mapInstance, setMapInstance] = useState(null);
   const tileUrls = result?.status === "success" ? result.results?.tiles : {};
   const chmPoints = result?.status === "success" ? result.results?.model_prediction?.points : null;
 
@@ -341,7 +356,9 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
         </label>
       </div>
 
-      <MapContainer center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#1F1E1D]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
+      <LocateButton map={mapInstance} />
+
+      <MapContainer ref={setMapInstance} center={[20.5937, 78.9629]} zoom={5} className="h-full w-full bg-[#1F1E1D]" maxBounds={[[-90, -180], [90, 180]]} maxBoundsViscosity={1.0}>
         <MapResizeHandler currentPolygon={currentPolygon} />
         <TileLayer 
           url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}" 
@@ -416,7 +433,6 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
         ))}
 
         <LiveLocation />
-        <LocateButton />
 
         <FeatureGroup>
           <EditControl

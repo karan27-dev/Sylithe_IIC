@@ -21,19 +21,19 @@ const SubItem = ({ label, active, onClick, locked, hideBadge }) => (
     disabled={locked}
     className={`w-full flex items-center gap-2.5 pl-8 pr-3 py-[7px] text-[14px] transition-all duration-100 rounded-md
       ${active && !locked
-        ? 'bg-[#E8F5E9] text-[#191919] font-semibold'
+        ? 'bg-[#F5E6DF] text-[#191919] font-semibold'
         : locked
-          ? 'text-gray-400 cursor-not-allowed bg-transparent'
-          : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
+          ? 'text-[#A8A69F] cursor-not-allowed bg-transparent'
+          : 'text-[#6C6B68] hover:bg-[#F0EEE6] hover:text-[#191919]'
       }`}
   >
-    {active && !locked && <span className="w-[7px] h-[7px] rounded-full bg-[#1B7A3D] shrink-0" />}
+    {active && !locked && <span className="w-[7px] h-[7px] rounded-full bg-[#B3542F] shrink-0" />}
     {(!active || locked) && <span className="w-[7px] h-[7px] shrink-0" />}
     <span className="truncate">{label}</span>
     {locked && !hideBadge && (
       <div className="ml-auto">
         <TooltipV2 text="Under Process" position="right" type="success">
-          <span className="w-2 h-2 rounded-full bg-[#16a34a] shrink-0 animate-pulse border border-white shadow-sm" />
+          <span className="w-2 h-2 rounded-full bg-[#D97757] shrink-0 animate-pulse border border-white shadow-sm" />
         </TooltipV2>
       </div>
     )}
@@ -63,8 +63,8 @@ const RequestPill = ({ plan }) => {
       disabled={state !== 'idle'}
       className={`ml-auto px-2.5 py-[3px] rounded-full text-[10px] font-bold uppercase tracking-wide transition-all border
         ${state === 'done'
-          ? 'bg-emerald-50 text-emerald-600 border-emerald-100 cursor-default'
-          : 'bg-emerald-50/60 text-emerald-600 border-emerald-100 hover:bg-emerald-100'}`}
+          ? 'bg-[#F5E6DF] text-[#B3542F] border-[#EBD5CB] cursor-default'
+          : 'bg-[#F5E6DF]/60 text-[#B3542F] border-[#EBD5CB] hover:bg-[#F5E6DF]'}`}
     >
       {state === 'done' ? 'Requested ✓' : state === 'sending' ? 'Sending…' : 'Request'}
     </button>
@@ -81,7 +81,7 @@ const SectionHead = ({ icon: Icon, label, locked, requestPlan }) => (
       : locked && (
         <div className="ml-auto">
           <TooltipV2 text="Under Process" position="right" type="success">
-            <span className="w-2 h-2 rounded-full bg-[#16a34a] shrink-0 animate-pulse border border-white shadow-sm" />
+            <span className="w-2 h-2 rounded-full bg-[#D97757] shrink-0 animate-pulse border border-white shadow-sm" />
           </TooltipV2>
         </div>
       )}
@@ -94,11 +94,11 @@ const TopItem = ({ icon: Icon, label, active, onClick }) => (
     onClick={onClick}
     className={`w-full flex items-center gap-2.5 px-4 py-[9px] text-[14px] transition-all duration-100 rounded-md
       ${active
-        ? 'bg-[#E8F5E9] text-[#191919] font-semibold'
-        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+        ? 'bg-[#F5E6DF] text-[#191919] font-semibold'
+        : 'text-[#6C6B68] hover:bg-[#F0EEE6] hover:text-[#191919]'
       }`}
   >
-    {Icon && <Icon size={18} className={active ? 'text-[#1B7A3D]' : 'text-gray-500'} />}
+    {Icon && <Icon size={18} className={active ? 'text-[#B3542F]' : 'text-[#6C6B68]'} />}
     <span>{label}</span>
   </button>
 );
@@ -145,13 +145,13 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       </div>
 
       {/* Dotted separator */}
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
 
       {/* Section 2: Free Features */}
       <div className="flex items-center gap-2 px-4 pt-5 pb-1.5">
-        <TbSparkles size={17} className="text-emerald-600 shrink-0" />
+        <TbSparkles size={17} className="text-[#B3542F] shrink-0" />
         <span className="text-[14px] font-bold text-[#191919]">Free Features</span>
-        <span className="ml-auto px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-wide">Free</span>
+        <span className="ml-auto px-2 py-0.5 bg-[#F5E6DF] text-[#B3542F] rounded-full text-[10px] font-black uppercase tracking-wide">Free</span>
       </div>
       <div className="space-y-[1px] px-1">
         <SubItem
@@ -172,7 +172,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       </div>
 
       {/* Dotted separator */}
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
 
       {/* Section 3: Verification (paid) */}
       <SectionHead icon={TbShieldCheck} label="Verification" locked={!isSuperUser} requestPlan={isSuperUser ? undefined : 'Verification & Premium Access'} />
@@ -198,7 +198,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       </div>
 
       {/* Dotted separator */}
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
 
       {/* Section 4: Reports */}
       <SectionHead icon={TbFileReport} label="Reports" locked={!isSuperUser} />
@@ -212,7 +212,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       </div>
 
       {/* Dotted separator */}
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
 
       {/* List Your Project */}
       <div className="px-1">
@@ -234,13 +234,13 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
         <SubItem label="Emissions" active={isActive('/dashboard/corporate') && (!activeSection || activeSection === 'emissions')} onClick={() => { onSectionChange?.('emissions'); navigate('/dashboard/corporate'); }} />
         <SubItem label="Data management" active={activeSection === 'data_management'} onClick={() => { onSectionChange?.('data_management'); navigate('/dashboard/corporate'); }} />
       </div>
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
       <SectionHead icon={TbLeaf} label="Reduce" />
       <div className="space-y-[1px] px-1">
         <SubItem label="Curated portfolios" active={activeSection === 'curated_portfolios'} onClick={() => { onSectionChange?.('curated_portfolios'); navigate('/dashboard/corporate'); }} />
         <SubItem label="Removals tracking" active={activeSection === 'removals_tracking'} onClick={() => { onSectionChange?.('removals_tracking'); navigate('/dashboard/corporate'); }} />
       </div>
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
       <SectionHead icon={TbBriefcase} label="Carbon portfolio manager" />
       <div className="space-y-[1px] px-1">
         <SubItem label="Overview" active={activeSection === 'portfolio_overview'} onClick={() => { onSectionChange?.('portfolio_overview'); navigate('/dashboard/corporate'); }} />
@@ -260,13 +260,13 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
         <SubItem label="Portfolio Overview" active={isActive('/dashboard/investor') && (!activeSection || activeSection === 'portfolio')} onClick={() => { onSectionChange?.('portfolio'); navigate('/dashboard/investor'); }} />
         <SubItem label="Project Discovery" active={activeSection === 'discovery'} onClick={() => { onSectionChange?.('discovery'); navigate('/dashboard/investor'); }} />
       </div>
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
       <SectionHead icon={TbShieldCheck} label="Due Diligence" />
       <div className="space-y-[1px] px-1">
         <SubItem label="Integrity Scoring" active={activeSection === 'integrity'} onClick={() => { onSectionChange?.('integrity'); navigate('/dashboard/investor'); }} />
         <SubItem label="Risk Alerts" active={activeSection === 'risk_alerts'} onClick={() => { onSectionChange?.('risk_alerts'); navigate('/dashboard/investor'); }} />
       </div>
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
       <SectionHead icon={TbChartBar} label="Market" />
       <div className="space-y-[1px] px-1">
         <SubItem label="Market Insights" active={activeSection === 'market'} onClick={() => { onSectionChange?.('market'); navigate('/dashboard/investor'); }} />
@@ -283,7 +283,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
         <SubItem label="Forest Monitoring" active={isActive('/dashboard/government') && (!activeSection || activeSection === 'forest_monitoring')} onClick={() => { onSectionChange?.('forest_monitoring'); navigate('/dashboard/government'); }} />
         <SubItem label="Compliance Tracking" active={activeSection === 'compliance_tracking'} onClick={() => { onSectionChange?.('compliance_tracking'); navigate('/dashboard/government'); }} />
       </div>
-      <div className="mx-4 my-2 border-t border-dotted border-gray-200" />
+      <div className="mx-4 my-2 border-t border-dotted border-[#E3DFD3]" />
       <SectionHead icon={TbFileReport} label="Reporting" />
       <div className="space-y-[1px] px-1">
         <SubItem label="Policy Reports" active={activeSection === 'policy_reports'} onClick={() => { onSectionChange?.('policy_reports'); navigate('/dashboard/government'); }} />
@@ -305,7 +305,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       {isOpen && setIsOpen && (
         <div className="fixed inset-0 bg-black/50 z-[50] md:hidden" onClick={() => setIsOpen(false)} />
       )}
-      <div className={`fixed top-0 left-0 w-[260px] h-screen bg-white border-r border-gray-200 flex flex-col shrink-0 z-[60] select-none transition-transform duration-300 ${forceHidden ? '-translate-x-full' : (isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0')}`}>
+      <div className={`fixed top-0 left-0 w-[260px] h-screen bg-white border-r border-[#E3DFD3] flex flex-col shrink-0 z-[60] select-none transition-transform duration-300 ${forceHidden ? '-translate-x-full' : (isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0')}`}>
 
       {/* ─── Logo ─── */}
       <div className="h-[64px] flex items-center gap-3 px-5 shrink-0">
@@ -323,7 +323,7 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
         />
       </div>
 
-      <div className="mx-4 border-t border-dotted border-gray-200" />
+      <div className="mx-4 border-t border-dotted border-[#E3DFD3]" />
 
       {/* ─── Role-Based Sections ─── */}
       <div className="flex-1 overflow-y-auto pb-4">
@@ -331,12 +331,12 @@ export default function SylitheLeftNav({ activeSection, onSectionChange, isOpen,
       </div>
 
       {/* ─── Bottom ─── */}
-      <div className="border-t border-gray-200 px-3 py-3 space-y-1 shrink-0">
+      <div className="border-t border-[#E3DFD3] px-3 py-3 space-y-1 shrink-0">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2.5 px-4 py-[8px] text-[14px] text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-md transition-all"
+          className="w-full flex items-center gap-2.5 px-4 py-[8px] text-[14px] text-[#6C6B68] hover:bg-red-50 hover:text-red-600 rounded-md transition-all"
         >
-          <LogOut size={17} className="text-gray-400" />
+          <LogOut size={17} className="text-[#A8A69F]" />
           <span>Logout</span>
         </button>
       </div>
