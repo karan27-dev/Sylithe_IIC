@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
@@ -29,30 +29,51 @@ const TONE = {
   info: 'text-gray-500',
 };
 
-/* ── Live run log ─────────────────────────────────────────────────── */
-const RunLog = ({ log, running }) => {
-  const endRef = useRef(null);
-  useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, [log]);
+/* ── Transient status line ────────────────────────────────────────
+   One line, replaced as the run moves on, rather than an accumulating
+   transcript. What matters mid-run is what is happening now; the full
+   per-resolution detail is in the table once the run finishes. */
+const StatusLine = ({ log, running }) => {
+  const [elapsed, setElapsed] = useState(0);
+  const startRef = useRef(null);
+
+  useEffect(() => {
+    if (!running) { startRef.current = null; return undefined; }
+    if (startRef.current === null) startRef.current = Date.now();
+    const id = setInterval(() => setElapsed((Date.now() - startRef.current) / 1000), 100);
+    return () => clearInterval(id);
+  }, [running]);
+
   if (!log.length) return null;
+  const current = log[log.length - 1];
+
+  if (!running) {
+    const failedCount = log.filter((l) => l.tone === 'warn' || l.tone === 'error').length;
+    return (
+      <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-5 py-3 shadow-sm">
+        <Check size={15} className="shrink-0 text-emerald-600" />
+        <p className="text-[13px] text-gray-700">
+          {current.text}
+          {failedCount > 0 && (
+            <span className="ml-2 text-[12px] text-amber-700">
+              · {failedCount} skipped
+            </span>
+          )}
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="mb-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-      <div className="flex items-center gap-2 border-b border-gray-100 px-5 py-3">
-        {running
-          ? <Loader2 size={15} className="animate-spin text-[#0F172A]" />
-          : <Check size={15} className="text-emerald-600" />}
-        <h3 className="text-[13px] font-bold text-[#0F172A]">
-          {running ? 'Running' : 'Run complete'}
-        </h3>
-      </div>
-      <div className="max-h-56 overflow-y-auto px-5 py-3 font-mono text-[12px] leading-relaxed">
-        {log.map((l, i) => (
-          <div key={i} className="flex gap-3">
-            <span className="w-10 shrink-0 text-right text-gray-300">{l.t}s</span>
-            <span className={TONE[l.tone] || TONE.info}>{l.text}</span>
-          </div>
-        ))}
-        <div ref={endRef} />
-      </div>
+    <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-5 py-3 shadow-sm">
+      <Loader2 size={15} className="shrink-0 animate-spin text-[#0F172A]" />
+      <p className="text-[13px] font-medium text-[#0F172A]">
+        {current.text}
+        <span className="ml-1 text-gray-400">…</span>
+      </p>
+      <span className="ml-auto shrink-0 font-mono text-[12px] tabular-nums text-gray-400">
+        {elapsed.toFixed(1)}s
+      </span>
     </div>
   );
 };
@@ -131,7 +152,7 @@ export default function ImageInferenceResults({ inf }) {
           </p>
         </header>
 
-        <RunLog log={log} running={running} />
+        <StatusLine log={log} running={running} />
 
         {agreement && (
           <div className="mb-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
