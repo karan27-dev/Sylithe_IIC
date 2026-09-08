@@ -20,6 +20,22 @@ import base64
 import io
 import os
 
+# ZeroGPU: `spaces` must be imported before torch so it can patch CUDA. The
+# GPU is attached only while a @spaces.GPU function runs, so at import time
+# torch.cuda.is_available() is False and the model loads to CPU. The fallback
+# keeps this file runnable on ordinary CPU/GPU Spaces and locally, where the
+# package is absent.
+try:
+    import spaces
+
+    GPU_DECORATOR = spaces.GPU(duration=120)
+    ZERO_GPU = True
+except ImportError:
+    def GPU_DECORATOR(fn):
+        return fn
+
+    ZERO_GPU = False
+
 import gradio as gr
 import numpy as np
 import torch
@@ -34,9 +50,6 @@ except ImportError:                                    # transformers 4.x
     from transformers import CHMv2ImageProcessorFast as _ImageProcessor
 
 MODEL_ID = "facebook/dinov3-vitl16-chmv2-dpt-head"
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-DTYPE = torch.float16 if DEVICE == "cuda" else torch.float32
-
 # Height below which a pixel is not treated as canopy, metres.
 MIN_TREE_HEIGHT_M = 2.0
 
@@ -52,7 +65,9 @@ MAX_PIXELS = 4_000_000
 
 _token = os.environ.get("HF_TOKEN")
 processor = _ImageProcessor.from_pretrained(MODEL_ID, token=_token)
-model = CHMv2ForDepthEstimation.from_pretrained(MODEL_ID, token=_token).to(DEVICE, DTYPE).eval()
+# Loaded in float32 on CPU. Under ZeroGPU no device exists yet at import time;
+# the move to the accelerator happens inside the decorated call below.
+model = CHMv2ForDepthEstimation.from_pretrained(MODEL_ID, token=_token).eval()
 
 
 def _colourise(height, vmax):
@@ -66,8 +81,14 @@ def _colourise(height, vmax):
     return Image.fromarray(rgb)
 
 
+@GPU_DECORATOR
 @torch.inference_mode()
 def predict(image_b64: str, target_gsd_cm: float):
+    # Resolved per call: under ZeroGPU the accelerator only exists here.
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    dtype = torch.float16 if device == "cuda" else torch.float32
+    net = model.to(device, dtype)
+
     img = Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
 
     # Guard VRAM. Downscaling here changes the effective ground sample distance,
@@ -79,8 +100,8 @@ def predict(image_b64: str, target_gsd_cm: float):
                           max(64, int(img.height * downscale))), Image.LANCZOS)
         target_gsd_cm = float(target_gsd_cm) / downscale
 
-    inputs = processor(images=img, return_tensors="pt").to(DEVICE, DTYPE)
-    outputs = model(**inputs)
+    inputs = processor(images=img, return_tensors="pt").to(device, dtype)
+    outputs = net(**inputs)
     post = processor.post_process_depth_estimation(outputs, target_sizes=[(img.height, img.width)])
     height = post[0]["predicted_depth"].float().cpu().numpy()
     height = np.clip(height, 0.0, MAX_DEPTH_M)

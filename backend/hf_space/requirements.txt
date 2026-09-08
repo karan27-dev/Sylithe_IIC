@@ -2,6 +2,8 @@
 # is deliberately not pinned here — installing our own would fight that.
 # torchvision is NOT preinstalled and the CHMv2 image processor requires it.
 torchvision
+# Required for ZeroGPU hardware; harmless elsewhere.
+spaces
 transformers>=4.57
 gradio
 pillow
