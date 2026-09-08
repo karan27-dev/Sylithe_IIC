@@ -101,12 +101,15 @@ def predict(image_b64: str, target_gsd_cm: float):
     return {"stats": stats, "height_map_png": base64.b64encode(buf.getvalue()).decode()}
 
 
+# api_name is pinned so the REST route stays /call/predict regardless of the
+# function name — that is the path the Sylithe backend calls.
 demo = gr.Interface(
     fn=predict,
     inputs=[gr.Textbox(label="Base64 PNG"), gr.Number(label="Target GSD (cm/px)", value=100)],
     outputs=gr.JSON(label="Canopy height"),
     title="CHMv2 canopy height",
     description="DINOv3 ViT-L/16 + DPT decoder. Send a base64 PNG and the ground sample distance.",
+    api_name="predict",
 )
 
 if __name__ == "__main__":

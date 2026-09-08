@@ -38,8 +38,13 @@ size. The Space caps input at ~4 MP and reports the downscale factor it used.
 
 ## Contract
 
-Request  `{"data": ["<base64 PNG>", <target_gsd_cm>]}`
-Response `{"data": [{"stats": {...}, "height_map_png": "<base64 PNG>"}]}`
+Gradio 4/5 call this in two steps, which the Sylithe backend handles:
+
+    POST /call/predict            {"data": ["<base64 PNG>", <target_gsd_cm>]}
+      -> {"event_id": "..."}
+    GET  /call/predict/<event_id> -> SSE, `event: complete` carries the result
+
+Result `{"stats": {...}, "height_map_png": "<base64 PNG>"}`
 
 `stats` carries mean/max/p95/sd height in metres, canopy and total pixel counts,
 and canopy area in m² derived from the supplied ground sample distance.
@@ -49,6 +54,9 @@ and canopy area in m² derived from the supplied ground sample distance.
 In the backend environment:
 
 ```
-CHM_INFERENCE_URL=https://<user>-<space>.hf.space/run/predict
-HF_TOKEN=hf_...        # only for a private Space
+CHM_INFERENCE_URL=https://<user>-<space>.hf.space    # base URL, no path
+HF_TOKEN=hf_...                                      # only for a private Space
 ```
+
+Give the base URL. The backend appends `/call/predict` itself. A URL that
+already has a path is POSTed to directly, for a non-Gradio endpoint.

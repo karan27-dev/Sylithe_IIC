@@ -23,18 +23,27 @@ This module does the two things that must happen on our side:
      canopy cover and a tree-count estimate fall out of the same result.
 
 Configure with:
-    CHM_INFERENCE_URL   full URL of the Space / inference endpoint
+    CHM_INFERENCE_URL   base URL of the Space, e.g. https://user-space.hf.space
     HF_TOKEN            Hugging Face token, sent as a bearer credential
+
+Gradio 4 and 5 dropped the single-shot /run/predict endpoint. A call is now
+two steps — POST /call/<fn> returns an event id, then GET /call/<fn>/<id>
+streams the result as server-sent events — which is what _call_gradio below
+implements. A non-Gradio endpoint can still be used by giving a URL that
+already ends in a path, in which case it is POSTed to directly.
 
 Without those this endpoint reports that inference is not configured. It never
 fabricates a height map.
 """
 import base64
 import io
+import json
 import logging
 import math
 import os
 import time
+
+from urllib.parse import urlparse
 
 import requests
 from flask import Blueprint, jsonify, request
@@ -90,6 +99,59 @@ def _resample(img, source_gsd_cm, target_gsd_cm):
     if (w, h) == img.size:
         return img, False
     return img.resize((w, h), Image.LANCZOS), True
+
+
+def _headers():
+    h = {"Content-Type": "application/json"}
+    if HF_TOKEN:
+        h["Authorization"] = f"Bearer {HF_TOKEN}"
+    return h
+
+
+def _unwrap(payload):
+    """Gradio wraps results as {"data": [...]}; a bare endpoint may not."""
+    if isinstance(payload, dict) and "data" in payload:
+        payload = payload["data"]
+    while isinstance(payload, list) and payload:
+        payload = payload[0]
+    return payload
+
+
+def _call_inference(data):
+    """Call the endpoint, using Gradio's two-step API when given a Space base URL."""
+    base = INFERENCE_URL.rstrip("/")
+
+    # A URL with its own path is treated as a plain single-POST endpoint.
+    if urlparse(base).path not in ("", "/"):
+        r = requests.post(base, json={"data": data}, headers=_headers(), timeout=180)
+        r.raise_for_status()
+        return _unwrap(r.json())
+
+    # Gradio 4/5: POST for an event id, then read the SSE stream for the result.
+    start = requests.post(f"{base}/call/predict", json={"data": data},
+                          headers=_headers(), timeout=60)
+    start.raise_for_status()
+    event_id = (start.json() or {}).get("event_id")
+    if not event_id:
+        raise RuntimeError("Gradio did not return an event id — check the Space is running.")
+
+    stream = requests.get(f"{base}/call/predict/{event_id}",
+                          headers=_headers(), stream=True, timeout=300)
+    stream.raise_for_status()
+
+    event = None
+    for raw in stream.iter_lines(decode_unicode=True):
+        if not raw:
+            continue
+        if raw.startswith("event:"):
+            event = raw.split(":", 1)[1].strip()
+        elif raw.startswith("data:"):
+            body = raw.split(":", 1)[1].strip()
+            if event == "error":
+                raise RuntimeError(f"Inference failed on the Space: {body[:200]}")
+            if event == "complete":
+                return _unwrap(json.loads(body))
+    raise RuntimeError("Inference stream ended before returning a result.")
 
 
 @chm_image_bp.route("/infer-image", methods=["POST", "OPTIONS"])
@@ -166,9 +228,9 @@ def infer_image():
     if not INFERENCE_URL:
         return jsonify({
             "status": "not_configured",
-            "message": ("Canopy height inference is not connected. Deploy CHMv2 to a GPU "
-                        "Hugging Face Space and set CHM_INFERENCE_URL (and HF_TOKEN) in the "
-                        "backend environment."),
+            "message": ("Canopy height inference is not connected. Deploy CHMv2 to a Hugging Face "
+                        "Space and set CHM_INFERENCE_URL to its base URL in the backend "
+                        "environment."),
             "model": MODEL_ID,
             "ground": ground,
         }), 503
@@ -177,35 +239,14 @@ def infer_image():
     img.save(buf, format="PNG")
     payload_b64 = base64.b64encode(buf.getvalue()).decode()
 
-    headers = {"Content-Type": "application/json"}
-    if HF_TOKEN:
-        headers["Authorization"] = f"Bearer {HF_TOKEN}"
-
     started = time.time()
     try:
-        resp = requests.post(
-            INFERENCE_URL,
-            json={"data": [payload_b64, target_gsd_cm]},
-            headers=headers,
-            timeout=180,
-        )
-        resp.raise_for_status()
-        out = resp.json()
-    except requests.HTTPError as e:
-        body = getattr(e.response, "text", "")[:300]
-        logger.error("CHM inference HTTP error: %s %s", e, body)
-        return jsonify({"status": "error",
-                        "message": f"Inference endpoint returned {e.response.status_code}. {body}"}), 502
+        result = _call_inference([payload_b64, target_gsd_cm])
     except Exception as e:
         logger.error("CHM inference failed: %s", e)
-        return jsonify({"status": "error",
-                        "message": f"Could not reach the inference endpoint: {e}"}), 502
+        return jsonify({"status": "error", "message": str(e)}), 502
     elapsed = round(time.time() - started, 2)
 
-    # Gradio wraps results in {"data": [...]}; a bare endpoint may not.
-    result = out.get("data", [out])[0] if isinstance(out, dict) else out
-    if isinstance(result, list) and result:
-        result = result[0]
     if not isinstance(result, dict):
         return jsonify({"status": "error",
                         "message": "Inference endpoint returned an unexpected payload shape."}), 502
