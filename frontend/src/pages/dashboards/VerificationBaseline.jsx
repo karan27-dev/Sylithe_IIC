@@ -135,22 +135,25 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
   return (
     <div className="relative flex h-full w-full overflow-hidden bg-[#0a0c0a]">
       {/* ── Control + results panel ───────────────────────────────── */}
-      <aside className="z-10 flex h-full w-[420px] shrink-0 flex-col overflow-y-auto border-r border-white/10 bg-[#0d0f0d]">
-        <div className="border-b border-white/10 px-5 py-4">
-          <h1 className="text-[17px] font-bold text-white">Dynamic Baseline</h1>
-          <p className="mt-0.5 text-[12px] text-gray-400">
-            DCAB · VM0047 dynamic performance benchmark
-          </p>
+      <aside className="relative z-50 flex h-full w-[450px] shrink-0 flex-col overflow-y-auto border-r border-white/5 bg-[#2c3327]/80 font-sans text-white shadow-2xl backdrop-blur-[24px]">
+        <div className="shrink-0 px-6 pb-4 pt-10">
+          <h1 className="text-[26px] font-bold tracking-tight text-white">Dynamic baseline</h1>
+          <div className="mt-4 flex items-center gap-6 border-b border-white/20">
+            <span className="whitespace-nowrap border-b-2 border-white pb-3 text-[14px] font-semibold text-white">
+              DCAB
+            </span>
+            <span className="pb-3 text-[12px] text-gray-400">VM0047 performance benchmark</span>
+          </div>
         </div>
 
         {/* Plot selection */}
-        <div className="border-b border-white/10 px-5 py-4">
+        <div className="border-b border-white/10 px-6 py-4">
           <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-gray-400">Project plot</p>
           {savedProjects?.length > 0 && (
             <select
               value={selectedProject}
               onChange={(e) => pickProject(e.target.value)}
-              className="mb-2 w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white focus:outline-none focus:ring-2 focus:ring-[#a4fca1]"
+              className="mb-2 w-full cursor-pointer rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
             >
               <option value="" className="bg-[#0d0f0d]">Select a saved project…</option>
               {savedProjects.map((p) => (
@@ -162,7 +165,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
             <select
               value={activeAoiIndex}
               onChange={(e) => pickAoi(e.target.value)}
-              className="mb-2 w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white focus:outline-none focus:ring-2 focus:ring-[#a4fca1]"
+              className="mb-2 w-full cursor-pointer rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
             >
               <option value="all" className="bg-[#0d0f0d]">All plots combined ({featureCount})</option>
               {polygon.features.map((f, i) => (
@@ -172,10 +175,10 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
               ))}
             </select>
           )}
-          <p className={`rounded-lg border px-3 py-2 text-[12px] ${
-            loadingPlot ? 'border-white/10 bg-white/5 text-gray-300'
-              : polygon ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                        : 'border-white/10 bg-white/5 text-gray-400'}`}>
+          <p className={`rounded-md border px-3 py-2 text-[12px] ${
+            loadingPlot ? 'border-white/10 bg-[#F1F1F1]/[0.03] text-gray-300'
+              : polygon ? 'border-[#a4fca1]/40 bg-[#a4fca1]/10 text-[#a4fca1]'
+                        : 'border-white/10 bg-[#F1F1F1]/[0.03] text-gray-400'}`}>
             {loadingPlot
               ? 'Loading the project boundary…'
               : polygon
@@ -189,7 +192,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
         </div>
 
         {/* Parameters */}
-        <div className="space-y-3 border-b border-white/10 px-5 py-4">
+        <div className="space-y-3 border-b border-white/10 px-6 py-4">
           <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Parameters</p>
 
           <label className="block">
@@ -197,7 +200,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
             <input
               type="number" min={2019} max={CURRENT_YEAR - 1} value={startYear}
               onChange={(e) => setStartYear(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white focus:outline-none focus:ring-2 focus:ring-[#a4fca1]"
+              className="mt-1 w-full rounded-none border border-white/20 bg-black/40 px-2.5 py-1.5 text-[11px] font-medium text-white outline-none focus:border-[#a4fca1]"
             />
             <span className="mt-1 block text-[10.5px] leading-snug text-gray-500">
               Splits baseline from crediting period. Needs two years either side; Sentinel-2 begins 2018.
@@ -228,7 +231,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
           <button
             onClick={run}
             disabled={!activeGeojson || running}
-            className="mt-1 w-full cursor-pointer rounded-lg bg-[#a4fca1] py-2.5 text-[13px] font-black uppercase tracking-wide text-[#0d0f0d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-1 w-full cursor-pointer rounded-md bg-[#a4fca1] py-2.5 text-[13px] font-black uppercase tracking-wide text-[#0d0f0d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {running ? 'Matching control plots…' : 'Build dynamic baseline'}
           </button>
@@ -238,10 +241,10 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
 
         {/* Results */}
         {data && (
-          <div className="space-y-4 px-5 py-4">
+          <div className="space-y-4 px-6 py-4">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Benchmark</p>
-              <p className={`mt-1 text-[26px] font-bold leading-none ${b.additional ? 'text-emerald-400' : 'text-amber-400'}`}>
+              <p className={`mt-1 text-[26px] font-bold leading-none ${b.additional ? 'text-[#a4fca1]' : 'text-amber-400'}`}>
                 {b.benchmark > 0 ? '+' : ''}{b.benchmark}
               </p>
               <p className="mt-1 text-[11px] text-gray-400">{b.units}</p>
@@ -249,21 +252,21 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-[12px]">
-              <div className="rounded-lg border border-white/10 bg-white/5 p-2.5">
+              <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-2.5">
                 <p className="text-[10px] uppercase tracking-wide text-gray-500">Project slope</p>
                 <p className="font-bold text-white">{b.project_slope}</p>
               </div>
-              <div className="rounded-lg border border-white/10 bg-white/5 p-2.5">
+              <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-2.5">
                 <p className="text-[10px] uppercase tracking-wide text-gray-500">Control slope</p>
                 <p className="font-bold text-white">{b.control_slope}</p>
               </div>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+            <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-3">
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400">Match quality</p>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-black uppercase ${
-                  q.rating === 'strong' ? 'bg-emerald-500/20 text-emerald-300'
+                  q.rating === 'strong' ? 'bg-[#a4fca1]/20 text-[#a4fca1]'
                   : q.rating === 'moderate' ? 'bg-amber-500/20 text-amber-300'
                   : 'bg-red-500/20 text-red-300'}`}>{q.rating}</span>
               </div>
@@ -273,7 +276,7 @@ export default function DynamicBaselinePage({ savedProjects, onProjectSelect, ge
               <p className="mt-1 text-[10.5px] leading-snug text-gray-500">{q.note}</p>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-[11px] leading-relaxed text-gray-400">
+            <div className="rounded-md border border-white/10 bg-[#F1F1F1]/[0.03] p-3 text-[11px] leading-relaxed text-gray-400">
               <p><span className="text-gray-500">Stocking index:</span> {data.config.stocking_index}</p>
               <p className="mt-1"><span className="text-gray-500">Matched on:</span> {data.config.match_covariates.join(', ')}</p>
               <p className="mt-1">
