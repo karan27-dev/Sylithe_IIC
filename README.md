@@ -49,8 +49,13 @@ Google Earth Engine credentials are required for satellite analytics — see
 ```bash
 cd frontend
 npm install
+cp .env.example .env      # sets VITE_API_URL — required, see note below
 npm run dev               # http://localhost:5173
 ```
+
+> **`VITE_API_URL` is required.** Without it every `fetch()` resolves to
+> `undefined/api/...` and the UI shows *"Could not connect to server."* on login.
+> Vite only reads `.env` at startup, so restart the dev server after changing it.
 
 ## Configuration
 
