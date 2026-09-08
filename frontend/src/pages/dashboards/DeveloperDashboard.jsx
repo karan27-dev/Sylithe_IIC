@@ -321,12 +321,10 @@ const DeveloperDashboard = () => {
   const handleSubmit = () => { setIsSubmitting(true); setTimeout(() => { setIsSubmitting(false); setShowResult(true); }, 2000); };
   // Every field in the Add Project form is mandatory.
   // Baseline Scenario / Monitoring Plan and Project Description are optional.
-  const REQUIRED_FIELDS = [
-    'name', 'proponent', 'country', 'state', 'district', 'type', 'area',
-    'creditingStandard', 'methodology', 'startDate', 'creditStart', 'creditEnd',
-    'projectLength', 'ccpEligible', 'landTenure', 'communityBenefit',
-    'biodiversityImpact', 'leakageRisk',
-  ];
+  // Only the project name is required to move on — the backend rejects a
+  // nameless project (routes/developer_projects.py). Every other detail can
+  // be filled in later from the project's edit view.
+  const REQUIRED_FIELDS = ['name'];
   const missingFields = REQUIRED_FIELDS.filter((f) => String(projectData[f] ?? '').trim() === '');
   const isStep1Valid = missingFields.length === 0;
 
@@ -803,9 +801,6 @@ const DeveloperDashboard = () => {
 
               <Separator className="my-10" />
               <div className="flex items-center justify-end space-x-4">
-                {!isStep1Valid && (
-                  <p className="text-[12px] font-medium text-amber-600 mr-auto">All fields are required — {missingFields.length} field{missingFields.length === 1 ? '' : 's'} left to complete.</p>
-                )}
                 <Button variant="ghost" onClick={clearPersistence} className="text-gray-500 font-bold hover:text-red-600">Cancel</Button>
                 <Button onClick={nextStep} disabled={!isStep1Valid} className="px-8 shadow-lg bg-[#B3542F] hover:bg-[#9A4626] text-white rounded-xl font-bold">Next Step <HiChevronRight strokeWidth={2} className="ml-1" /></Button>
               </div>
