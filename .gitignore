@@ -1,0 +1,38 @@
+# Preserved upstream git histories (local only)
+.git_upstream_backup/
+**/.git_upstream_backup/
+
+# Environments & secrets
+.env
+.env.*
+!.env.example
+*.pem
+gee-key.json
+*service-account*.json
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
