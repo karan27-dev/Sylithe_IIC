@@ -22,9 +22,22 @@ reports_bp = Blueprint('reports', __name__)
 
 FREE_LULC_REPORTS = 3  # lifetime, per user
 
-# Users exempt from the export quota (unlimited exports).
+# Users exempt from the free-tier quotas: unlimited exports, land assessments,
+# land history and AOI imports.
+#
+# Admins and the platform owner are always included, so production access is
+# unchanged. UNLIMITED_EMAILS in the environment adds to that set rather than
+# replacing it — which is how a demo or local account gets lifted without
+# editing this file and without widening access for anyone else.
+import os
+
 from config import ADMIN_EMAILS
-UNLIMITED_EMAILS = {"karan270905@gmail.com"} | {e.lower() for e in ADMIN_EMAILS}
+
+UNLIMITED_EMAILS = (
+    {"karan270905@gmail.com"}
+    | {e.lower() for e in ADMIN_EMAILS}
+    | {e.strip().lower() for e in os.environ.get("UNLIMITED_EMAILS", "").split(",") if e.strip()}
+)
 
 _gee_ready = False
 
