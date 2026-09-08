@@ -1181,7 +1181,7 @@ const DeveloperDashboard = () => {
         </div>
 
         <div className="flex-1 flex flex-col" style={{ display: activeSection === 'dynamic_baseline' ? undefined : 'none' }}>
-          <DynamicBaselinePage />
+          <DynamicBaselinePage savedProjects={savedProjects} onProjectSelect={handleProjectSelect} />
         </div>
 
         <div className="flex-1 flex flex-col" style={{ display: activeSection === 'biomass_estimation' ? undefined : 'none' }}>

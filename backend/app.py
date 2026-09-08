@@ -15,6 +15,7 @@ from routes.developer_projects import dev_projects_bp
 from routes.tree_inventory import tree_inv_bp
 from routes.reports import reports_bp
 from routes.agri import agri_bp
+from routes.dcab import dcab_bp
 
 logging.basicConfig(level=logging.INFO)
 
@@ -32,6 +33,7 @@ app.register_blueprint(dev_projects_bp, url_prefix='/api')
 app.register_blueprint(tree_inv_bp, url_prefix='/api')
 app.register_blueprint(reports_bp, url_prefix='/api')
 app.register_blueprint(agri_bp, url_prefix='/api/agri')
+app.register_blueprint(dcab_bp, url_prefix='/api/dcab')
 
 
 @app.route("/health", methods=["GET"])

@@ -272,7 +272,7 @@ function detectTrees(points, radiusMeters = 4, minHeight = 2) {
   return trees.sort((a, b) => b.height - a.height).map((t, idx) => ({ ...t, id: idx + 1 }));
 }
 
-const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPolygon, onTreesDetected, showTreeCount }) => {
+const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPolygon, onTreesDetected, showTreeCount, controlPoints }) => {
   const [importedGeoJson, setImportedGeoJson] = useState(null);
   // Leaflet map instance, captured so overlay controls rendered outside
   // MapContainer (e.g. LocateButton) can drive the map.
@@ -430,6 +430,25 @@ const ChmMap = ({ onPolygonComplete, result, activeLayers = new Set(), currentPo
               </div>
             </Popup>
           </CircleMarker>
+        ))}
+
+        {/* Matched control plots from the dynamic baseline (DCAB) */}
+        {Array.isArray(controlPoints) && controlPoints.map((c, i) => (
+          c.lat == null || c.lon == null ? null : (
+            <CircleMarker
+              key={`ctrl-${i}`}
+              center={[c.lat, c.lon]}
+              radius={6}
+              pathOptions={{ color: '#f59e0b', fillColor: '#f59e0b', fillOpacity: 0.75, weight: 2 }}
+            >
+              <Popup>
+                <div className="text-center">
+                  <div className="font-bold text-[#0d0f0d]">Matched control</div>
+                  <div className="text-[11px] text-gray-600">distance {c.distance}</div>
+                </div>
+              </Popup>
+            </CircleMarker>
+          )
         ))}
 
         <LiveLocation />
