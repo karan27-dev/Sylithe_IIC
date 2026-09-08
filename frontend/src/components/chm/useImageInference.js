@@ -48,12 +48,16 @@ export default function useImageInference() {
   const [runs, setRuns] = useState([]);        // completed, one per resolution
   const [failed, setFailed] = useState([]);    // resolutions that could not run
   const [steps, setSteps] = useState([]);      // live progress
+  // Append-only run log. Each stage writes a line as it happens, so the main
+  // area can stream what is going on rather than showing a spinner that hides
+  // which resolution is being worked on and how long each one took.
+  const [log, setLog] = useState([]);
   const previewRef = useRef(null);
 
   const accept = (f) => {
     if (!f) return;
     if (!/^image\//.test(f.type)) { setError('That file is not an image.'); return; }
-    setError(''); setRuns([]); setFailed([]); setSteps([]); setFile(f);
+    setError(''); setRuns([]); setFailed([]); setSteps([]); setLog([]); setFile(f);
     setPreviewBroken(false);
     if (previewRef.current) URL.revokeObjectURL(previewRef.current);
     previewRef.current = URL.createObjectURL(f);
@@ -61,7 +65,7 @@ export default function useImageInference() {
   };
 
   const clear = () => {
-    setFile(null); setRuns([]); setFailed([]); setSteps([]); setError('');
+    setFile(null); setRuns([]); setFailed([]); setSteps([]); setLog([]); setError('');
     if (previewRef.current) { URL.revokeObjectURL(previewRef.current); previewRef.current = null; }
     setPreview(null); setPreviewBroken(false);
   };
@@ -85,12 +89,26 @@ export default function useImageInference() {
     setRunning(true); setError(''); setRuns([]); setFailed([]);
     setSteps(targets.map((cm) => ({ cm, state: 'queued' })));
 
+    const t0 = Date.now();
+    const say = (text, tone = 'info') =>
+      setLog((prev) => [...prev, { text, tone, t: ((Date.now() - t0) / 1000).toFixed(1) }]);
+
+    setLog([]);
+    say(`Reading ${file.name}`, 'step');
+    say(`Capture resolution ${sourceGsd} cm/px`);
+    say(`${targets.length} resolution${targets.length === 1 ? '' : 's'} to run: `
+      + targets.map((c) => (c === 100 ? '1 m' : `${c} cm`)).join(', '), 'step');
+
     const base = import.meta.env.VITE_API_URL || '';
     const done = [];
     const bad = [];
 
     for (const cm of targets) {
+      const nice = cm === 100 ? '1 m' : `${cm} cm`;
       setSteps((prev) => prev.map((s) => (s.cm === cm ? { ...s, state: 'resampling' } : s)));
+      say(Number(sourceGsd) === cm
+        ? `Sending at native ${nice} — no resampling needed`
+        : `Resampling ${sourceGsd} cm/px to ${nice}`, 'step');
       try {
         const fd = new FormData();
         fd.append('image', file);
@@ -98,6 +116,7 @@ export default function useImageInference() {
         fd.append('source_gsd_cm', String(sourceGsd));
 
         setSteps((prev) => prev.map((s) => (s.cm === cm ? { ...s, state: 'predicting' } : s)));
+        say(`Predicting canopy height at ${nice}`);
         const res = await fetch(`${base}/api/chm/infer-image`, { method: 'POST', body: fd });
         // A server error returns an HTML page, not JSON. Parsing that throws and
         // the failure used to surface as "could not reach the server", which sent
@@ -115,9 +134,13 @@ export default function useImageInference() {
           done.push({ cm, ...d });
           setRuns([...done]);
           setSteps((prev) => prev.map((s) => (s.cm === cm ? { ...s, state: 'done' } : s)));
+          const px = d.ground?.input_px?.join(' x ');
+          say(`${nice} done — ${px} px, canopy ${d.derived?.canopy_pct ?? '—'}%, `
+            + `${d.elapsed_s}s`, 'ok');
         } else {
           bad.push({ cm, message: d.message || 'Failed.' });
           setFailed([...bad]);
+          say(`${nice} skipped — ${d.message || 'failed'}`, 'warn');
           setSteps((prev) => prev.map((s) =>
             (s.cm === cm ? { ...s, state: 'failed', message: d.message } : s)));
         }
@@ -125,12 +148,18 @@ export default function useImageInference() {
         console.error(`[chm ${cm}cm] failed:`, err);
         bad.push({ cm, message: 'Could not reach the server.' });
         setFailed([...bad]);
+        say(`${nice} failed — could not reach the server`, 'error');
         setSteps((prev) => prev.map((s) =>
           (s.cm === cm ? { ...s, state: 'failed', message: 'Could not reach the server.' } : s)));
       }
     }
 
-    if (!done.length) setError('Every resolution failed. See the detail below.');
+    if (!done.length) {
+      setError('Every resolution failed. See the detail below.');
+      say('No resolution produced a result', 'error');
+    } else {
+      say(`Comparison ready — ${done.length} of ${targets.length} resolutions`, 'ok');
+    }
     setRunning(false);
   }, [file, sourceGsd, targetsFor]);
 
@@ -143,7 +172,7 @@ export default function useImageInference() {
   return {
     file, preview, previewBroken, onPreviewError: () => setPreviewBroken(true),
     sourceGsd, setSourceGsd, accept, clear,
-    running, error, runs, failed, steps, run,
+    running, error, runs, failed, steps, log, run,
     targets: targetsFor(sourceGsd),
     agreement,
   };
